@@ -28,13 +28,16 @@ Go to the resource's **Environment** tab and add these. Never commit them.
 | `GMAIL_CLIENT_SECRET` | `GOCSPX-…` | `.env` |
 | `GMAIL_REFRESH_TOKEN` | `1//03LKCoxP8…` | `.env` |
 | `CLIENT_TRACKER_ID` | `1OuqO9tpzgH-…` | `.env` |
-| `GOOGLE_CREDENTIALS_PATH` | `scripts/credentials.json` | the service-account key is NOT copied into the image — it is provided at runtime, see below |
+| `GOOGLE_CREDENTIALS_PATH` | `/app/scripts/credentials.json` | the service-account key is NOT copied into the image — it is provided at runtime as a mounted file, see below |
 
 > **The service-account JSON is a secret.** It is gitignored and excluded
 > from the image by `.dockerignore`, so it never travels with the build.
 > Provide it at runtime, one of:
-> - **Coolify secret volume** — mount the file and point
->   `GOOGLE_CREDENTIALS_PATH` at the mounted path, or
+> - **Coolify secret volume (recommended)** — mount the file at
+>   `/app/scripts/credentials.json` in the resource's **Volumes** tab. The
+>   scripts read it from `GOOGLE_CREDENTIALS_PATH`, which defaults to
+>   `scripts/credentials.json` relative to the script directory, so the mount
+>   path above works without changing any env var.
 > - **Copy it in manually** — `docker cp` the file into a running container
 >   at `scripts/credentials.json`, or
 > - **Local runs** — keep `scripts/credentials.json` on your machine as you
