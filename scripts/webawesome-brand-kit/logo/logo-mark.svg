@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" role="img" aria-labelledby="title desc">
+<title id="title">WebAwesome logo mark</title><desc id="desc">A rounded square containing a flowing W and A mark in cyan, blue, violet and pink.</desc>
+<defs>
+  <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#0B1642"/><stop offset=".55" stop-color="#3B1A88"/><stop offset="1" stop-color="#6B1DA9"/></linearGradient>
+  <linearGradient id="cyan" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#00E5FF"/><stop offset=".55" stop-color="#16B8FF"/><stop offset="1" stop-color="#6B57FF"/></linearGradient>
+  <linearGradient id="pink" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#9B4DFF"/><stop offset=".45" stop-color="#FF4DDF"/><stop offset="1" stop-color="#FF5E9F"/></linearGradient>
+  <linearGradient id="frame" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#00D9FF"/><stop offset=".45" stop-color="#8E4DFF"/><stop offset="1" stop-color="#FF4DA6"/></linearGradient>
+  <filter id="glow" x="-40%" y="-40%" width="180%" height="180%"><feGaussianBlur stdDeviation="4" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+</defs>
+<rect x="10" y="10" width="236" height="236" rx="54" fill="url(#bg)"/>
+<rect x="14" y="14" width="228" height="228" rx="50" fill="none" stroke="url(#frame)" stroke-width="7" opacity=".9"/>
+<path d="M50 62c-14 36-15 78-3 112 9 26 29 39 50 25 18-12 28-37 39-57 6-12 13-24 22-35l-20-31c-17 18-28 40-40 62-8 15-15 27-22 27-8 0-12-15-13-31-1-20 3-42 11-60z" fill="url(#cyan)" filter="url(#glow)"/>
+<path d="M114 180c15-22 28-46 41-70 11-21 22-40 35-54 15 25 24 53 24 80 0 33-12 63-37 77 11-22 16-44 12-65-2-13-6-24-11-34-12 18-22 39-33 59-8 16-17 31-28 44z" fill="url(#pink)" filter="url(#glow)"/>
+<path d="M98 139l31-55 31 49-20 35-12-20-10 18z" fill="#39E7F0" opacity=".95"/>
+</svg>

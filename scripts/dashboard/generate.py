@@ -1,0 +1,143 @@
+#!/usr/bin/env python3
+"""
+Dashboard data pipeline.
+
+Gathers every data source the AI OS can reach and writes one JSON file
+(data/dashboard.json). The dashboard page renders that file — so adding a
+feature means adding one function here, and the HTML never needs to know
+the data model.
+
+Usage:
+  python3 scripts/dashboard/generate.py            # writes data/dashboard.json
+  python3 scripts/dashboard/generate.py --json     # prints JSON to stdout
+"""
+import argparse
+import json
+import os
+import sys
+
+_REPO_ROOT = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+sys.path.insert(0, os.path.join(_REPO_ROOT, 'scripts'))
+
+# Load .env so the pipeline works without exporting every var into the shell.
+_ENV = os.path.join(_REPO_ROOT, '.env')
+if os.path.exists(_ENV):
+    with open(_ENV) as _f:
+        for _line in _f:
+            _line = _line.strip()
+            if _line and not _line.startswith('#') and '=' in _line:
+                _k, _v = _line.split('=', 1)
+                os.environ.setdefault(_k.strip(), _v.strip())
+
+OUT = os.path.join(_REPO_ROOT, 'data', 'dashboard.json')
+
+
+def _domains():
+    """Connection-domain health, from the verifier's snapshot."""
+    path = os.environ.get('VERIFY_OUTPUT', os.path.join(_REPO_ROOT, 'data', 'dashboard-domains.json'))
+    if not os.path.exists(path):
+        return {'ok': 0, 'total': 0, 'domains': [],
+                'detail': 'no snapshot — run python3 scripts/verify-connections.py first'}
+    with open(path) as f:
+        return json.load(f)
+
+
+def _leads():
+    """Coaching leads flagged from community activity."""
+    path = os.path.join(_REPO_ROOT, 'data', 'community-leads.json')
+    if not os.path.exists(path):
+        return []
+    with open(path) as f:
+        return json.load(f)
+
+
+def _drafts():
+    """Posts awaiting human approval."""
+    path = os.path.join(_REPO_ROOT, 'data', 'pending-drafts.json')
+    if not os.path.exists(path):
+        return []
+    with open(path) as f:
+        return json.load(f)
+
+
+def _wordpress():
+    """Blog post + activity status for each configured WordPress site.
+
+    Set WP_SITES in .env as a JSON list, e.g.:
+      WP_SITES='[{"name":"webawesome","url":"https://webawesome.co.uk",
+                  "user":"aios","app_password":"xxxx xxxx"}]'
+    Auth is an Application Password (Users -> Edit -> Application Passwords).
+    """
+    raw = os.environ.get('WP_SITES', '').strip()
+    if not raw:
+        return {'configured': False, 'sites': [],
+                'detail': 'no WP_SITES set in .env'}
+    try:
+        sites = json.loads(raw)
+    except json.JSONDecodeError as e:
+        return {'configured': True, 'sites': [], 'detail': f'bad WP_SITES JSON: {e}'}
+
+    import base64
+    import urllib.request
+    import urllib.error
+
+    out = []
+    for s in sites:
+        url = s.get('url', '').rstrip('/')
+        user = s.get('user', '')
+        pw = s.get('app_password', '')
+        if not url or not user or not pw:
+            out.append({'name': s.get('name', '?'), 'ok': False,
+                        'detail': 'missing url / user / app_password'})
+            continue
+        token = base64.b64encode(f"{user}:{pw}".encode()).decode()
+        try:
+            req = urllib.request.Request(
+                url + '/wp-json/wp/v2/posts?per_page=1',
+                headers={'Authorization': 'Basic ' + token,
+                         'Accept': 'application/json'})
+            with urllib.request.urlopen(req, timeout=15) as resp:
+                posts = json.loads(resp.read().decode())
+            latest = posts[0] if posts else None
+            out.append({
+                'name': s.get('name', url),
+                'url': url,
+                'ok': True,
+                'postCount': len(posts),
+                'latestTitle': (latest or {}).get('title', {}).get('rendered', '(none)'),
+                'latestDate': (latest or {}).get('date', ''),
+            })
+        except urllib.error.HTTPError as e:
+            out.append({'name': s.get('name', url), 'url': url, 'ok': False,
+                        'detail': f"{e.code} {e.read().decode()[:80]}"})
+        except Exception as e:
+            out.append({'name': s.get('name', url), 'url': url, 'ok': False,
+                        'detail': f"connection error: {e}"})
+    return {'configured': True, 'sites': out}
+
+
+def main():
+    ap = argparse.ArgumentParser()
+    ap.add_argument('--json', action='store_true', help='print JSON to stdout instead of writing the file')
+    args = ap.parse_args()
+
+    payload = {
+        'generatedAt': __import__('datetime').datetime.now().isoformat(timespec='seconds'),
+        'domains': _domains(),
+        'leads': _leads(),
+        'drafts': _drafts(),
+        'wordpress': _wordpress(),
+    }
+
+    if args.json:
+        print(json.dumps(payload, indent=2))
+        return
+
+    os.makedirs(os.path.dirname(OUT), exist_ok=True)
+    with open(OUT, 'w') as f:
+        json.dump(payload, f, indent=2)
+    print(f"Dashboard data written to {OUT}")
+
+
+if __name__ == '__main__':
+    main()

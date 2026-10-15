@@ -4,13 +4,14 @@ Registry of every system your AIOS can reach. Filled by `/onboard` from Q4-Q7 an
 
 | # | Domain | Tool | Mechanism | Auth | Last checked |
 |---|---|---|---|---|---|
-| 1 | Revenue / Financials | _filled by /onboard_ | not yet connected | — | — |
-| 2 | Customer interactions | _filled by /onboard_ | not yet connected | — | — |
-| 3 | Calendar | _filled by /onboard_ | not yet connected | — | — |
-| 4 | Communication | _filled by /onboard_ | not yet connected | — | — |
-| 5 | Project / task tracking | _filled by /onboard_ | not yet connected | — | — |
-| 6 | Meeting intelligence | _filled by /onboard_ | not yet connected | — | — |
-| 7 | Knowledge / files | _filled by /onboard_ | not yet connected | — | — |
+| 1 | Revenue / Financials | Stripe (unused) + Monzo (connected to Stripe) | not yet connected — no API key available; Stripe account exists but is unused | — | — |
+| 2 | Customer interactions | Gmail + bankoledada@gmail.com | script (scripts/verify-connections.py) | **OAuth 2.0 refresh-token flow** (GMAIL_CLIENT_ID / GMAIL_CLIENT_SECRET / GMAIL_REFRESH_TOKEN in .env). Service accounts CANNOT reach a consumer gmail.com address — no Admin console, no domain-wide delegation, and Gmail's grant-access rejects service-account identities. | 2026-10-15 — **VERIFIED live**: OAuth app configured (External consent screen, test user bankoledada@gmail.com), refresh token exchanged and stored; verifier reports est. 201 messages. Reference: references/gmail-api.md |
+| 3 | Calendar | Google Calendar | script (scripts/verify-connections.py) | service account `aios-bot@aios-credentials.iam.gserviceaccount.com`. **Blocker: Calendar API not enabled in GCP project 266063022919** — 403. Enable at https://console.cloud.google.com/apis/library/calendar.googleapis.com?project=266063022919, then share `primary` calendar with the service account as Viewer. | 2026-10-15 — still 403 (API not enabled). Reference: references/calendar-api.md |
+| 4 | Communication | Gmail + bankoledada@gmail.com | script (scripts/verify-connections.py) | same OAuth 2.0 refresh-token flow as Domain 2. | 2026-10-15 — **VERIFIED live** (same probe as Domain 2) |
+| 5 | Project / task tracking | Google Sheet CRM (scripts/client-tracker.py, wrapper scripts/crm.sh) | script | service account `aios-bot@aios-credentials.iam.gserviceaccount.com` (credentials.json in scripts/), sheet shared as Editor | 2026-10-14 — verified: list/add/stage all succeed against "webawesome CRM" sheet; design follows webawesome-brand-kit at /Users/banksdada/Desktop/AI_OS/scripts/webawesome-brand-kit |
+| 6 | Meeting intelligence | TidyCal (booking) + Google Drive (docs) | not yet connected — no API key available; TidyCal account exists, no API integration | — | — |
+| 7 | Knowledge / files | Google Drive (script: scripts/gdrive-list.py, also probed by scripts/verify-connections.py) | script | service account `aios-bot@aios-credentials.iam.gserviceaccount.com` (credentials.json in scripts/) | 2026-10-14 — verified: listed root, found "webawesome CRM" sheet and "aios folder" |
+| 8 | Community / mentoringba | HumHub community platform (meetup.mentoringba.org — "Business Analysis Community") | script (scripts/verify-connections.py) | HTTP Basic auth with `aios-bot` + `HUMHUB_PASSWORD` from .env. NOT meetup.com — self-hosted HumHub with REST module at `/api/v1/`. Admin must also enable the user for the API in Administration → REST API. | 2026-10-15 — password accepted (403, not 401); endpoints mapped from humhub/rest source. Reference: references/humhub-api.md. Blocker: `aios-bot` not yet enabled for the REST API in the admin panel. Sandbox egress to the host is unreliable — verify locally with `python3 scripts/verify-connections.py`. |
 
 **Mechanism options:** `mcp` (MCP server), `script` (Python/Bash hitting an API, in `scripts/`), `export` (CSV/JSON dump pipeline), `key+ref` (`.env` key + `references/{tool}-api.md` guide), `not yet connected`.
 

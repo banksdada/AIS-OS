@@ -11,7 +11,11 @@ This is the source-of-truth file for your AIOS. Fill it in by typing, voice-past
 Identity, offer, ICP. One paragraph each is fine.
 
 ```
-[Your answer here]
+I am Banks Dada, owner of webawesome.co.uk
+
+Offer: a UK-based digital agency providing digital services and automation to small businesses locally and globally. I also serve as a business analysis mentor via mentoringba, which includes coaching, job transition to business analysis, and on-the-job support.
+
+ICP: We sell to people wanting to change career to business analysis. We also support busineses with digital products and ai automations, hosting services and more
 ```
 
 ---
@@ -21,7 +25,21 @@ Identity, offer, ICP. One paragraph each is fine.
 An email, a LinkedIn post, a DM, a doc — anything that sounds like you when you're not trying. **Paste verbatim.** Do not type these mid-conversation with Claude — chat-shaped samples are worse than no samples (voice contamination).
 
 ```
-[Sample 1 — paste raw]
+Correct me if I am wrong
+
+Does being versatile or experienced with jira make me a jira business analyst?
+
+I see a lot of newly crafted roles with awesome job description that constantly make me think hard!
+
+Ai is a tool. There are thousands and thousands of platforms and agents doing and providing multiple services such as text, embedding, audio and video
+
+That description right there makes things more broad and in the coming future I am sure we will have titles attached to those capabilities
+
+I use ai a lot and it is a great tool for speeding up work! It’s not perfect yet but getting better everyday
+
+Automation and agentic workforce is here to stay and that is the base of my moan
+
+And er.. I am #opentowork
 ```
 
 ```
@@ -35,9 +53,9 @@ An email, a LinkedIn post, a DM, a doc — anything that sounds like you when yo
 Quarterly priorities. Not yearly aspirations. Things that, if not done by July, would make you say "I wasted Q2."
 
 ```
-1. [Priority 1]
-2. [Priority 2]
-3. [Priority 3]
+1. Solve more problems for clients (make about £10,000)
+2. Get more clients
+3. Build more usable automations and digital products
 ```
 
 ---
@@ -47,7 +65,7 @@ Quarterly priorities. Not yearly aspirations. Things that, if not done by July, 
 Multiple answers OK. Stripe? Skool? GoHighLevel? QuickBooks? A spreadsheet?
 
 ```
-[Your answer here]
+I have a Stripe account I never use. Also receive funds via my business account - Monzo which is connected to Stripe.
 ```
 
 ---
@@ -57,7 +75,7 @@ Multiple answers OK. Stripe? Skool? GoHighLevel? QuickBooks? A spreadsheet?
 Email (which one — Gmail / Outlook)? Slack? Teams? DMs (Skool / Discord / iMessage)? Phone?
 
 ```
-[Your answer here]
+Gmail and my custom email info@webawesome.co.uk but Gmail more
 ```
 
 ---
@@ -67,7 +85,7 @@ Email (which one — Gmail / Outlook)? Slack? Teams? DMs (Skool / Discord / iMes
 Granola? Otter? Fireflies? Google Drive? Notion? Dropbox? A folder on your desktop you keep meaning to organize?
 
 ```
-[Your answer here]
+Google Drive (but never recorded meetings in the past). Also have a TidyCal account for booking meetings.
 ```
 
 ---
@@ -77,7 +95,7 @@ Granola? Otter? Fireflies? Google Drive? Notion? Dropbox? A folder on your deskt
 The single biggest time-suck or recurring drudgery. Plus where tasks/projects live (ClickUp / Asana / Linear / Notion / a notebook).
 
 ```
-[Your answer here]
+Finding clients who will pay for my services. Have a CRM but never use it.
 ```
 
 ---

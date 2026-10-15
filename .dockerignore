@@ -1,0 +1,14 @@
+# Secrets must never be baked into the image. Provide them at runtime
+# (Coolify env vars, a mounted volume, or GOOGLE_CREDENTIALS_PATH).
+.env
+.env.local
+scripts/credentials.json
+
+# Local noise
+.DS_Store
+__pycache__/
+*.pyc
+.git
+audits/
+brainstorms/
+.claude/settings.local.json

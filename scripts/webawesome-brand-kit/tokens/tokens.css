@@ -1,0 +1,60 @@
+/* WebAwesome brand tokens. Palette taken from the logo mark.
+   Fonts: load via
+   https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Space+Grotesk:wght@500;600;700&family=IBM+Plex+Mono:wght@400;600&display=swap */
+:root{
+  /* colour */
+  --wa-royal-violet:#3B1A88;    /* primary buttons, links */
+  --wa-midnight:#0B1642;        /* text, dark surfaces */
+  --wa-electric-violet:#8E4DFF; /* icons, borders, large text only */
+  --wa-neon-cyan:#00E5FF;       /* highlights on dark */
+  --wa-hot-pink:#FF4DA6;        /* accent button, midnight text on it */
+  --wa-mist:#F6F4FF;            /* page background (derived) */
+  --wa-muted:#5B5680;           /* secondary text (derived) */
+  --wa-line:#E3DDF6;            /* borders (derived) */
+  --wa-deep-night:#060B2B;      /* dark background (derived) */
+  --wa-white:#FFFFFF;
+  --wa-beam:linear-gradient(135deg,#00D9FF 0%,#8E4DFF 45%,#FF4DA6 100%);
+
+  /* type */
+  --wa-font-display:'Space Grotesk',system-ui,sans-serif;
+  --wa-font-body:'Inter',system-ui,sans-serif;
+  --wa-font-mono:'IBM Plex Mono',ui-monospace,monospace;
+  --wa-text-small:.875rem;
+  --wa-text-body:1.0625rem;
+  --wa-text-lead:clamp(1.125rem,1.05rem + .4vw,1.3rem);
+  --wa-text-h3:clamp(1.35rem,1.2rem + .9vw,1.9rem);
+  --wa-text-h2:clamp(2rem,1.5rem + 2.6vw,3.6rem);
+  --wa-text-display:clamp(2.75rem,1.8rem + 4.8vw,5.9rem);
+
+  /* spacing, shape, layout */
+  --wa-space-xs:.5rem; --wa-space-s:1rem; --wa-space-m:1.75rem; --wa-space-l:3rem; --wa-space-xl:5rem;
+  --wa-radius-button:10px; --wa-radius-card:14px;
+  --wa-content:720px; --wa-wide:1280px;
+
+  /* semantic (light) */
+  --wa-bg:var(--wa-mist); --wa-fg:var(--wa-midnight); --wa-surface:var(--wa-white);
+  --wa-link:var(--wa-royal-violet); --wa-border:var(--wa-line); --wa-text-muted:var(--wa-muted);
+}
+@media (prefers-color-scheme:dark){
+  :root:not([data-theme="light"]){
+    --wa-bg:var(--wa-deep-night); --wa-fg:var(--wa-mist); --wa-surface:var(--wa-midnight);
+    --wa-link:#B895FF; --wa-border:#26306B; --wa-text-muted:#A7A6D1; color-scheme:dark;
+  }
+}
+:root[data-theme="dark"]{
+  --wa-bg:var(--wa-deep-night); --wa-fg:var(--wa-mist); --wa-surface:var(--wa-midnight);
+  --wa-link:#B895FF; --wa-border:#26306B; --wa-text-muted:#A7A6D1; color-scheme:dark;
+}
+
+/* base */
+body{background:var(--wa-bg);color:var(--wa-fg);font-family:var(--wa-font-body);font-size:var(--wa-text-body);line-height:1.7}
+h1,h2,h3,h4{font-family:var(--wa-font-display);font-weight:600;line-height:1.06;letter-spacing:-.03em}
+a{color:var(--wa-link)} a:hover{color:var(--wa-fg)}
+
+/* buttons */
+.wa-btn{font-family:var(--wa-font-body);font-weight:600;font-size:.95rem;line-height:1;padding:.8rem 1.25rem;border:1px solid transparent;border-radius:var(--wa-radius-button);cursor:pointer}
+.wa-btn--primary{background:var(--wa-royal-violet);color:#fff}
+.wa-btn--primary:hover{background:#2C1270}
+.wa-btn--secondary{background:transparent;color:var(--wa-fg);border-color:var(--wa-border)}
+.wa-btn--accent{background:var(--wa-hot-pink);color:var(--wa-midnight)}
+.wa-btn--beam{background:var(--wa-beam);color:#fff}
