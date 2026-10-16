@@ -28,6 +28,7 @@ Go to the resource's **Environment** tab and add these. Never commit them.
 | `GMAIL_CLIENT_SECRET` | `GOCSPX-…` | `.env` |
 | `GMAIL_REFRESH_TOKEN` | `1//03LKCoxP8…` | `.env` |
 | `CLIENT_TRACKER_ID` | `1OuqO9tpzgH-…` | `.env` |
+| `TIDYCAL_OAUTH_FILE` | `/run/secrets/tidycal-oauth.json` | mount an owner-protected OAuth file created by `python3 scripts/tidycal_mcp.py login`; see `references/tidycal-api.md` |
 | `GOOGLE_CREDENTIALS_PATH` | `/app/scripts/credentials.json` | the service-account key is NOT copied into the image — it is provided at runtime as a mounted file, see below |
 
 > **The service-account JSON is a secret.** It is gitignored and excluded
@@ -47,7 +48,9 @@ Go to the resource's **Environment** tab and add these. Never commit them.
 The default container command now serves the live AI OS dashboard on port
 `8080`.
 
-1. Open the resource → **Ports** and ensure port `8080` is exposed.
+1. Open the resource → **Domains** and set the target port to `8080` (the
+  container's internal listening port). Do not use the public host port or
+  `80`/`443` as the target. The resource must be running and healthy.
 2. In the resource → **Commands** section, the default command is already:
 
 ```
@@ -59,6 +62,8 @@ python3 scripts/dashboard/serve.py
 
 The dashboard fetches `/data` from the same container and refreshes the payload
 with the latest connection and CRM status.
+Coolify/Docker can verify the process through `GET /health`, which returns
+`200 OK` without running any external integrations.
 
 ## Step 4 — Run a task
 To run a specific script instead of the dashboard, open the resource →
@@ -94,6 +99,10 @@ from Step 2.
 ## Troubleshooting
 - **Build fails** → check the resource log for `pip install` errors. Confirm
   `requirements.txt` pins versions that exist on PyPI.
+- **502 / "no available server"** → the proxy cannot find a healthy app
+  container. Confirm the resource is running, its domain target port is `8080`,
+  and `GET /health` returns `200` inside the container. Check deployment logs
+  for a startup or image-build failure, then redeploy the latest `main` commit.
 - **"403" on HumHub** → the `aios-bot` account isn't enabled for the REST API.
   Enable it in the admin panel (Administration → REST API).
 - **"403" on Calendar** → the Calendar API isn't enabled in GCP project

@@ -1,7 +1,7 @@
 {
-  "generatedAt": "2026-10-16T14:16:57",
+  "generatedAt": "2026-10-16T17:58:44",
   "domains": {
-    "checkedAt": "2026-10-16T06:52:47",
+    "checkedAt": "2026-10-16T17:39:23",
     "ok": 3,
     "total": 7,
     "domains": [
@@ -38,15 +38,55 @@
       {
         "name": "TidyCal (meeting intelligence)",
         "ok": false,
-        "detail": "no API key \u2014 TidyCal account exists, no API integration"
+        "detail": "Connect TidyCal with: python3 scripts/tidycal_mcp.py login"
       }
     ]
+  },
+  "crm": {
+    "configured": true,
+    "clients": [
+      {
+        "name": "Test Client",
+        "email": "test@example.com",
+        "stage": "Proposal",
+        "lastContact": "",
+        "notes": "seeded 2026-10-14"
+      }
+    ],
+    "stages": {
+      "Proposal": 1
+    }
   },
   "leads": [],
   "drafts": [],
   "wordpress": {
+    "configured": true,
+    "sites": [
+      {
+        "name": "webawesome",
+        "url": "https://www.webawesome.co.uk",
+        "ok": false,
+        "detail": "connection error: ('Connection aborted.', ConnectionResetError(54, 'Connection reset by peer'))"
+      },
+      {
+        "name": "mentoringba",
+        "url": "https://mentoringba.org",
+        "ok": false,
+        "detail": "connection error: ('Connection aborted.', ConnectionResetError(54, 'Connection reset by peer'))"
+      },
+      {
+        "name": "bhoSupport",
+        "url": "https://besthomesupport.uk",
+        "ok": false,
+        "detail": "connection error: ('Connection aborted.', ConnectionResetError(54, 'Connection reset by peer'))"
+      }
+    ]
+  },
+  "tidycal": {
     "configured": false,
-    "sites": [],
-    "detail": "no WP_SITES set in .env"
+    "connected": false,
+    "bookings": [],
+    "bookingTypes": [],
+    "detail": "Connect TidyCal with: python3 scripts/tidycal_mcp.py login"
   }
 }

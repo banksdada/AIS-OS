@@ -110,8 +110,15 @@ def _wordpress():
         return {'configured': True, 'sites': [], 'detail': f'bad WP_SITES JSON: {e}'}
 
     import base64
-    import urllib.request
-    import urllib.error
+    try:
+        # requests handles SSL/TLS more gracefully than the stdlib
+        # urllib, which resets connections on these hosts.
+        import requests
+        HAS_REQUESTS = True
+    except ImportError:
+        HAS_REQUESTS = False
+        import urllib.request
+        import urllib.error
 
     out = []
     for s in sites:
@@ -123,13 +130,19 @@ def _wordpress():
                         'detail': 'missing url / user / app_password'})
             continue
         token = base64.b64encode(f"{user}:{pw}".encode()).decode()
+        headers = {'Authorization': 'Basic ' + token, 'Accept': 'application/json'}
         try:
-            req = urllib.request.Request(
-                url + '/wp-json/wp/v2/posts?per_page=1',
-                headers={'Authorization': 'Basic ' + token,
-                         'Accept': 'application/json'})
-            with urllib.request.urlopen(req, timeout=15) as resp:
-                posts = json.loads(resp.read().decode())
+            if HAS_REQUESTS:
+                resp = requests.get(url + '/wp-json/wp/v2/posts?per_page=1',
+                                    headers=headers, timeout=30)
+                resp.raise_for_status()
+                posts = resp.json()
+            else:
+                req = urllib.request.Request(
+                    url + '/wp-json/wp/v2/posts?per_page=1',
+                    headers=headers)
+                with urllib.request.urlopen(req, timeout=30) as resp:
+                    posts = json.loads(resp.read().decode())
             latest = posts[0] if posts else None
             out.append({
                 'name': s.get('name', url),
@@ -139,13 +152,20 @@ def _wordpress():
                 'latestTitle': (latest or {}).get('title', {}).get('rendered', '(none)'),
                 'latestDate': (latest or {}).get('date', ''),
             })
-        except urllib.error.HTTPError as e:
-            out.append({'name': s.get('name', url), 'url': url, 'ok': False,
-                        'detail': f"{e.code} {e.read().decode()[:80]}"})
         except Exception as e:
             out.append({'name': s.get('name', url), 'url': url, 'ok': False,
-                        'detail': f"connection error: {e}"})
+                        'detail': f"connection error: {str(e)[:120]}"})
     return {'configured': True, 'sites': out}
+
+
+def _tidycal():
+    """Read upcoming TidyCal bookings through the local OAuth/MCP connector."""
+    try:
+        from tidycal_mcp import dashboard_data
+        return dashboard_data()
+    except Exception as e:
+        return {'configured': False, 'connected': False, 'bookings': [],
+                'bookingTypes': [], 'detail': f'TidyCal integration unavailable: {e}'}
 
 
 def main():
@@ -160,6 +180,7 @@ def main():
         'leads': _leads(),
         'drafts': _drafts(),
         'wordpress': _wordpress(),
+        'tidycal': _tidycal(),
     }
 
     if args.json:

@@ -51,6 +51,9 @@ python3 scripts/dashboard/generate.py
 # Sync .claude/skills into the Codex mirror (.agents/skills)
 bash scripts/sync-codex-skills.sh
 
+# CI quality gates and Python tests: .github/workflows/ci.yml; run tests locally with
+python3 -m unittest discover -s tests -v
+
 # Build the Docker image (Coolify does this automatically)
 docker build -t aios .
 ```

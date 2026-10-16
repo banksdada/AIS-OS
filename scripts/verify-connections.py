@@ -135,9 +135,17 @@ def main():
         except Exception as e:
             record("HumHub (community)", False, f"connection error: {e}")
 
-    # --- Domains 1, 6: Stripe / TidyCal (no API key available) ---
+    # --- Domain 1: Stripe (not connected) ---
     record("Stripe (revenue)", False, "no API key — Stripe account exists but unused")
-    record("TidyCal (meeting intelligence)", False, "no API key — TidyCal account exists, no API integration")
+
+    # --- Domain 6: TidyCal (OAuth 2.1 + read-only MCP) ---
+    try:
+        from tidycal_mcp import dashboard_data
+        tidycal = dashboard_data()
+        record("TidyCal (meeting intelligence)", tidycal.get('connected', False),
+               tidycal.get('detail') or f"OAuth connected; {len(tidycal.get('bookings', []))} upcoming bookings")
+    except Exception as e:
+        record("TidyCal (meeting intelligence)", False, f"connection error: {e}")
 
     print()
     ok = sum(1 for _, v, _ in results if v)

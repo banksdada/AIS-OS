@@ -40,9 +40,11 @@ def regenerate():
     payload = {
         'generatedAt': __import__('datetime').datetime.now().isoformat(timespec='seconds'),
         'domains': gen._domains(),
+        'crm': gen._crm(),
         'leads': gen._leads(),
         'drafts': gen._drafts(),
         'wordpress': gen._wordpress(),
+        'tidycal': gen._tidycal(),
     }
     os.makedirs(os.path.dirname(DATA), exist_ok=True)
     with open(DATA, 'w') as f:
