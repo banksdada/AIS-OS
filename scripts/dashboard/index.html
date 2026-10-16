@@ -1,0 +1,585 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>AI OS Dashboard</title>
+    <style>
+      :root {
+        --bg: #f4f6fb;
+        --panel: #ffffff;
+        --panel-alt: #eef3ff;
+        --card: #f8faff;
+        --border: rgba(63, 76, 117, 0.14);
+        --text: #10182a;
+        --muted: #5e678a;
+        --ok: #1f9d61;
+        --warn: #d97706;
+        --fail: #d4315a;
+        --accent: #3b82f6;
+        --accent-soft: rgba(59, 130, 246, 0.12);
+        --shadow: 0 16px 40px rgba(18, 23, 38, 0.08);
+      }
+
+      body.dark {
+        --bg: #0b1220;
+        --panel: #121b2d;
+        --panel-alt: #16233d;
+        --card: #0f1a2d;
+        --border: rgba(156, 174, 214, 0.18);
+        --text: #edf3ff;
+        --muted: #a7b4d4;
+        --ok: #46d39a;
+        --warn: #ffb84d;
+        --fail: #ff6b8a;
+        --accent: #8ab4ff;
+        --accent-soft: rgba(138, 180, 255, 0.15);
+        --shadow: 0 18px 42px rgba(0, 0, 0, 0.32);
+      }
+
+      * { box-sizing: border-box; }
+
+      html, body {
+        margin: 0;
+        min-height: 100%;
+        font-family: Inter, "Segoe UI", sans-serif;
+        background: var(--bg);
+        color: var(--text);
+      }
+
+      body {
+        transition: background 0.25s ease, color 0.25s ease;
+      }
+
+      .shell {
+        max-width: 1280px;
+        margin: 0 auto;
+        padding: 32px 20px 48px;
+      }
+
+      .topbar {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 12px;
+        margin-bottom: 20px;
+      }
+
+      .brand {
+        font-weight: 700;
+        letter-spacing: 0.02em;
+      }
+
+      .topbar-actions {
+        display: flex;
+        gap: 10px;
+        align-items: center;
+      }
+
+      .button {
+        appearance: none;
+        border: 1px solid var(--border);
+        background: var(--panel);
+        color: var(--text);
+        padding: 9px 14px;
+        border-radius: 999px;
+        cursor: pointer;
+        font-weight: 600;
+        box-shadow: var(--shadow);
+      }
+
+      .button:hover {
+        transform: translateY(-1px);
+      }
+
+      .button.primary {
+        background: linear-gradient(135deg, var(--accent), #7c3aed);
+        border-color: transparent;
+        color: white;
+      }
+
+      .grid {
+        display: grid;
+        grid-template-columns: 1.3fr 1fr;
+        gap: 20px;
+      }
+
+      .panel {
+        background: var(--panel);
+        border: 1px solid var(--border);
+        border-radius: 22px;
+        box-shadow: var(--shadow);
+        padding: 20px;
+      }
+
+      .hero {
+        grid-column: 1 / -1;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 16px;
+        background: linear-gradient(135deg, var(--panel-alt), var(--panel));
+      }
+
+      .eyebrow {
+        font-size: 12px;
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+        color: var(--muted);
+        margin-bottom: 8px;
+      }
+
+      h1 {
+        margin: 0;
+        font-size: clamp(2rem, 4vw, 3rem);
+      }
+
+      .subtitle {
+        margin-top: 10px;
+        color: var(--muted);
+      }
+
+      .stats {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 16px;
+      }
+
+      .stat {
+        min-width: 150px;
+        padding: 16px 18px;
+        border-radius: 18px;
+        background: rgba(59, 130, 246, 0.06);
+        border: 1px solid var(--border);
+      }
+
+      .stat strong {
+        display: block;
+        font-size: 1.7rem;
+        margin-bottom: 4px;
+      }
+
+      .stat small {
+        color: var(--muted);
+      }
+
+      .panel-head {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 10px;
+        margin-bottom: 16px;
+      }
+
+      .panel-head h2 {
+        margin: 0;
+        font-size: 1.15rem;
+      }
+
+      .badge {
+        padding: 6px 10px;
+        border-radius: 999px;
+        font-size: 0.78rem;
+        font-weight: 700;
+        background: var(--accent-soft);
+        color: var(--accent);
+      }
+
+      .badge.ok { background: rgba(31, 157, 97, 0.12); color: var(--ok); }
+      .badge.fail { background: rgba(212, 49, 90, 0.12); color: var(--fail); }
+
+      .domain-grid,
+      .site-grid,
+      .stack {
+        display: grid;
+        gap: 12px;
+      }
+
+      .domain-grid,
+      .site-grid {
+        grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+      }
+
+      .card {
+        background: var(--card);
+        border: 1px solid var(--border);
+        border-radius: 16px;
+        padding: 14px 16px;
+      }
+
+      .status-row {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 8px;
+        margin-bottom: 10px;
+      }
+
+      .dot {
+        width: 10px;
+        height: 10px;
+        display: inline-block;
+        border-radius: 50%;
+        background: var(--fail);
+      }
+
+      .dot.ok { background: var(--ok); }
+      .dot.fail { background: var(--fail); }
+
+      .domain-name,
+      .site-name {
+        font-weight: 700;
+        margin-top: 2px;
+      }
+
+      .meta {
+        color: var(--muted);
+        font-size: 0.9rem;
+        line-height: 1.45;
+        margin: 0;
+      }
+
+      .stage-bar-wrap {
+        display: grid;
+        gap: 10px;
+      }
+
+      .stage-row {
+        display: grid;
+        grid-template-columns: 90px 1fr 50px;
+        gap: 10px;
+        align-items: center;
+      }
+
+      .stage-label {
+        color: var(--muted);
+      }
+
+      .bar-track {
+        width: 100%;
+        height: 10px;
+        background: rgba(148, 163, 184, 0.22);
+        border-radius: 999px;
+        overflow: hidden;
+      }
+
+      .bar-fill {
+        height: 100%;
+        border-radius: inherit;
+        background: linear-gradient(90deg, #60a5fa, #8b5cf6);
+      }
+
+      .crm-table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 18px;
+      }
+
+      .crm-table th,
+      .crm-table td {
+        padding: 10px 8px;
+        border-bottom: 1px solid var(--border);
+        text-align: left;
+      }
+
+      .stage-pill {
+        display: inline-flex;
+        align-items: center;
+        padding: 4px 9px;
+        border-radius: 999px;
+        font-size: 0.75rem;
+        font-weight: 700;
+        color: white;
+        background: #3b82f6;
+      }
+
+      .empty-state {
+        border: 1px dashed var(--border);
+        border-radius: 14px;
+        padding: 18px 16px;
+        color: var(--muted);
+        background: rgba(148, 163, 184, 0.05);
+      }
+
+      @media (max-width: 900px) {
+        .grid { grid-template-columns: 1fr; }
+        .hero { flex-direction: column; align-items: flex-start; }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="shell">
+      <header class="topbar">
+        <div class="brand">AI OS Dashboard</div>
+        <div class="topbar-actions">
+          <button id="themeToggle" class="button" type="button">Dark mode</button>
+          <button id="refreshButton" class="button primary" type="button">Refresh</button>
+        </div>
+      </header>
+
+      <main class="grid">
+        <section class="panel hero">
+          <div>
+            <div class="eyebrow">Live infrastructure</div>
+            <h1 id="heroTitle">0 / 0 live</h1>
+            <div id="heroSubtitle" class="subtitle">Waiting for data…</div>
+          </div>
+          <div class="stats">
+            <div class="stat">
+              <strong id="liveCount">0</strong>
+              <small>Live domains</small>
+            </div>
+            <div class="stat">
+              <strong id="generatedAt">—</strong>
+              <small>Last generated</small>
+            </div>
+          </div>
+        </section>
+
+        <section class="panel">
+          <div class="panel-head">
+            <h2>Connection domains</h2>
+            <span id="domainBadge" class="badge">0/0</span>
+          </div>
+          <div id="domainGrid" class="domain-grid"></div>
+        </section>
+
+        <section class="panel">
+          <div class="panel-head">
+            <h2>CRM pipeline</h2>
+            <span id="crmBadge" class="badge">0 clients</span>
+          </div>
+          <div id="crmStageBars" class="stage-bar-wrap"></div>
+          <table class="crm-table">
+            <thead>
+              <tr>
+                <th>Name</th>
+                <th>Email</th>
+                <th>Stage</th>
+                <th>Last contact</th>
+              </tr>
+            </thead>
+            <tbody id="crmTableBody"></tbody>
+          </table>
+        </section>
+
+        <section class="panel">
+          <div class="panel-head">
+            <h2>WordPress sites</h2>
+            <span id="wpBadge" class="badge">0 sites</span>
+          </div>
+          <div id="wordpressGrid" class="site-grid"></div>
+        </section>
+
+        <section class="panel">
+          <div class="panel-head">
+            <h2>Leads</h2>
+            <span id="leadBadge" class="badge">0</span>
+          </div>
+          <div id="leadsList" class="stack"></div>
+        </section>
+
+        <section class="panel">
+          <div class="panel-head">
+            <h2>Drafts</h2>
+            <span id="draftBadge" class="badge">0</span>
+          </div>
+          <div id="draftsList" class="stack"></div>
+        </section>
+      </main>
+    </div>
+
+    <script>
+      const state = { theme: localStorage.getItem('aios-dashboard-theme') || 'light' };
+
+      function setTheme(theme) {
+        state.theme = theme;
+        document.body.classList.toggle('dark', theme === 'dark');
+        localStorage.setItem('aios-dashboard-theme', theme);
+        const label = theme === 'dark' ? 'Light mode' : 'Dark mode';
+        document.getElementById('themeToggle').textContent = label;
+      }
+
+      function formatDate(value) {
+        if (!value) return '—';
+        const date = new Date(value);
+        if (Number.isNaN(date.getTime())) return value;
+        return new Intl.DateTimeFormat('en-GB', {
+          day: '2-digit',
+          month: 'short',
+          year: 'numeric'
+        }).format(date);
+      }
+
+      function renderDomains(payload) {
+        const domains = Array.isArray(payload?.domains?.domains) ? payload.domains.domains : [];
+        const okCount = domains.filter((d) => d.ok).length;
+        const total = domains.length || payload?.domains?.total || 0;
+
+        document.getElementById('domainBadge').textContent = `${okCount}/${total}`;
+        document.getElementById('domainBadge').className = `badge ${okCount === total ? 'ok' : 'fail'}`;
+
+        const container = document.getElementById('domainGrid');
+        if (!domains.length) {
+          container.innerHTML = '<div class="empty-state">No domain health data available yet.</div>';
+          return;
+        }
+
+        container.innerHTML = domains.map((domain) => `
+          <article class="card">
+            <div class="status-row">
+              <div class="dot ${domain.ok ? 'ok' : 'fail'}"></div>
+              <span class="badge ${domain.ok ? 'ok' : 'fail'}">${domain.ok ? 'Live' : 'Fail'}</span>
+            </div>
+            <div class="domain-name">${domain.name}</div>
+            <p class="meta">${(domain.detail || 'No detail provided.').replace(/\n/g, ' ')}</p>
+          </article>
+        `).join('');
+      }
+
+      function renderCrm(payload) {
+        const crm = payload?.crm || {};
+        const clients = Array.isArray(crm.clients) ? crm.clients : [];
+        const stageKeys = ['Lead', 'Contacted', 'Proposal', 'Won', 'Lost'];
+        const stageMap = {};
+
+        for (const client of clients) {
+          const stage = client.stage || 'Lead';
+          stageMap[stage] = (stageMap[stage] || 0) + 1;
+        }
+
+        const max = Math.max(1, ...stageKeys.map((key) => stageMap[key] || 0));
+        const stageBars = stageKeys.map((stage) => {
+          const count = stageMap[stage] || 0;
+          const width = Math.max(6, (count / max) * 100);
+          return `
+            <div class="stage-row">
+              <div class="stage-label">${stage}</div>
+              <div class="bar-track">
+                <div class="bar-fill" style="width:${width}%"></div>
+              </div>
+              <strong>${count}</strong>
+            </div>
+          `;
+        }).join('');
+
+        document.getElementById('crmBadge').textContent = `${clients.length} clients`;
+        document.getElementById('crmStageBars').innerHTML = stageBars;
+
+        const rows = clients.slice(0, 8).map((client) => {
+          const stageColor = {
+            Lead: '#3b82f6',
+            Contacted: '#06b6d4',
+            Proposal: '#ec4899',
+            Won: '#16a34a',
+            Lost: '#ef4444'
+          };
+          return `
+            <tr>
+              <td>${client.name || '—'}</td>
+              <td>${client.email || '—'}</td>
+              <td><span class="stage-pill" style="background:${stageColor[client.stage] || '#64748b'};">${client.stage || 'Lead'}</span></td>
+              <td>${formatDate(client.lastContact)}</td>
+            </tr>
+          `;
+        }).join('');
+
+        document.getElementById('crmTableBody').innerHTML = rows || '<tr><td colspan="4"><div class="empty-state">No CRM clients have been added yet.</div></td></tr>';
+      }
+
+      function renderWordpress(payload) {
+        const sites = Array.isArray(payload?.wordpress?.sites) ? payload.wordpress.sites : [];
+        const container = document.getElementById('wordpressGrid');
+        document.getElementById('wpBadge').textContent = `${sites.length} sites`;
+
+        if (!sites.length) {
+          container.innerHTML = '<div class="empty-state">No WordPress sites configured yet.</div>';
+          return;
+        }
+
+        container.innerHTML = sites.map((site) => `
+          <article class="card">
+            <div class="status-row">
+              <div class="dot ${site.ok ? 'ok' : 'fail'}"></div>
+              <span class="badge ${site.ok ? 'ok' : 'fail'}">${site.ok ? 'OK' : 'Issue'}</span>
+            </div>
+            <div class="site-name">${site.name || 'WordPress site'}</div>
+            <p class="meta">${site.url || 'No URL configured'}</p>
+            <p class="meta">${site.detail || `Posts: ${site.postCount || 0}`}</p>
+          </article>
+        `).join('');
+      }
+
+      function renderList(targetId, items, emptyText, keyName = 'title') {
+        const container = document.getElementById(targetId);
+        if (!Array.isArray(items) || !items.length) {
+          container.innerHTML = `<div class="empty-state">${emptyText}</div>`;
+          return;
+        }
+
+        container.innerHTML = items.map((item) => {
+          const label = item[keyName] || item.name || item.email || 'Item';
+          const detail = item.detail || item.notes || item.url || item.stage || 'No further detail';
+          return `
+            <div class="card">
+              <strong>${label}</strong>
+              <p class="meta">${(detail || 'No detail').replace(/\n/g, ' ')}</p>
+            </div>
+          `;
+        }).join('');
+      }
+
+      function renderFromPayload(payload) {
+        const domains = payload?.domains || {};
+        const liveCount = Number(domains.ok || 0);
+        const totalCount = Number(domains.total || 0);
+        const generatedAt = payload?.generatedAt || '—';
+
+        document.getElementById('heroTitle').textContent = `${liveCount} / ${totalCount} live`;
+        document.getElementById('heroSubtitle').textContent = totalCount
+          ? `The pipeline is checking ${totalCount} domains and reporting ${liveCount} healthy connections.`
+          : 'No domain snapshot is available yet.';
+        document.getElementById('liveCount').textContent = String(liveCount);
+        document.getElementById('generatedAt').textContent = formatDate(generatedAt);
+
+        document.getElementById('leadBadge').textContent = String(Array.isArray(payload?.leads) ? payload.leads.length : 0);
+        document.getElementById('draftBadge').textContent = String(Array.isArray(payload?.drafts) ? payload.drafts.length : 0);
+
+        renderDomains(payload);
+        renderCrm(payload);
+        renderWordpress(payload);
+        renderList('leadsList', payload?.leads || [], 'No community leads have been flagged yet.', 'title');
+        renderList('draftsList', payload?.drafts || [], 'No pending drafts are waiting for approval.', 'title');
+      }
+
+      async function loadData() {
+        const refreshButton = document.getElementById('refreshButton');
+        refreshButton.disabled = true;
+        refreshButton.textContent = 'Refreshing…';
+
+        try {
+          const response = await fetch('/data', { cache: 'no-store' });
+          if (!response.ok) throw new Error(`Request failed with ${response.status}`);
+          const payload = await response.json();
+          renderFromPayload(payload);
+        } catch (error) {
+          document.getElementById('heroTitle').textContent = 'Data unavailable';
+          document.getElementById('heroSubtitle').textContent = error.message;
+          document.getElementById('domainGrid').innerHTML = '<div class="empty-state">The dashboard could not load live data. Check the server log and retry.</div>';
+        } finally {
+          refreshButton.disabled = false;
+          refreshButton.textContent = 'Refresh';
+        }
+      }
+
+      document.getElementById('refreshButton').addEventListener('click', loadData);
+      document.getElementById('themeToggle').addEventListener('click', () => {
+        setTheme(state.theme === 'dark' ? 'light' : 'dark');
+      });
+
+      setTheme(state.theme);
+      loadData();
+      setInterval(loadData, 60000);
+    </script>
+  </body>
+</html>

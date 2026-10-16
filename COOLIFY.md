@@ -43,9 +43,26 @@ Go to the resource's **Environment** tab and add these. Never commit them.
 > - **Local runs** — keep `scripts/credentials.json` on your machine as you
 >   already have it; the scripts resolve it relative to their own directory.
 
-## Step 3 — Run a task
-The container's default command is the connection verifier. To run a specific
-script, open the resource → **Commands** → run:
+## Step 3 — Deploy the dashboard
+The default container command now serves the live AI OS dashboard on port
+`8080`.
+
+1. Open the resource → **Ports** and ensure port `8080` is exposed.
+2. In the resource → **Commands** section, the default command is already:
+
+```
+python3 scripts/dashboard/serve.py
+```
+
+3. Visit the resource's public URL or `http://<host>:8080/` to view the live
+   dashboard.
+
+The dashboard fetches `/data` from the same container and refreshes the payload
+with the latest connection and CRM status.
+
+## Step 4 — Run a task
+To run a specific script instead of the dashboard, open the resource →
+**Commands** → run:
 
 ```
 python3 scripts/verify-connections.py
@@ -57,11 +74,18 @@ For the HumHub bot:
 python3 scripts/humhub-bot.py poll
 ```
 
-## Step 4 — Schedules (optional)
-In the resource → **Schedules**, add a cron job to run the bot daily, e.g.:
+## Step 5 — Schedules (optional)
+In the resource → **Schedules**, add a cron job to refresh the generated data
+and keep the dashboard current. For example:
 
 ```
-0 8 * * *  python3 scripts/humhub-bot.py poll
+0 8 * * *  python3 scripts/dashboard/generate.py
+```
+
+Or run the verifier daily:
+
+```
+0 8 * * *  python3 scripts/verify-connections.py
 ```
 
 Coolify runs the command inside the container, so it inherits the env vars

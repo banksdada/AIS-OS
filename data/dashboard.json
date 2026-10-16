@@ -1,0 +1,52 @@
+{
+  "generatedAt": "2026-10-16T14:16:57",
+  "domains": {
+    "checkedAt": "2026-10-16T06:52:47",
+    "ok": 3,
+    "total": 7,
+    "domains": [
+      {
+        "name": "Drive (knowledge/files)",
+        "ok": true,
+        "detail": "listed 2 files: ['webawesome CRM', 'aios folder']"
+      },
+      {
+        "name": "CRM (project tracking)",
+        "ok": true,
+        "detail": "1 clients: ['Test Client']"
+      },
+      {
+        "name": "Gmail (customer + communication)",
+        "ok": true,
+        "detail": "API reachable via OAuth, est. 201 messages"
+      },
+      {
+        "name": "Calendar",
+        "ok": false,
+        "detail": "403 Google Calendar API has not been used in project 266063022919 before or it is disabled. Enable it by visiting https://co"
+      },
+      {
+        "name": "HumHub (community)",
+        "ok": false,
+        "detail": "403 <!DOCTYPE html>\n<html style=\"height:100%\">\n<head>\n<meta name=\"viewport\" content=\"width=device-width, initial-scale=1, sh"
+      },
+      {
+        "name": "Stripe (revenue)",
+        "ok": false,
+        "detail": "no API key \u2014 Stripe account exists but unused"
+      },
+      {
+        "name": "TidyCal (meeting intelligence)",
+        "ok": false,
+        "detail": "no API key \u2014 TidyCal account exists, no API integration"
+      }
+    ]
+  },
+  "leads": [],
+  "drafts": [],
+  "wordpress": {
+    "configured": false,
+    "sites": [],
+    "detail": "no WP_SITES set in .env"
+  }
+}

@@ -14,6 +14,7 @@ COPY . .
 ENV HUMHUB_USER=aios-bot
 ENV HUMHUB_BASE=https://meetup.mentoringba.org
 
-# Default: run the connection verifier. Override per-task, e.g.
+# Default: serve the AI OS dashboard. Override per-task, e.g.
 #   docker run ... python3 scripts/verify-connections.py
-CMD ["python3", "scripts/verify-connections.py"]
+EXPOSE 8080
+CMD ["python3", "scripts/dashboard/serve.py"]

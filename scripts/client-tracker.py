@@ -14,6 +14,7 @@ Stages: Lead → Contacted → Proposal → Won → Lost
 import os
 import sys
 import argparse
+import json
 from google.oauth2 import service_account
 from googleapiclient.discovery import build
 
@@ -194,19 +195,34 @@ def format_crm(service):
     service.spreadsheets().batchUpdate(spreadsheetId=SPREADSHEET_ID, body=body).execute()
     print("Applied webawesome professional formatting to CRM sheet.")
 
-def list_clients(service):
+def list_clients(service, json_out=False):
     result = service.spreadsheets().values().get(
         spreadsheetId=SPREADSHEET_ID, range='A1:E'
     ).execute()
     rows = result.get('values', [])
     if not rows or len(rows) < 2:
-        print("No clients yet. Add one with: python3 client-tracker.py add")
+        if json_out:
+            print(json.dumps({'clients': [], 'stages': {}}))
+        else:
+            print("No clients yet. Add one with: python3 client-tracker.py add")
         return
+    clients = []
     for row in rows[1:]:
         # Pad short rows: Sheets trims trailing empty cells on append,
         # so a row added without notes/last-contact can be 3 columns.
         row = (row + [''] * 5)[:5]
-        print(f"{row[0]:20s} | {row[2]:12s} | {row[3]:10s} | {row[4]}")
+        clients.append({
+            'name': row[0], 'email': row[1], 'stage': row[2],
+            'lastContact': row[3], 'notes': row[4],
+        })
+    if json_out:
+        stages = {}
+        for c in clients:
+            stages[c['stage']] = stages.get(c['stage'], 0) + 1
+        print(json.dumps({'clients': clients, 'stages': stages}))
+    else:
+        for c in clients:
+            print(f"{c['name']:20s} | {c['stage']:12s} | {c['lastContact']:10s} | {c['notes']}")
 
 def add_client(service, name, email, stage="Lead"):
     service.spreadsheets().values().append(
@@ -238,7 +254,9 @@ def main():
     parser = argparse.ArgumentParser()
     sub = parser.add_subparsers(dest='cmd')
 
-    sub.add_parser('list')
+    p_list = sub.add_parser('list')
+    p_list.add_argument('--json', action='store_true',
+                        help='emit CRM data as JSON (for the dashboard pipeline)')
     p_add = sub.add_parser('add')
     p_add.add_argument('name')
     p_add.add_argument('email')
@@ -257,7 +275,7 @@ def main():
 
     service = get_service()
     if args.cmd == 'list':
-        list_clients(service)
+        list_clients(service, json_out=getattr(args, 'json', False))
     elif args.cmd == 'add':
         add_client(service, args.name, args.email, args.stage)
     elif args.cmd == 'stage':

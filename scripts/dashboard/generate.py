@@ -60,6 +60,38 @@ def _drafts():
         return json.load(f)
 
 
+def _crm():
+    """CRM pipeline from the Google Sheet client tracker.
+
+    Runs the tracker in JSON mode so the dashboard reflects the live sheet
+    without a separate cron job. Returns an empty shape when the tracker
+    isn't configured or the sheet is unreachable.
+    """
+    tracker = os.path.join(_REPO_ROOT, 'scripts', 'client-tracker.py')
+    if not os.path.exists(tracker):
+        return {'configured': False, 'clients': [], 'stages': {},
+                'detail': 'client-tracker.py not found'}
+    try:
+        import subprocess
+        env = dict(os.environ)
+        proc = subprocess.run(
+            [sys.executable, tracker, 'list', '--json'],
+            capture_output=True, text=True, timeout=30, env=env)
+        if proc.returncode != 0:
+            return {'configured': True, 'clients': [], 'stages': {},
+                    'detail': f'tracker failed: {proc.stderr.strip()[:120]}'}
+        data = json.loads(proc.stdout.strip())
+        return {'configured': True,
+                'clients': data.get('clients', []),
+                'stages': data.get('stages', {})}
+    except subprocess.TimeoutExpired:
+        return {'configured': True, 'clients': [], 'stages': {},
+                'detail': 'tracker timed out'}
+    except Exception as e:
+        return {'configured': True, 'clients': [], 'stages': {},
+                'detail': f'connection error: {e}'}
+
+
 def _wordpress():
     """Blog post + activity status for each configured WordPress site.
 
@@ -124,6 +156,7 @@ def main():
     payload = {
         'generatedAt': __import__('datetime').datetime.now().isoformat(timespec='seconds'),
         'domains': _domains(),
+        'crm': _crm(),
         'leads': _leads(),
         'drafts': _drafts(),
         'wordpress': _wordpress(),

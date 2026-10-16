@@ -110,6 +110,8 @@ Run `/3d-brain` in Claude Code or `$3d-brain` in Codex. It asks what to call you
 
 Use **Play demo** to watch the brain grow from a single idea into connected branches. You can drag to orbit and scroll to zoom throughout playback. **Cinema** provides a clean presentation view. The replay follows actual note connections; it is not a historical timeline.
 
+Claude or whatever agent can also build a dashboard and enable viewing in the browser or hosting on an external VPS like coolify. This is totally dependent on the request from the user
+
 Requires Node.js 22 or newer. The renderer is prebuilt, so the app runs with `node serve.mjs` without installing dependencies. It reads local Markdown/text and optional curated Codex memory. Claude memory, meeting notes, and video knowledge can use selected Markdown folders. Other formats or online services require an export or a tested adapter. The app stays on localhost; personal config and generated data are gitignored.
 
 The complete [skill package](.claude/skills/3d-brain/README.md) includes source code, the browser bundle, configuration docs, license notices, and a fictional-data validation script.
