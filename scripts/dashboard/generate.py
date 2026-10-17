@@ -168,6 +168,31 @@ def _tidycal():
                 'bookingTypes': [], 'detail': f'TidyCal integration unavailable: {e}'}
 
 
+def _newsletter():
+    """WebAwesome newsletter build/send status from the local newsletter-project.
+
+    The newsletter codebase lives at /Users/banksdada/Desktop/newsletter-project
+    (WAT framework: workflows/, tools/, .tmp/). This probe is read-only — it
+    reports what is built and ready to send, it never sends anything.
+    """
+    probe = os.path.join(_REPO_ROOT, 'scripts', 'newsletter-status.py')
+    if not os.path.exists(probe):
+        return {'configured': False, 'detail': 'newsletter-status.py not found'}
+    try:
+        import subprocess
+        proc = subprocess.run(
+            [sys.executable, probe],
+            capture_output=True, text=True, timeout=30)
+        if proc.returncode != 0:
+            return {'configured': False,
+                    'detail': f'probe failed: {proc.stderr.strip()[:120] or proc.stdout.strip()[:120]}'}
+        return json.loads(proc.stdout.strip())
+    except subprocess.TimeoutExpired:
+        return {'configured': False, 'detail': 'newsletter probe timed out'}
+    except Exception as e:
+        return {'configured': False, 'detail': f'connection error: {e}'}
+
+
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument('--json', action='store_true', help='print JSON to stdout instead of writing the file')
@@ -181,6 +206,7 @@ def main():
         'drafts': _drafts(),
         'wordpress': _wordpress(),
         'tidycal': _tidycal(),
+        'newsletter': _newsletter(),
     }
 
     if args.json:

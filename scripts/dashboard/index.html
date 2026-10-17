@@ -493,6 +493,14 @@
 
         <section class="panel">
           <div class="panel-head">
+            <h2>Newsletter</h2>
+            <span id="newsletterBadge" class="badge">—</span>
+          </div>
+          <div id="newsletterBody" class="stack"></div>
+        </section>
+
+        <section class="panel">
+          <div class="panel-head">
             <h2>Leads</h2>
             <span id="leadBadge" class="badge">0</span>
           </div>
@@ -689,6 +697,61 @@
         }).format(date);
       }
 
+      function renderNewsletter(payload) {
+        const newsletter = payload?.newsletter || {};
+        const badge = document.getElementById('newsletterBadge');
+        const body = document.getElementById('newsletterBody');
+        const build = newsletter.latestBuild || {};
+
+        if (!newsletter.configured) {
+          badge.textContent = 'Not configured';
+          badge.className = 'badge fail';
+          body.innerHTML = `<div class="empty-state">${escapeHtml(newsletter.detail || 'Newsletter project not found.')}</div>`;
+          return;
+        }
+
+        const ready = !!build.file;
+        badge.textContent = ready ? 'Build ready' : 'No build';
+        badge.className = `badge ${ready ? 'ok' : 'fail'}`;
+
+        const rows = [];
+        if (newsletter.latestCampaign) {
+          rows.push(`
+            <article class="card">
+              <div class="domain-name">Latest campaign</div>
+              <p class="meta">${escapeHtml(newsletter.latestCampaign.campaign || '(unknown)')}</p>
+              <p class="meta"><strong>Subject:</strong> ${escapeHtml(newsletter.latestCampaign.subject || '(no subject)')}</p>
+              ${newsletter.latestCampaign.preheader ? `<p class="meta"><strong>Preheader:</strong> ${escapeHtml(newsletter.latestCampaign.preheader)}</p>` : ''}
+            </article>`);
+        }
+        if (build.file) {
+          rows.push(`
+            <article class="card">
+              <div class="domain-name">Latest build</div>
+              <p class="meta">${escapeHtml(build.file)}</p>
+              <p class="meta">${build.sizeKb} KB · last modified ${formatDate(build.modified)}</p>
+              <p class="meta">HTML: <a href="${escapeHtml(build.path)}" target="_blank" rel="noopener">open</a></p>
+            </article>`);
+        } else {
+          rows.push(`<div class="empty-state">No rendered build yet. Run tools/build_newsletter.py to produce one.</div>`);
+        }
+        rows.push(`
+          <article class="card">
+            <div class="domain-name">Recipients</div>
+            <p class="meta">${newsletter.recipientCount || 0} addresses in the recipients list</p>
+            <p class="meta">${newsletter.lastSendLog ? `Last send log: ${escapeHtml(newsletter.lastSendLog)}` : 'No send log yet'}</p>
+          </article>`);
+        rows.push(`
+          <article class="card">
+            <div class="domain-name">Project</div>
+            <p class="meta">${escapeHtml(newsletter.projectPath || 'newsletter-project')}</p>
+            <p class="meta">Env configured: ${newsletter.envConfigured ? 'yes' : 'no (set SMTP/Gmail in .env to send)'}</p>
+            <p class="meta">Send: <code>python3 tools/send_newsletter.py --html .tmp/newsletter/webawesome-newsletter-*.html</code></p>
+          </article>`);
+
+        body.innerHTML = rows.join('');
+      }
+
       function renderList(targetId, items, emptyText, keyName = 'title') {
         const container = document.getElementById(targetId);
         if (!Array.isArray(items) || !items.length) {
@@ -728,6 +791,7 @@
         renderCrm(payload);
         renderWordpress(payload);
         renderTidyCal(payload);
+        renderNewsletter(payload);
         renderList('leadsList', payload?.leads || [], 'No community leads have been flagged yet.', 'title');
         renderList('draftsList', payload?.drafts || [], 'No pending drafts are waiting for approval.', 'title');
       }

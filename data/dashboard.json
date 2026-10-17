@@ -1,7 +1,7 @@
 {
-  "generatedAt": "2026-10-16T17:58:44",
+  "generatedAt": "2026-10-17T14:04:48",
   "domains": {
-    "checkedAt": "2026-10-16T17:39:23",
+    "checkedAt": "2026-10-16T18:41:00",
     "ok": 3,
     "total": 7,
     "domains": [
@@ -28,7 +28,7 @@
       {
         "name": "HumHub (community)",
         "ok": false,
-        "detail": "403 <!DOCTYPE html>\n<html style=\"height:100%\">\n<head>\n<meta name=\"viewport\" content=\"width=device-width, initial-scale=1, sh"
+        "detail": "connection error: <urlopen error [Errno 54] Connection reset by peer>"
       },
       {
         "name": "Stripe (revenue)",
@@ -72,13 +72,13 @@
         "name": "mentoringba",
         "url": "https://mentoringba.org",
         "ok": false,
-        "detail": "connection error: ('Connection aborted.', ConnectionResetError(54, 'Connection reset by peer'))"
+        "detail": "connection error: 403 Client Error: Forbidden for url: https://mentoringba.org/wp-json/wp/v2/posts?per_page=1"
       },
       {
         "name": "bhoSupport",
         "url": "https://besthomesupport.uk",
         "ok": false,
-        "detail": "connection error: ('Connection aborted.', ConnectionResetError(54, 'Connection reset by peer'))"
+        "detail": "connection error: 403 Client Error: Forbidden for url: https://besthomesupport.uk/wp-json/wp/v2/posts?per_page=1"
       }
     ]
   },
@@ -88,5 +88,24 @@
     "bookings": [],
     "bookingTypes": [],
     "detail": "Connect TidyCal with: python3 scripts/tidycal_mcp.py login"
+  },
+  "newsletter": {
+    "configured": true,
+    "envConfigured": false,
+    "latestBuild": {
+      "file": "webawesome-newsletter-2026-10-ai-automation.html",
+      "path": "/Users/banksdada/Desktop/newsletter-project/.tmp/newsletter/webawesome-newsletter-2026-10-ai-automation.html",
+      "sizeKb": 97,
+      "modified": "2026-10-07T08:53:48"
+    },
+    "latestCampaign": {
+      "campaign": "2026-10-ai-automation",
+      "subject": "AI at work: what's actually working in 2026",
+      "preheader": "The research, the proof from our builds, and how to find your first automation win."
+    },
+    "buildCount": 1,
+    "recipientCount": 0,
+    "lastSendLog": null,
+    "projectPath": "/Users/banksdada/Desktop/newsletter-project"
   }
 }

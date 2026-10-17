@@ -45,6 +45,7 @@ def regenerate():
         'drafts': gen._drafts(),
         'wordpress': gen._wordpress(),
         'tidycal': gen._tidycal(),
+        'newsletter': gen._newsletter(),
     }
     os.makedirs(os.path.dirname(DATA), exist_ok=True)
     with open(DATA, 'w') as f:

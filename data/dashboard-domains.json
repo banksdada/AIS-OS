@@ -1,5 +1,5 @@
 {
-  "checkedAt": "2026-10-16T17:39:23",
+  "checkedAt": "2026-10-16T18:41:00",
   "ok": 3,
   "total": 7,
   "domains": [
@@ -26,7 +26,7 @@
     {
       "name": "HumHub (community)",
       "ok": false,
-      "detail": "403 <!DOCTYPE html>\n<html style=\"height:100%\">\n<head>\n<meta name=\"viewport\" content=\"width=device-width, initial-scale=1, sh"
+      "detail": "connection error: <urlopen error [Errno 54] Connection reset by peer>"
     },
     {
       "name": "Stripe (revenue)",
