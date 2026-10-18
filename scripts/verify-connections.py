@@ -135,8 +135,25 @@ def main():
         except Exception as e:
             record("HumHub (community)", False, f"connection error: {e}")
 
-    # --- Domain 1: Stripe (not connected) ---
-    record("Stripe (revenue)", False, "no API key — Stripe account exists but unused")
+    # --- Domain 1: Stripe (read-only restricted key) ---
+    stripe_key = os.environ.get('STRIPE_API_KEY', '')
+    if not stripe_key:
+        record("Stripe (revenue)", False, "no STRIPE_API_KEY set in .env")
+    else:
+        import urllib.request
+        import urllib.error
+        req = urllib.request.Request(
+            'https://api.stripe.com/v1/balance',
+            headers={'Authorization': 'Bearer ' + stripe_key, 'User-Agent': 'AI-OS-Dashboard/1.0'})
+        try:
+            with urllib.request.urlopen(req, timeout=20) as resp:
+                balance = json.loads(resp.read().decode())
+            currencies = sorted({a.get('currency', '?').upper() for a in balance.get('available', [])})
+            record("Stripe (revenue)", True, f"balance readable; currencies: {', '.join(currencies) or 'none'}")
+        except urllib.error.HTTPError as e:
+            record("Stripe (revenue)", False, f"HTTP {e.code} from Stripe (check the key's read permissions)")
+        except Exception as e:
+            record("Stripe (revenue)", False, f"connection error: {type(e).__name__}")
 
     # --- Domain 6: TidyCal (OAuth 2.1 + read-only MCP) ---
     try:

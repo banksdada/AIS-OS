@@ -130,7 +130,9 @@ def _wordpress():
                         'detail': 'missing url / user / app_password'})
             continue
         token = base64.b64encode(f"{user}:{pw}".encode()).decode()
-        headers = {'Authorization': 'Basic ' + token, 'Accept': 'application/json'}
+        # WordPress hosts reject the default python-requests User-Agent with 403.
+        headers = {'Authorization': 'Basic ' + token, 'Accept': 'application/json',
+                   'User-Agent': 'AI-OS-Dashboard/1.0'}
         try:
             if HAS_REQUESTS:
                 resp = requests.get(url + '/wp-json/wp/v2/posts?per_page=1',
