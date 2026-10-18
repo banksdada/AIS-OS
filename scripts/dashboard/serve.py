@@ -46,6 +46,7 @@ def regenerate():
         'wordpress': gen._wordpress(),
         'tidycal': gen._tidycal(),
         'newsletter': gen._newsletter(),
+        'pyrunner': gen._pyrunner(),
     }
     os.makedirs(os.path.dirname(DATA), exist_ok=True)
     with open(DATA, 'w') as f:
@@ -90,6 +91,48 @@ class Handler(http.server.SimpleHTTPRequestHandler):
             self.wfile.write(body)
         else:
             super().do_GET()
+
+    def do_POST(self):
+        if self.path.split('?', 1)[0] != '/webhook/pyrunner':
+            self.send_error(404)
+            return
+
+        import dashboard.pyrunner_events as events
+        secret = os.environ.get('PYRUNNER_WEBHOOK_SECRET', '')
+        if not secret:
+            self.send_error(503, 'PYRUNNER_WEBHOOK_SECRET is not set')
+            return
+
+        length = self.headers.get('Content-Length')
+        if not length or not length.isdigit():
+            self.send_error(411, 'Content-Length required')
+            return
+        if int(length) > events.MAX_BODY_BYTES:
+            self.send_error(413, 'payload too large')
+            return
+
+        body = self.rfile.read(int(length))
+        timestamp = self.headers.get('X-AIOS-Timestamp', '')
+        signature = self.headers.get('X-AIOS-Signature', '')
+        if not events.verify(secret, timestamp, body, signature):
+            self.send_error(401, 'bad signature or stale timestamp')
+            return
+
+        try:
+            event = events.sanitize(json.loads(body.decode()))
+        except (UnicodeDecodeError, json.JSONDecodeError):
+            event = None
+        if event is None:
+            self.send_error(400, 'body must be a JSON object')
+            return
+
+        events.record(event)
+        response = json.dumps({'ok': True}).encode()
+        self.send_response(200)
+        self.send_header('Content-Type', 'application/json')
+        self.send_header('Content-Length', str(len(response)))
+        self.end_headers()
+        self.wfile.write(response)
 
     def log_message(self, fmt, *args):
         print(f"[dashboard] {args[0]}")

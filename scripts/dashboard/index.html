@@ -514,6 +514,14 @@
           </div>
           <div id="draftsList" class="stack"></div>
         </section>
+
+        <section class="panel">
+          <div class="panel-head">
+            <h2>PyRunner activity</h2>
+            <span id="pyrunnerBadge" class="badge">—</span>
+          </div>
+          <div id="pyrunnerList" class="stack"></div>
+        </section>
       </main>
     </div>
 
@@ -697,6 +705,29 @@
         }).format(date);
       }
 
+      function renderPyrunner(payload) {
+        const pyrunner = payload?.pyrunner || {};
+        const events = Array.isArray(pyrunner.events) ? pyrunner.events : [];
+        const badge = document.getElementById('pyrunnerBadge');
+        const container = document.getElementById('pyrunnerList');
+
+        badge.textContent = `${events.length} events`;
+        if (!events.length) {
+          const hint = pyrunner.configured
+            ? 'No PyRunner events yet. Scripts post to /webhook/pyrunner.'
+            : 'Set PYRUNNER_WEBHOOK_SECRET to accept events from PyRunner.';
+          container.innerHTML = `<div class="empty-state">${escapeHtml(pyrunner.detail || hint)}</div>`;
+          return;
+        }
+        container.innerHTML = events.slice(0, 10).map((event) => `
+          <div class="card">
+            <strong>${escapeHtml(event.agent || 'unnamed')}</strong>
+            <p class="meta">${escapeHtml(event.status || 'unknown')} · ${escapeHtml(formatDateTime(event.received || ''))}</p>
+            ${event.message ? `<p class="meta">${escapeHtml(event.message)}</p>` : ''}
+          </div>
+        `).join('');
+      }
+
       function renderNewsletter(payload) {
         const newsletter = payload?.newsletter || {};
         const badge = document.getElementById('newsletterBadge');
@@ -792,6 +823,7 @@
         renderWordpress(payload);
         renderTidyCal(payload);
         renderNewsletter(payload);
+        renderPyrunner(payload);
         renderList('leadsList', payload?.leads || [], 'No community leads have been flagged yet.', 'title');
         renderList('draftsList', payload?.drafts || [], 'No pending drafts are waiting for approval.', 'title');
       }

@@ -42,6 +42,16 @@ def _domains():
         return json.load(f)
 
 
+def _pyrunner():
+    """Recent events pushed by PyRunner scripts to /webhook/pyrunner."""
+    try:
+        from dashboard.pyrunner_events import load_events
+        events = load_events(limit=20)
+    except Exception as e:
+        return {'configured': False, 'events': [], 'detail': f'PyRunner events unavailable: {e}'}
+    return {'configured': bool(os.environ.get('PYRUNNER_WEBHOOK_SECRET')), 'events': events}
+
+
 def _leads():
     """Coaching leads flagged from community activity."""
     path = os.path.join(_REPO_ROOT, 'data', 'community-leads.json')
@@ -209,6 +219,7 @@ def main():
         'wordpress': _wordpress(),
         'tidycal': _tidycal(),
         'newsletter': _newsletter(),
+        'pyrunner': _pyrunner(),
     }
 
     if args.json:
