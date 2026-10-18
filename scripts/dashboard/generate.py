@@ -52,6 +52,44 @@ def _pyrunner():
     return {'configured': bool(os.environ.get('PYRUNNER_WEBHOOK_SECRET')), 'events': events}
 
 
+def _sendfox():
+    """Read-only SendFox summary: recent campaigns and contact count.
+
+    Needs SENDFOX_API_TOKEN (a personal access token from SendFox's API tab).
+    Only campaign titles, statuses, and dates are kept; contact details are never read into the payload.
+    """
+    token = os.environ.get('SENDFOX_API_TOKEN', '').strip()
+    if not token:
+        return {'configured': False, 'detail': 'Set SENDFOX_API_TOKEN to connect SendFox'}
+    import urllib.request
+    import urllib.error
+
+    def get(path):
+        req = urllib.request.Request('https://api.sendfox.com' + path, headers={
+            'Authorization': 'Bearer ' + token,
+            'Accept': 'application/json',
+            'User-Agent': 'AI-OS-Dashboard/1.0',
+        })
+        with urllib.request.urlopen(req, timeout=20) as resp:
+            body = json.loads(resp.read().decode())
+        return body.get('data', body) if isinstance(body, dict) else body
+
+    try:
+        campaigns = get('/campaigns')
+        contacts = get('/contacts')
+    except urllib.error.HTTPError as e:
+        return {'configured': False, 'detail': f'SendFox returned HTTP {e.code}; check the API token'}
+    except Exception as e:
+        return {'configured': False, 'detail': f'SendFox connection error: {type(e).__name__}'}
+
+    campaigns = campaigns if isinstance(campaigns, list) else []
+    contacts = contacts if isinstance(contacts, list) else []
+    recent = [{'title': str(c.get('title') or c.get('name') or '(untitled)')[:120],
+               'status': str(c.get('status') or '')[:40],
+               'date': str(c.get('created_at') or '')[:40]} for c in campaigns[:5] if isinstance(c, dict)]
+    return {'configured': True, 'campaignCount': len(campaigns), 'contactCount': len(contacts), 'recentCampaigns': recent}
+
+
 def _leads():
     """Coaching leads flagged from community activity."""
     path = os.path.join(_REPO_ROOT, 'data', 'community-leads.json')
@@ -232,6 +270,7 @@ def main():
         'tidycal': _tidycal(),
         'newsletter': _newsletter(),
         'pyrunner': _pyrunner(),
+        'sendfox': _sendfox(),
     }
 
     if args.json:

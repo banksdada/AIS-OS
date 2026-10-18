@@ -522,6 +522,13 @@
           </div>
           <div id="pyrunnerList" class="stack"></div>
         </section>
+        <section class="panel">
+          <div class="panel-head">
+            <h2>SendFox</h2>
+            <span id="sendfoxBadge" class="badge">—</span>
+          </div>
+          <div id="sendfoxBody" class="stack"></div>
+        </section>
       </main>
     </div>
 
@@ -728,6 +735,33 @@
         `).join('');
       }
 
+      function renderSendfox(payload) {
+        const sendfox = payload?.sendfox || {};
+        const badge = document.getElementById('sendfoxBadge');
+        const body = document.getElementById('sendfoxBody');
+
+        if (!sendfox.configured) {
+          badge.textContent = 'Not connected';
+          body.innerHTML = `<div class="empty-state">${escapeHtml(sendfox.detail || 'Connect SendFox to see campaigns.')}</div>`;
+          return;
+        }
+        badge.textContent = `${sendfox.campaignCount || 0} campaigns`;
+        const recent = Array.isArray(sendfox.recentCampaigns) ? sendfox.recentCampaigns : [];
+        const rows = [`<p class="meta">${sendfox.contactCount || 0} contacts</p>`];
+        if (!recent.length) {
+          rows.push('<div class="empty-state">No campaigns yet.</div>');
+        }
+        recent.forEach((c) => {
+          rows.push(`
+            <div class="card">
+              <strong>${escapeHtml(c.title)}</strong>
+              <p class="meta">${escapeHtml(c.status || 'unknown')} · ${escapeHtml(c.date || '')}</p>
+            </div>
+          `);
+        });
+        body.innerHTML = rows.join('');
+      }
+
       function renderNewsletter(payload) {
         const newsletter = payload?.newsletter || {};
         const badge = document.getElementById('newsletterBadge');
@@ -824,6 +858,7 @@
         renderTidyCal(payload);
         renderNewsletter(payload);
         renderPyrunner(payload);
+        renderSendfox(payload);
         renderList('leadsList', payload?.leads || [], 'No community leads have been flagged yet.', 'title');
         renderList('draftsList', payload?.drafts || [], 'No pending drafts are waiting for approval.', 'title');
       }

@@ -47,6 +47,7 @@ def regenerate():
         'tidycal': gen._tidycal(),
         'newsletter': gen._newsletter(),
         'pyrunner': gen._pyrunner(),
+        'sendfox': gen._sendfox(),
     }
     os.makedirs(os.path.dirname(DATA), exist_ok=True)
     with open(DATA, 'w') as f:
