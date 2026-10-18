@@ -8,3 +8,4 @@ node_modules/
 .claude/settings.local.json
 audits/
 brainstorms/
+scripts/potential_newsletter_contacts.csv
