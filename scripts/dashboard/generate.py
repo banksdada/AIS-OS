@@ -181,6 +181,18 @@ def _tidycal():
 
 
 def _newsletter():
+    """Newsletter status: the local probe if it works here, else the status pushed from the Mac."""
+    local = _newsletter_local()
+    if local.get('configured'):
+        return local
+    from dashboard.newsletter_status import load
+    pushed = load()
+    if pushed:
+        return dict(pushed, source='pushed from the Mac')
+    return local
+
+
+def _newsletter_local():
     """WebAwesome newsletter build/send status from the local newsletter-project.
 
     The newsletter codebase lives at /Users/banksdada/Desktop/newsletter-project

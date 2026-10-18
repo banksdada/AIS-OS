@@ -93,14 +93,21 @@ class Handler(http.server.SimpleHTTPRequestHandler):
             super().do_GET()
 
     def do_POST(self):
-        if self.path.split('?', 1)[0] != '/webhook/pyrunner':
+        import dashboard.newsletter_status as newsletter
+        import dashboard.pyrunner_events as events
+
+        route = self.path.split('?', 1)[0]
+        if route == '/webhook/pyrunner':
+            secret_name = 'PYRUNNER_WEBHOOK_SECRET'
+        elif route == '/webhook/newsletter':
+            secret_name = 'NEWSLETTER_WEBHOOK_SECRET'
+        else:
             self.send_error(404)
             return
 
-        import dashboard.pyrunner_events as events
-        secret = os.environ.get('PYRUNNER_WEBHOOK_SECRET', '')
+        secret = os.environ.get(secret_name, '')
         if not secret:
-            self.send_error(503, 'PYRUNNER_WEBHOOK_SECRET is not set')
+            self.send_error(503, f'{secret_name} is not set')
             return
 
         length = self.headers.get('Content-Length')
@@ -119,14 +126,23 @@ class Handler(http.server.SimpleHTTPRequestHandler):
             return
 
         try:
-            event = events.sanitize(json.loads(body.decode()))
+            parsed = json.loads(body.decode())
         except (UnicodeDecodeError, json.JSONDecodeError):
-            event = None
-        if event is None:
-            self.send_error(400, 'body must be a JSON object')
-            return
+            parsed = None
 
-        events.record(event)
+        if route == '/webhook/newsletter':
+            status = newsletter.sanitize(parsed)
+            if status is None:
+                self.send_error(400, 'body must be a JSON object')
+                return
+            newsletter.store(status)
+        else:
+            event = events.sanitize(parsed)
+            if event is None:
+                self.send_error(400, 'body must be a JSON object')
+                return
+            events.record(event)
+
         response = json.dumps({'ok': True}).encode()
         self.send_response(200)
         self.send_header('Content-Type', 'application/json')
