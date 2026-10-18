@@ -1,6 +1,6 @@
 # Progress — AI OS Dashboard
 
-Status: **COMPLETED** · Last updated: 2026-10-16
+Status: **COMPLETED** · Last updated: 2026-10-18
 
 ## Completed
 
@@ -15,6 +15,9 @@ Status: **COMPLETED** · Last updated: 2026-10-16
 - [x] **Dashboard UX** is implemented with a polished light/dark UI, status cards, CRM stage bars, WordPress cards, and empty states for leads/drafts.
 - [x] **Empty-state files** were created for the referenced fallback data: `data/community-leads.json` and `data/pending-drafts.json`.
 - [x] **Coolify refresh model** is documented as a scheduled regeneration model (`python3 scripts/dashboard/generate.py`) instead of on-request live generation.
+
+- [x] **TidyCal connector** (`scripts/tidycal_mcp.py`) reads bookings and booking types from TidyCal's read-only MCP server over OAuth 2.1. Connected locally; the dashboard shows booking types and upcoming bookings. Setup and Coolify token mounting are in `references/tidycal-api.md`.
+- [x] **CI workflow** (`.github/workflows/ci.yml`) lints, compiles, tests, audits dependencies, and builds the Docker image.
 
 ## Files touched
 
@@ -34,4 +37,5 @@ Status: **COMPLETED** · Last updated: 2026-10-16
 ## Next
 
 - Deploy the dashboard in Coolify or run it locally on port `8080`.
+- Mount the TidyCal OAuth token in Coolify at `/run/secrets/tidycal-oauth.json` and confirm the deployed dashboard shows TidyCal connected.
 - Add live community and drafting sources when the HumHub and drafting automation flows are ready.
