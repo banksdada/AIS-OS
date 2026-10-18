@@ -52,11 +52,37 @@ def _pyrunner():
     return {'configured': bool(os.environ.get('PYRUNNER_WEBHOOK_SECRET')), 'events': events}
 
 
+def summarize_sendfox(campaigns_body, contacts_body):
+    """Turn SendFox's campaign list and contact count responses into the dashboard shape.
+
+    Campaigns come back paginated: 'total' is the full count, 'data' is one page.
+    Contacts come back from /contacts?count_only=true as {'count': n}.
+    Only title, a status inferred from the send dates, and the date are kept.
+    """
+    items = campaigns_body.get('data', []) if isinstance(campaigns_body, dict) else []
+    items = [c for c in items if isinstance(c, dict)]
+    total = campaigns_body.get('total', len(items)) if isinstance(campaigns_body, dict) else len(items)
+    recent = []
+    for c in items[:5]:
+        if c.get('sent_at'):
+            status = 'sent'
+        elif c.get('scheduled_at'):
+            status = 'scheduled'
+        else:
+            status = 'draft'
+        recent.append({'title': str(c.get('title') or '(untitled)')[:120],
+                       'status': status,
+                       'date': str(c.get('sent_at') or c.get('created_at') or '')[:40]})
+    contacts = contacts_body.get('count', 0) if isinstance(contacts_body, dict) else 0
+    return {'configured': True, 'campaignCount': int(total), 'contactCount': int(contacts),
+            'recentCampaigns': recent}
+
+
 def _sendfox():
     """Read-only SendFox summary: recent campaigns and contact count.
 
-    Needs SENDFOX_API_TOKEN (a personal access token from SendFox's API tab).
-    Only campaign titles, statuses, and dates are kept; contact details are never read into the payload.
+    Needs SENDFOX_API_TOKEN (a personal access token from SendFox's account page,
+    sent as 'Authorization: Bearer <token>'). Contact details are never read.
     """
     token = os.environ.get('SENDFOX_API_TOKEN', '').strip()
     if not token:
@@ -71,23 +97,16 @@ def _sendfox():
             'User-Agent': 'AI-OS-Dashboard/1.0',
         })
         with urllib.request.urlopen(req, timeout=20) as resp:
-            body = json.loads(resp.read().decode())
-        return body.get('data', body) if isinstance(body, dict) else body
+            return json.loads(resp.read().decode())
 
     try:
         campaigns = get('/campaigns')
-        contacts = get('/contacts')
+        contacts = get('/contacts?count_only=true')
     except urllib.error.HTTPError as e:
         return {'configured': False, 'detail': f'SendFox returned HTTP {e.code}; check the API token'}
     except Exception as e:
         return {'configured': False, 'detail': f'SendFox connection error: {type(e).__name__}'}
-
-    campaigns = campaigns if isinstance(campaigns, list) else []
-    contacts = contacts if isinstance(contacts, list) else []
-    recent = [{'title': str(c.get('title') or c.get('name') or '(untitled)')[:120],
-               'status': str(c.get('status') or '')[:40],
-               'date': str(c.get('created_at') or '')[:40]} for c in campaigns[:5] if isinstance(c, dict)]
-    return {'configured': True, 'campaignCount': len(campaigns), 'contactCount': len(contacts), 'recentCampaigns': recent}
+    return summarize_sendfox(campaigns, contacts)
 
 
 def _leads():
