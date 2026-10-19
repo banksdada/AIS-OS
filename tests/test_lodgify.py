@@ -60,6 +60,35 @@ class ClassifyUrgentTests(unittest.TestCase):
         self.assertEqual(lodgify.classify_urgent('Lovely place, thank you!'), [])
 
 
+class LooksLikeClosingTests(unittest.TestCase):
+    def test_thanks_signoff(self):
+        self.assertTrue(lodgify.looks_like_closing('Thanks, Ademola (& Esther)!'))
+
+    def test_great_see_you(self):
+        self.assertTrue(lodgify.looks_like_closing('Great, see you soon'))
+
+    def test_short_ok(self):
+        self.assertTrue(lodgify.looks_like_closing('OK thanks'))
+
+    def test_thanks_with_question_is_not_closing(self):
+        self.assertFalse(lodgify.looks_like_closing('Thanks, could you send the code?'))
+
+    def test_request_is_not_closing(self):
+        self.assertFalse(lodgify.looks_like_closing('Great, please share the parking info'))
+
+    def test_answer_with_thanks_is_not_closing(self):
+        self.assertFalse(lodgify.looks_like_closing('Hi there, reg is DX68 YSW Thanks'))
+
+    def test_long_message_is_not_closing(self):
+        self.assertFalse(lodgify.looks_like_closing(
+            'Thanks so much for everything, we really enjoyed the stay and would love to '
+            'come back again next year with the whole family'))
+
+    def test_empty_is_not_closing(self):
+        self.assertFalse(lodgify.looks_like_closing(''))
+        self.assertFalse(lodgify.looks_like_closing(None))
+
+
 class ThreadAttentionTests(unittest.TestCase):
     def test_owner_replied_means_answered(self):
         thread = _thread([
@@ -93,6 +122,17 @@ class ThreadAttentionTests(unittest.TestCase):
         self.assertTrue(result['needsReply'])
         self.assertFalse(result['unanswered'])
         self.assertEqual(result['waitingMinutes'], 30)
+
+    def test_guest_signoff_needs_no_reply(self):
+        thread = _thread([
+            _msg(1, 'Owner', 'Welcome, safe travels!', '2026-10-19T08:00:00Z'),
+            _msg(2, 'Renter', 'Thanks, Ademola (& Esther)!', '2026-10-19T09:00:00Z'),
+        ])
+        result = lodgify.thread_attention(thread, now=NOW, unanswered_minutes=120)
+        self.assertFalse(result['needsReply'])
+        self.assertFalse(result['unanswered'])
+        self.assertTrue(result['closing'])
+        self.assertEqual(result['urgent'], [])
 
     def test_no_messages_returns_none(self):
         self.assertIsNone(lodgify.thread_attention(_thread([]), now=NOW))

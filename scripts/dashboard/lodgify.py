@@ -37,6 +37,19 @@ URGENT_PATTERNS = [
         r'no\s*(hot\s*)?water|heating|boiler|wifi|internet\s*(down|not)|locked\s*out', re.I)),
 ]
 
+# A pure sign-off from the guest ("Thanks!", "Great, see you") closes the
+# exchange — it needs no reply, so it must not be flagged or drafted.
+CLOSING_PATTERN = re.compile(
+    r'\b(thanks?(\s+you|\s+a\s+lot|\s+so\s+much)?|thank\s+you|many\s+thanks|cheers|\bta\b|'
+    r'bye|goodbye|see\s+you|will\s+do|much\s+appreciated|appreciate\s+it|'
+    r'all\s+good|no\s+worries|perfect|great|lovely|brilliant|ok(ay)?|noted|understood)\b',
+    re.I)
+
+# Any of these makes it a question/request, not a sign-off.
+QUESTION_PATTERN = re.compile(
+    r'\b(please|could|can\s+you|would\s+you|need|require|question|how|what|when|'
+    r'where|why|which|who|any\s+chance|let\s+me\s+know)\b', re.I)
+
 
 def _env_int(name, default):
     try:
@@ -90,15 +103,38 @@ def _parse_dt(value):
     return parsed
 
 
-def strip_html(text):
-    """First ~140 plain-text chars of an HTML message body."""
+def _plain(text):
+    """Full message text as collapsed plain text (no truncation)."""
     if not text:
         return ''
     plain = re.sub(r'<[^>]+>', ' ', str(text))
     plain = re.sub(r'&nbsp;?', ' ', plain)
     plain = re.sub(r'&amp;', '&', plain)
-    plain = re.sub(r'\s+', ' ', plain).strip()
-    return plain[:140]
+    return re.sub(r'\s+', ' ', plain).strip()
+
+
+def strip_html(text):
+    """First ~140 plain-text chars of an HTML message body."""
+    return _plain(text)[:140]
+
+
+def looks_like_closing(text):
+    """True for a pure guest sign-off that needs no reply.
+
+    A sign-off is thanks/acknowledgement with (almost) no other content. The
+    check removes the pleasantry and counts what is left, so "Thanks, Ademola"
+    closes but "Hi there, reg is DX68 YSW Thanks" does not — the latter still
+    supplies the registration the host asked for and needs a confirmation.
+    Kept strict so a real question or answer is never dismissed as a closing.
+    """
+    plain = _plain(text)
+    if not plain or '?' in plain or QUESTION_PATTERN.search(plain):
+        return False
+    if not CLOSING_PATTERN.search(plain):
+        return False
+    residue = CLOSING_PATTERN.sub(' ', plain)
+    residue = re.sub(r'[^A-Za-z\s]', ' ', residue)
+    return len(residue.split()) <= 3
 
 
 def classify_urgent(text):
@@ -134,15 +170,18 @@ def thread_attention(thread, now=None, unanswered_minutes=DEFAULT_UNANSWERED_MIN
     if guest_at:
         waiting = max(0, int((now - guest_at).total_seconds() // 60))
     body = strip_html(last_guest.get('message'))
-    urgent = classify_urgent(last_guest.get('message')) if not owner_replied else []
-    unanswered = (not owner_replied) and waiting is not None and waiting >= unanswered_minutes
+    closing = (not owner_replied) and looks_like_closing(last_guest.get('message'))
+    needs_reply = (not owner_replied) and not closing
+    urgent = classify_urgent(last_guest.get('message')) if needs_reply else []
+    unanswered = needs_reply and waiting is not None and waiting >= unanswered_minutes
     return {
         'threadUid': thread.get('thread_uid', ''),
         'guest': thread.get('guest_name') or '',
         'lastGuestMessageAt': guest_at.isoformat(timespec='seconds') if guest_at else None,
         'waitingMinutes': waiting,
         'unanswered': unanswered,
-        'needsReply': not owner_replied,
+        'needsReply': needs_reply,
+        'closing': closing,
         'urgent': urgent,
         'snippet': body,
         'route': last_guest.get('route') or '',

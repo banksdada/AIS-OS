@@ -67,6 +67,10 @@ Vrbo/Sms).
   calendar day so same-day check-ins are never dropped.
 - **Needs reply**: newest message in the thread is from the guest (Renter)
   with no Owner message after it.
+- **Closing sign-off**: a short guest message that is just thanks/bye with no
+  question or request (`looks_like_closing`) is treated as resolved — it is
+  not flagged as needs-reply and never drafted. Kept strict so a real
+  question is never dismissed as a sign-off.
 - **Unanswered flag**: needs-reply and waiting ≥
   `LODGIFY_UNANSWERED_MINUTES` (default 120).
 - **Urgent tags** (only on unreplied threads): `check-in` (check in/out,
@@ -75,6 +79,21 @@ Vrbo/Sms).
   water, wifi down, locked out…).
 - **No automatic replies.** The dashboard shows what needs attention; the
   owner replies in Lodgify.
+
+### Lodgify automated notifications — keep drafts minimal
+
+Lodgify itself sends automated guest notifications: booking confirmations,
+pre-arrival/check-in instructions, access details, and review requests.
+Those messages are the property's routine information (address, arrival
+times, house rules).
+
+So a drafted reply is **only what the automation does not cover** — a short,
+personal answer to the specific thing the guest raised. Do **not** paste the
+full property FAQ into a reply: the guest already received the automated
+info, and a wall of text reads as spam. Use `references/overcomers-faq-*.md`
+as *context to answer a specific question*, not as content to insert
+wholesale. Plain text only (no links/contact details — Vrbo forbids them in
+message bodies).
 
 ## Step 2 — webhooks (deferred, not built)
 
