@@ -20,6 +20,24 @@ enabled returns `401 "Invalid user!"`.
 > Do not paste the password into chat. Store it in `.env` (e.g.
 > `HUMHUB_PASSWORD=...`) and load it from there — never commit it.
 
+## Host WAF gotcha (diagnosed 2026-10-19)
+
+The server behind meetup.mentoringba.org (LiteSpeed) has a WAF rule that
+answers **non-browser User-Agents with a 403 HTML block page** (`<title>
+403 Forbidden</title>`, no HumHub branding) instead of reaching the REST
+module. urllib's default `Python-urllib/...` UA always hits this; a browser
+UA (`Mozilla/5.0 ...`) gets through. Sending several probes in quick
+succession additionally triggers **connection resets** (temporary
+rate-limit ban) that last a few minutes. So:
+
+- Always send a browser-like `User-Agent` on this host (the verifier does).
+- Space out probes; if you see `Connection reset by peer`, wait ~2 min.
+- A **403 HTML page** means the WAF blocked the request — it does NOT mean
+  the password or API access is wrong. A real auth failure is `401` with
+  JSON `{"message": "Invalid user!"}`.
+- "Egress unreliable" in older notes was this rate-limiting, not the
+  sandbox.
+
 ## Setup
 1. Log in as `tribal_chief` at `https://meetup.mentoringba.org`.
 2. **Administration → REST API** → enable *Allow HTTP Basic Authentication*

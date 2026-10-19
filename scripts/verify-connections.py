@@ -117,23 +117,50 @@ def main():
         record("HumHub (community)", False, "no HUMHUB_PASSWORD set in .env")
     else:
         import base64
+        import time
         import urllib.request
         import urllib.error
         token = base64.b64encode(f"{HUMHUB_USER}:{HUMHUB_PASS}".encode()).decode()
-        req = urllib.request.Request(
-            HUMHUB_BASE + '/api/v1/auth/current',
-            headers={'Authorization': 'Basic ' + token, 'Accept': 'application/json'})
-        try:
-            with urllib.request.urlopen(req, timeout=15) as resp:
-                body = json.loads(resp.read().decode())
+        # The host's WAF answers non-browser User-Agents (urllib's default
+        # "Python-urllib/...") with a 403 HTML block page, and resets
+        # connections after bursts of probes. Send a browser UA and retry
+        # once after a short pause when the connection is dropped.
+        headers = {
+            'Authorization': 'Basic ' + token,
+            'Accept': 'application/json',
+            'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) '
+                          'AppleWebKit/537.36 (KHTML, like Gecko) '
+                          'Chrome/120.0 Safari/537.36',
+        }
+        body = None
+        last_error = None
+        for attempt in range(2):
+            if attempt:
+                time.sleep(10)
+            req = urllib.request.Request(HUMHUB_BASE + '/api/v1/auth/current', headers=headers)
+            try:
+                with urllib.request.urlopen(req, timeout=15) as resp:
+                    body = json.loads(resp.read().decode())
+                break
+            except urllib.error.HTTPError as e:
+                detail = e.read().decode()[:120]
+                if e.code == 403 and '<html' in detail.lower():
+                    record("HumHub (community)", False,
+                           "403 WAF block page (host rejected this request; "
+                           "retry later or check the host's security rules)")
+                else:
+                    record("HumHub (community)", False, f"{e.code} {detail}")
+                body = 'recorded'
+                break
+            except Exception as e:
+                last_error = e
+        if body is None:
+            record("HumHub (community)", False, f"connection error: {last_error}")
+        elif isinstance(body, dict):
+            account = body.get('account') or {}
             record("HumHub (community)", True,
                    f"auth OK as {body.get('username', HUMHUB_USER)} "
-                   f"({body.get('email', '?')})")
-        except urllib.error.HTTPError as e:
-            detail = e.read().decode()[:120]
-            record("HumHub (community)", False, f"{e.code} {detail}")
-        except Exception as e:
-            record("HumHub (community)", False, f"connection error: {e}")
+                   f"({account.get('email', '?')})")
 
     # --- Domain 1: Stripe (read-only restricted key) ---
     stripe_key = os.environ.get('STRIPE_API_KEY', '')

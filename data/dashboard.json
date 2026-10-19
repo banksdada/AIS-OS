@@ -1,7 +1,7 @@
 {
-  "generatedAt": "2026-10-19T09:52:48",
+  "generatedAt": "2026-10-19T10:27:45",
   "domains": {
-    "checkedAt": "2026-10-18T18:11:26",
+    "checkedAt": "2026-10-19T10:27:44",
     "ok": 6,
     "total": 7,
     "domains": [
@@ -27,8 +27,8 @@
       },
       {
         "name": "HumHub (community)",
-        "ok": false,
-        "detail": "403 <!DOCTYPE html>\n<html style=\"height:100%\">\n<head>\n<meta name=\"viewport\" content=\"width=device-width, initial-scale=1, sh"
+        "ok": true,
+        "detail": "auth OK as aios-bot (info@webawesome.co.uk)"
       },
       {
         "name": "Stripe (revenue)",
@@ -37,8 +37,8 @@
       },
       {
         "name": "TidyCal (meeting intelligence)",
-        "ok": true,
-        "detail": "OAuth connected; 0 upcoming bookings"
+        "ok": false,
+        "detail": "Connect TidyCal with: python3 scripts/tidycal_mcp.py login"
       }
     ]
   },
@@ -89,28 +89,237 @@
     ]
   },
   "tidycal": {
-    "configured": true,
-    "connected": true,
+    "configured": false,
+    "connected": false,
     "bookings": [],
-    "bookingTypes": [
+    "bookingTypes": [],
+    "detail": "Connect TidyCal with: python3 scripts/tidycal_mcp.py login"
+  },
+  "lodgify": {
+    "arrivals": [
       {
-        "title": "Free 15 Minute Meeting with banks",
-        "duration": 15
-      },
-      {
-        "title": "Career Change Booking Call",
-        "duration": 60
-      },
-      {
-        "title": "CV Revamp",
-        "duration": 15
-      },
-      {
-        "title": "Discovery Call With Webawesome Consult UK",
-        "duration": 15
+        "id": 23424301,
+        "guest": "Lara Summers",
+        "property": "Stylish City Living with free 2-Bay Secure parking",
+        "arrival": "2026-10-20",
+        "departure": "2026-10-21",
+        "arrivalAt": "2026-10-20T00:00:00+00:00",
+        "departureAt": "2026-10-21T00:00:00+00:00",
+        "status": "Booked",
+        "source": "AirbnbIntegration",
+        "isNew": true,
+        "threadUid": "499573b9-a6b7-4f50-937b-53a18235fb3a"
       }
     ],
-    "detail": ""
+    "messages": [
+      {
+        "threadUid": "d663f884-74b6-4e1d-8af7-78b769c07972",
+        "guest": "Sarah Brannon",
+        "lastGuestMessageAt": "2026-09-21T15:52:53+00:00",
+        "waitingMinutes": 39933,
+        "unanswered": true,
+        "needsReply": true,
+        "urgent": [],
+        "snippet": "Thanks, Ademola (& Esther)!",
+        "route": "",
+        "isRead": false,
+        "isClosed": false,
+        "bookingId": 23268037,
+        "property": "Modern Digbeth Stay | Sleeps 4 | Ensuite + Parking"
+      },
+      {
+        "threadUid": "77cc7a8d-dcd7-4776-806c-84adc4391dee",
+        "guest": "Stephen O Leary",
+        "lastGuestMessageAt": "2026-10-12T12:19:06+00:00",
+        "waitingMinutes": 9907,
+        "unanswered": true,
+        "needsReply": true,
+        "urgent": [],
+        "snippet": "Good Afternoon the Registration Number of my car is J25 STV",
+        "route": "",
+        "isRead": false,
+        "isClosed": false,
+        "bookingId": 23271921,
+        "property": "Stylish City Living with free 2-Bay Secure parking"
+      },
+      {
+        "threadUid": "98f7d879-34e2-4d42-a504-9c88a9deb73a",
+        "guest": "Dawn Herridge",
+        "lastGuestMessageAt": "2026-10-14T10:16:37+00:00",
+        "waitingMinutes": 7150,
+        "unanswered": true,
+        "needsReply": true,
+        "urgent": [],
+        "snippet": "Hi, will be in one car. Registration number HK22KKG. Thankyou.",
+        "route": "",
+        "isRead": false,
+        "isClosed": false,
+        "bookingId": 21425359,
+        "property": "Stylish City Living with free 2-Bay Secure parking"
+      },
+      {
+        "threadUid": "676bc6dd-4c33-4226-9eaa-3c5f49ec57b3",
+        "guest": "Charles Rounce",
+        "lastGuestMessageAt": "2026-10-17T05:23:42+00:00",
+        "waitingMinutes": 3123,
+        "unanswered": true,
+        "needsReply": true,
+        "urgent": [],
+        "snippet": "Hi there, reg is DX68 YSW Thanks",
+        "route": "",
+        "isRead": false,
+        "isClosed": false,
+        "bookingId": 23577339,
+        "property": "Stylish City Living with free 2-Bay Secure parking"
+      },
+      {
+        "threadUid": "7446e343-ce71-470f-b5ae-b0d80f20e5c7",
+        "guest": "Estella Foster",
+        "lastGuestMessageAt": "2026-10-17T11:26:22+00:00",
+        "waitingMinutes": 2760,
+        "unanswered": true,
+        "needsReply": true,
+        "urgent": [],
+        "snippet": "1. Names of all staying guests Estella Foster Ashley Pemberton Amelia Rogers \ud83d\udcdd 2. Purpose of your visit My nephew is visiting from St Kitts ",
+        "route": "",
+        "isRead": false,
+        "isClosed": false,
+        "bookingId": 23791345,
+        "property": "Stylish City Living with free 2-Bay Secure parking"
+      },
+      {
+        "threadUid": "43b65c75-0110-46c3-816e-6c79efc2e271",
+        "guest": "Kathryn Tyler",
+        "lastGuestMessageAt": "2026-07-20T09:13:02+00:00",
+        "waitingMinutes": 131053,
+        "unanswered": false,
+        "needsReply": false,
+        "urgent": [],
+        "snippet": "Thanks so much - see you in November",
+        "route": "",
+        "isRead": true,
+        "isClosed": false,
+        "bookingId": 21908385,
+        "property": "Stylish City Living with free 2-Bay Secure parking"
+      },
+      {
+        "threadUid": "82323af3-88d4-46a6-9cf6-20a78904c19b",
+        "guest": "Benjamin Godfrey",
+        "lastGuestMessageAt": "2026-07-29T21:26:12+00:00",
+        "waitingMinutes": 117360,
+        "unanswered": false,
+        "needsReply": false,
+        "urgent": [],
+        "snippet": "Good evening, the two guests will be Benjamin Godfrey and Efa Davies. Reason for reservation is a concert in the O2 institute on the 3rd",
+        "route": "",
+        "isRead": true,
+        "isClosed": false,
+        "bookingId": 22129101,
+        "property": "Modern Digbeth Stay | Sleeps 4 | Ensuite + Parking"
+      },
+      {
+        "threadUid": "afcad24a-c05e-4311-84fd-7a23575b8430",
+        "guest": "Shannon & Mark Binns",
+        "lastGuestMessageAt": "2026-09-29T19:13:05+00:00",
+        "waitingMinutes": 28213,
+        "unanswered": false,
+        "needsReply": false,
+        "urgent": [],
+        "snippet": "All fixed! \ud83d\udc4f\ud83c\udffb",
+        "route": "",
+        "isRead": true,
+        "isClosed": false,
+        "bookingId": 23322368,
+        "property": "Modern Digbeth Stay | Sleeps 4 | Ensuite + Parking"
+      },
+      {
+        "threadUid": "7f81f5d8-6de7-4756-a968-51bf31fa4999",
+        "guest": "Lindsey Hughes",
+        "lastGuestMessageAt": "2026-10-02T13:33:40+00:00",
+        "waitingMinutes": 24233,
+        "unanswered": false,
+        "needsReply": false,
+        "urgent": [],
+        "snippet": "Mike Hughes Ellie Hughes Concert at Utilita Arena Do you need the car reg for parking and how do we get in? Thankyou",
+        "route": "",
+        "isRead": true,
+        "isClosed": false,
+        "bookingId": 23513557,
+        "property": "Stylish City Living with free 2-Bay Secure parking"
+      },
+      {
+        "threadUid": "d1aec69c-1150-4306-8be6-16cfaa40f954",
+        "guest": "Sheikh",
+        "lastGuestMessageAt": "2026-10-07T00:10:42+00:00",
+        "waitingMinutes": 17836,
+        "unanswered": false,
+        "needsReply": false,
+        "urgent": [],
+        "snippet": "Hi does the flat have a balcony and if so do you allow smoking on the balcony?",
+        "route": "",
+        "isRead": true,
+        "isClosed": false,
+        "bookingId": 23609512,
+        "property": "Stylish City Living with free 2-Bay Secure parking"
+      },
+      {
+        "threadUid": "97de2a7c-f00e-49d6-aa31-329a0f070ef0",
+        "guest": "Ben Brumpton",
+        "lastGuestMessageAt": "2026-10-12T15:06:39+00:00",
+        "waitingMinutes": 9740,
+        "unanswered": false,
+        "needsReply": false,
+        "urgent": [],
+        "snippet": "Do you have availability for a one night stay on Saturday 19th December by any chance?",
+        "route": "",
+        "isRead": false,
+        "isClosed": false,
+        "bookingId": 19968570,
+        "property": "Stylish City Living with free 2-Bay Secure parking"
+      },
+      {
+        "threadUid": "499573b9-a6b7-4f50-937b-53a18235fb3a",
+        "guest": "Lara Summers",
+        "lastGuestMessageAt": "2026-10-14T12:10:27+00:00",
+        "waitingMinutes": 7036,
+        "unanswered": false,
+        "needsReply": false,
+        "urgent": [],
+        "snippet": "Hello! It\u2019s is BF24 DZJ Thank you! Lara",
+        "route": "",
+        "isRead": true,
+        "isClosed": false,
+        "bookingId": 23424301,
+        "property": "Stylish City Living with free 2-Bay Secure parking"
+      },
+      {
+        "threadUid": "7ebdf8c2-153e-481f-ad49-3cd9f9392bdb",
+        "guest": "Megan Arms",
+        "lastGuestMessageAt": "2026-10-19T06:30:08+00:00",
+        "waitingMinutes": 176,
+        "unanswered": false,
+        "needsReply": false,
+        "urgent": [],
+        "snippet": "Guests: Megan Arms Poppy Mansfield Rory Keating Purpose of stay: Explore the city as part of a multi city stay across the UK",
+        "route": "",
+        "isRead": false,
+        "isClosed": false,
+        "bookingId": 23838674,
+        "property": "Stylish City Living with free 2-Bay Secure parking"
+      }
+    ],
+    "counts": {
+      "arrivals": 1,
+      "needsReply": 5,
+      "unanswered": 5,
+      "urgent": 0
+    },
+    "unansweredMinutes": 120,
+    "arrivalHours": 48,
+    "configured": true,
+    "connected": true,
+    "cachedAt": "2026-10-19T09:27:06+00:00",
+    "source": "cache"
   },
   "newsletter": {
     "configured": true,
@@ -132,7 +341,39 @@
     "projectPath": "/Users/banksdada/Desktop/newsletter-project"
   },
   "pyrunner": {
-    "configured": false,
+    "configured": true,
     "events": []
+  },
+  "sendfox": {
+    "configured": true,
+    "campaignCount": 100,
+    "contactCount": 428,
+    "recentCampaigns": [
+      {
+        "title": "Stop chasing people to confirm things got done",
+        "status": "sent",
+        "date": "2026-10-13T06:10:01.000000Z"
+      },
+      {
+        "title": "We just taught Facebook pages to run themselves",
+        "status": "sent",
+        "date": "2026-09-16T12:42:01.000000Z"
+      },
+      {
+        "title": "We built a care platform that runs a CQC-regulated service - here's what we learned",
+        "status": "sent",
+        "date": "2026-08-06T14:16:01.000000Z"
+      },
+      {
+        "title": "How Our Custom Forms Can Benefit Your Small Business",
+        "status": "sent",
+        "date": "2026-03-18T23:36:01.000000Z"
+      },
+      {
+        "title": "We need your help - A quick feedback request from you",
+        "status": "sent",
+        "date": "2026-03-14T19:46:02.000000Z"
+      }
+    ]
   }
 }

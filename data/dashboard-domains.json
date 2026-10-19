@@ -1,5 +1,5 @@
 {
-  "checkedAt": "2026-10-18T18:11:26",
+  "checkedAt": "2026-10-19T10:27:44",
   "ok": 6,
   "total": 7,
   "domains": [
@@ -25,8 +25,8 @@
     },
     {
       "name": "HumHub (community)",
-      "ok": false,
-      "detail": "403 <!DOCTYPE html>\n<html style=\"height:100%\">\n<head>\n<meta name=\"viewport\" content=\"width=device-width, initial-scale=1, sh"
+      "ok": true,
+      "detail": "auth OK as aios-bot (info@webawesome.co.uk)"
     },
     {
       "name": "Stripe (revenue)",
@@ -35,8 +35,8 @@
     },
     {
       "name": "TidyCal (meeting intelligence)",
-      "ok": true,
-      "detail": "OAuth connected; 0 upcoming bookings"
+      "ok": false,
+      "detail": "Connect TidyCal with: python3 scripts/tidycal_mcp.py login"
     }
   ]
 }
