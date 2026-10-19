@@ -30,6 +30,7 @@ Go to the resource's **Environment** tab and add these. Never commit them.
 | `CLIENT_TRACKER_ID` | `1OuqO9tpzgH-…` | `.env` |
 | `TIDYCAL_OAUTH_FILE` | `/run/secrets/tidycal-oauth.json` | mount an owner-protected OAuth file created by `python3 scripts/tidycal_mcp.py login`; see `references/tidycal-api.md` |
 | `GOOGLE_CREDENTIALS_PATH` | `/app/scripts/credentials.json` | the service-account key is NOT copied into the image — it is provided at runtime as a mounted file, see below |
+| `LODGIFY_API_KEY` | (your Lodgify API key) | `.env` — Lodgify dashboard → Integrations → API. Same Name/Value method as the rows above; powers the read-only Lodgify inbox panel |
 
 > **The service-account JSON is a secret.** It is gitignored and excluded
 > from the image by `.dockerignore`, so it never travels with the build.

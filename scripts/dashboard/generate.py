@@ -237,6 +237,17 @@ def _tidycal():
                 'bookingTypes': [], 'detail': f'TidyCal integration unavailable: {e}'}
 
 
+def _lodgify():
+    """Upcoming arrivals and guest messages needing attention (read-only)."""
+    try:
+        from dashboard.lodgify import dashboard_data
+        return dashboard_data()
+    except Exception as e:
+        return {'configured': False, 'connected': False, 'arrivals': [], 'messages': [],
+                'counts': {'arrivals': 0, 'needsReply': 0, 'unanswered': 0, 'urgent': 0},
+                'detail': f'Lodgify integration unavailable: {e}'}
+
+
 def _newsletter():
     """Newsletter status: the local probe if it works here, else the status pushed from the Mac."""
     local = _newsletter_local()
@@ -287,6 +298,7 @@ def main():
         'drafts': _drafts(),
         'wordpress': _wordpress(),
         'tidycal': _tidycal(),
+        'lodgify': _lodgify(),
         'newsletter': _newsletter(),
         'pyrunner': _pyrunner(),
         'sendfox': _sendfox(),

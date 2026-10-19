@@ -10,3 +10,4 @@ audits/
 brainstorms/
 scripts/potential_newsletter_contacts.csv
 data/pyrunner-events.json
+data/lodgify-cache.json

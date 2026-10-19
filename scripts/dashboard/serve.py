@@ -45,6 +45,7 @@ def regenerate():
         'drafts': gen._drafts(),
         'wordpress': gen._wordpress(),
         'tidycal': gen._tidycal(),
+        'lodgify': gen._lodgify(),
         'newsletter': gen._newsletter(),
         'pyrunner': gen._pyrunner(),
         'sendfox': gen._sendfox(),

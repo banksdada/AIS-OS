@@ -1,14 +1,14 @@
 {
-  "generatedAt": "2026-10-17T14:04:48",
+  "generatedAt": "2026-10-19T09:52:48",
   "domains": {
-    "checkedAt": "2026-10-16T18:41:00",
-    "ok": 3,
+    "checkedAt": "2026-10-18T18:11:26",
+    "ok": 6,
     "total": 7,
     "domains": [
       {
         "name": "Drive (knowledge/files)",
         "ok": true,
-        "detail": "listed 2 files: ['webawesome CRM', 'aios folder']"
+        "detail": "listed 4 files: ['WebAwesome newsletter subscribers', 'WebAwesome newsletter subscribers', 'webawesome CRM', 'aios folder']"
       },
       {
         "name": "CRM (project tracking)",
@@ -22,23 +22,23 @@
       },
       {
         "name": "Calendar",
-        "ok": false,
-        "detail": "403 Google Calendar API has not been used in project 266063022919 before or it is disabled. Enable it by visiting https://co"
+        "ok": true,
+        "detail": "calendar: aios-bot@aios-credentials.iam.gserviceaccount.com"
       },
       {
         "name": "HumHub (community)",
         "ok": false,
-        "detail": "connection error: <urlopen error [Errno 54] Connection reset by peer>"
+        "detail": "403 <!DOCTYPE html>\n<html style=\"height:100%\">\n<head>\n<meta name=\"viewport\" content=\"width=device-width, initial-scale=1, sh"
       },
       {
         "name": "Stripe (revenue)",
-        "ok": false,
-        "detail": "no API key \u2014 Stripe account exists but unused"
+        "ok": true,
+        "detail": "balance readable; currencies: GBP"
       },
       {
         "name": "TidyCal (meeting intelligence)",
-        "ok": false,
-        "detail": "Connect TidyCal with: python3 scripts/tidycal_mcp.py login"
+        "ok": true,
+        "detail": "OAuth connected; 0 upcoming bookings"
       }
     ]
   },
@@ -65,33 +65,56 @@
       {
         "name": "webawesome",
         "url": "https://www.webawesome.co.uk",
-        "ok": false,
-        "detail": "connection error: ('Connection aborted.', ConnectionResetError(54, 'Connection reset by peer'))"
+        "ok": true,
+        "postCount": 1,
+        "latestTitle": "7 Signs Your Church Website Needs a Redesign (And How to Fix Them)",
+        "latestDate": "2026-10-05T16:40:05"
       },
       {
         "name": "mentoringba",
         "url": "https://mentoringba.org",
-        "ok": false,
-        "detail": "connection error: 403 Client Error: Forbidden for url: https://mentoringba.org/wp-json/wp/v2/posts?per_page=1"
+        "ok": true,
+        "postCount": 1,
+        "latestTitle": "How to Become a Business Analyst: A Friendly Guide for Career Changers",
+        "latestDate": "2026-10-13T08:52:13"
       },
       {
         "name": "bhoSupport",
         "url": "https://besthomesupport.uk",
-        "ok": false,
-        "detail": "connection error: 403 Client Error: Forbidden for url: https://besthomesupport.uk/wp-json/wp/v2/posts?per_page=1"
+        "ok": true,
+        "postCount": 1,
+        "latestTitle": "Home Care Referrals for Social Workers: A Practical Guide",
+        "latestDate": "2026-10-16T11:15:55"
       }
     ]
   },
   "tidycal": {
-    "configured": false,
-    "connected": false,
+    "configured": true,
+    "connected": true,
     "bookings": [],
-    "bookingTypes": [],
-    "detail": "Connect TidyCal with: python3 scripts/tidycal_mcp.py login"
+    "bookingTypes": [
+      {
+        "title": "Free 15 Minute Meeting with banks",
+        "duration": 15
+      },
+      {
+        "title": "Career Change Booking Call",
+        "duration": 60
+      },
+      {
+        "title": "CV Revamp",
+        "duration": 15
+      },
+      {
+        "title": "Discovery Call With Webawesome Consult UK",
+        "duration": 15
+      }
+    ],
+    "detail": ""
   },
   "newsletter": {
     "configured": true,
-    "envConfigured": false,
+    "envConfigured": true,
     "latestBuild": {
       "file": "webawesome-newsletter-2026-10-ai-automation.html",
       "path": "/Users/banksdada/Desktop/newsletter-project/.tmp/newsletter/webawesome-newsletter-2026-10-ai-automation.html",
@@ -104,8 +127,12 @@
       "preheader": "The research, the proof from our builds, and how to find your first automation win."
     },
     "buildCount": 1,
-    "recipientCount": 0,
-    "lastSendLog": null,
+    "recipientCount": 1,
+    "lastSendLog": "send-log-20261017-230146.csv",
     "projectPath": "/Users/banksdada/Desktop/newsletter-project"
+  },
+  "pyrunner": {
+    "configured": false,
+    "events": []
   }
 }

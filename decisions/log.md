@@ -57,3 +57,15 @@ Outcome: OAuth app configured (External consent screen, app `webawesome AIOS`, t
 Note: The verifier's `Credentials.from_Refresh_token(...)` call was incorrect for the installed google-auth version. The working form is `Credentials(token=None, refresh_token=..., token_uri='https://oauth2.googleapis.com/token', client_id=..., client_secret=..., scopes=[...])`. Fixed in scripts/verify-connections.py, which now also loads `.env` directly.
 
 Owner: Banks Dada (self)
+
+## 2026-10-19 - Lodgify guest-messaging panel: polling first, webhooks deferred
+
+Decision: Build the Lodgify integration as a read-only polling panel first (Step 1). The dashboard polls the Public API v2 with a 5-minute cache for upcoming arrivals (48h window) and guest message threads, flags unanswered messages over 2 hours, tags urgent keywords (check-in, access, problem), and never sends automatic replies — the owner replies in Lodgify. Webhooks (Step 2, instant updates) are deferred until Lodgify's request signing is confirmed.
+
+Why: Lodgify's public OpenAPI spec defines `POST /webhooks/v1/subscribe` but documents no request-signature scheme, so a webhook endpoint cannot be built fake-post-safe from docs alone. Polling works on any plan that allows API access, needs no account-side setup, and shipped immediately. Live verification on build day found 1 arrival in 48h and 5 guest messages awaiting reply (oldest 28 days).
+
+Outcome: `scripts/dashboard/lodgify.py` wired into the dashboard payload and "Lodgify inbox" panel. Auth via `LODGIFY_API_KEY` (`X-ApiKey` header); the key must also be added to Coolify's Environment tab and the repo pushed to `main` before redeploy. Property names resolve via `/v2/properties` (not `/v2/properties/info`, which 404s). Setup and the Step 2 build plan are in references/lodgify-api.md; connections.md domain 11.
+
+Alternatives considered: Webhooks-first (rejected — signing unconfirmed, would risk accepting forged posts); auto-replies to guests (rejected — owner must review before guests hear from the system).
+
+Owner: Banks Dada (self)

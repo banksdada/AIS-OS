@@ -1,12 +1,12 @@
 {
-  "checkedAt": "2026-10-16T18:41:00",
-  "ok": 3,
+  "checkedAt": "2026-10-18T18:11:26",
+  "ok": 6,
   "total": 7,
   "domains": [
     {
       "name": "Drive (knowledge/files)",
       "ok": true,
-      "detail": "listed 2 files: ['webawesome CRM', 'aios folder']"
+      "detail": "listed 4 files: ['WebAwesome newsletter subscribers', 'WebAwesome newsletter subscribers', 'webawesome CRM', 'aios folder']"
     },
     {
       "name": "CRM (project tracking)",
@@ -20,23 +20,23 @@
     },
     {
       "name": "Calendar",
-      "ok": false,
-      "detail": "403 Google Calendar API has not been used in project 266063022919 before or it is disabled. Enable it by visiting https://co"
+      "ok": true,
+      "detail": "calendar: aios-bot@aios-credentials.iam.gserviceaccount.com"
     },
     {
       "name": "HumHub (community)",
       "ok": false,
-      "detail": "connection error: <urlopen error [Errno 54] Connection reset by peer>"
+      "detail": "403 <!DOCTYPE html>\n<html style=\"height:100%\">\n<head>\n<meta name=\"viewport\" content=\"width=device-width, initial-scale=1, sh"
     },
     {
       "name": "Stripe (revenue)",
-      "ok": false,
-      "detail": "no API key \u2014 Stripe account exists but unused"
+      "ok": true,
+      "detail": "balance readable; currencies: GBP"
     },
     {
       "name": "TidyCal (meeting intelligence)",
-      "ok": false,
-      "detail": "Connect TidyCal with: python3 scripts/tidycal_mcp.py login"
+      "ok": true,
+      "detail": "OAuth connected; 0 upcoming bookings"
     }
   ]
 }

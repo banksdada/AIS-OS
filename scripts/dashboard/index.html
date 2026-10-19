@@ -409,6 +409,34 @@
         font-size: 0.78rem;
       }
 
+      .tag {
+        display: inline-flex;
+        align-items: center;
+        padding: 3px 8px;
+        border-radius: 999px;
+        font-size: 0.72rem;
+        font-weight: 700;
+        margin-right: 6px;
+        background: rgba(255, 184, 77, 0.14);
+        color: var(--warn);
+        border: 1px solid rgba(255, 184, 77, 0.35);
+      }
+
+      .tag.problemtag {
+        background: rgba(255, 107, 138, 0.14);
+        color: var(--fail);
+        border-color: rgba(255, 107, 138, 0.35);
+      }
+
+      .waiting {
+        color: var(--warn);
+        font-weight: 700;
+      }
+
+      .waiting.overdue {
+        color: var(--fail);
+      }
+
       @media (max-width: 900px) {
         .grid { grid-template-columns: 1fr; }
         .hero { flex-direction: column; align-items: flex-start; }
@@ -528,6 +556,14 @@
             <span id="sendfoxBadge" class="badge">—</span>
           </div>
           <div id="sendfoxBody" class="stack"></div>
+        </section>
+        <section class="panel">
+          <div class="panel-head">
+            <h2>Lodgify inbox</h2>
+            <span id="lodgifyBadge" class="badge">—</span>
+          </div>
+          <div id="lodgifyArrivals" class="stack"></div>
+          <div id="lodgifyMessages" class="stack" style="margin-top: 14px;"></div>
         </section>
       </main>
     </div>
@@ -836,6 +872,81 @@
         }).join('');
       }
 
+      function formatWaiting(minutes) {
+        if (minutes === null || minutes === undefined) return '';
+        if (minutes < 60) return `${minutes}m waiting`;
+        const hours = Math.floor(minutes / 60);
+        if (hours < 48) return `${hours}h ${minutes % 60}m waiting`;
+        return `${Math.floor(hours / 24)}d waiting`;
+      }
+
+      function renderLodgify(payload) {
+        const lodgify = payload?.lodgify || {};
+        const badge = document.getElementById('lodgifyBadge');
+        const arrivalsEl = document.getElementById('lodgifyArrivals');
+        const messagesEl = document.getElementById('lodgifyMessages');
+        const counts = lodgify.counts || {};
+
+        if (!lodgify.connected) {
+          badge.textContent = 'Not connected';
+          badge.className = 'badge fail';
+          const hint = lodgify.detail || 'Set LODGIFY_API_KEY to see arrivals and guest messages.';
+          arrivalsEl.innerHTML = `<div class="empty-state">${escapeHtml(hint)}</div>`;
+          messagesEl.innerHTML = '';
+          return;
+        }
+
+        const unanswered = Number(counts.unanswered || 0);
+        const urgent = Number(counts.urgent || 0);
+        badge.textContent = `${counts.arrivals || 0} arrivals · ${unanswered} unanswered`;
+        badge.className = `badge ${urgent ? 'fail' : unanswered ? '' : 'ok'}`;
+
+        const arrivals = Array.isArray(lodgify.arrivals) ? lodgify.arrivals : [];
+        const arrivalRows = ['<div class="eyebrow" style="margin-bottom:8px;">Arrivals · next ' +
+          escapeHtml(String(lodgify.arrivalHours || 48)) + 'h</div>'];
+        if (!arrivals.length) {
+          arrivalRows.push('<div class="empty-state">No check-ins in the next 48 hours.</div>');
+        }
+        arrivals.forEach((a) => {
+          arrivalRows.push(`
+            <article class="card booking-row">
+              <div>
+                <strong>${escapeHtml(a.guest || '(no name)')}</strong>
+                <p class="meta">${escapeHtml(a.property || '')} · ${escapeHtml(a.status || '')}${a.source ? ' · ' + escapeHtml(a.source) : ''}</p>
+              </div>
+              <time class="booking-time">${escapeHtml(formatDateTime(a.arrivalAt))}</time>
+            </article>
+          `);
+        });
+        arrivalsEl.innerHTML = arrivalRows.join('');
+
+        const messages = Array.isArray(lodgify.messages) ? lodgify.messages : [];
+        const needsAttention = messages.filter((m) => m.needsReply || m.urgent?.length);
+        const msgRows = ['<div class="eyebrow" style="margin-bottom:8px;">Needs a reply (reply in Lodgify)</div>'];
+        if (!needsAttention.length) {
+          msgRows.push('<div class="empty-state">No guest messages waiting for a reply.</div>');
+        }
+        needsAttention.slice(0, 10).forEach((m) => {
+          const tags = (m.urgent || []).map((t) =>
+            `<span class="tag ${t === 'problem' ? 'problemtag' : ''}">${escapeHtml(t)}</span>`).join('');
+          const waiting = formatWaiting(m.waitingMinutes);
+          const overdue = m.unanswered
+            ? `<span class="waiting overdue">${escapeHtml(waiting)} — over ${escapeHtml(String(m.unansweredMinutes || 120))}m</span>`
+            : waiting ? `<span class="waiting">${escapeHtml(waiting)}</span>` : '';
+          msgRows.push(`
+            <article class="card">
+              <div class="status-row">
+                <strong>${escapeHtml(m.guest || '(guest)')}</strong>
+                <span>${tags}${overdue}</span>
+              </div>
+              <p class="meta">${escapeHtml(m.snippet || '(no text)')}${m.route ? ' · via ' + escapeHtml(m.route) : ''}</p>
+              <p class="meta">${escapeHtml(m.property || '')}${m.bookingId ? ' · booking #' + escapeHtml(String(m.bookingId)) : ''}</p>
+            </article>
+          `);
+        });
+        messagesEl.innerHTML = msgRows.join('');
+      }
+
       function renderFromPayload(payload) {
         const domains = payload?.domains || {};
         const liveCount = Number(domains.ok || 0);
@@ -859,6 +970,7 @@
         renderNewsletter(payload);
         renderPyrunner(payload);
         renderSendfox(payload);
+        renderLodgify(payload);
         renderList('leadsList', payload?.leads || [], 'No community leads have been flagged yet.', 'title');
         renderList('draftsList', payload?.drafts || [], 'No pending drafts are waiting for approval.', 'title');
       }
