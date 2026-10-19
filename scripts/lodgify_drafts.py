@@ -41,9 +41,12 @@ def _load_dotenv(path):
 
 _load_dotenv(os.path.join(REPO_ROOT, '.env'))
 
-# Property name (from Lodgify) -> extracted FAQ markdown, slug-matched.
+# Lodgify listing name -> extracted FAQ markdown, slug-matched. Only two
+# Overcomers properties: Cutlass Court trades on Lodgify as "Stylish City
+# Living with free 2-Bay Secure parking"; Digbeth keeps its own name.
 FAQ_MAP = {
     'cutlass': 'references/overcomers-faq-cutlass-court.md',
+    'stylish city living': 'references/overcomers-faq-cutlass-court.md',
     'digbeth': 'references/overcomers-faq-modern-digbeth-stay.md',
 }
 
