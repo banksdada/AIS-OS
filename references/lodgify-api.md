@@ -95,6 +95,25 @@ as *context to answer a specific question*, not as content to insert
 wholesale. Plain text only (no links/contact details — Vrbo forbids them in
 message bodies).
 
+## Automated daily draft digest (PyRunner)
+
+`scripts/pyrunner/lodgify-reply-drafter.py` runs on a daily PyRunner schedule.
+It is standalone (no repo imports) and does, each morning:
+
+1. Reads needs-reply threads (read-only v2), skipping pure sign-offs.
+2. Drafts a short reply per thread with the AI, using the same rules as the
+   panel: minimal, plain text, no links/phone numbers, FAQ as context only.
+3. Emails the ready-to-paste drafts to the owner (SMTP, Gmail app password).
+4. Reports one `started` → `ok`/`idle`/`failed` event to the dashboard.
+
+**It never messages a guest** — the owner copies each draft into Lodgify and
+sends it, which is what keeps this within Lodgify/OTA rules.
+
+PyRunner secrets: `LODGIFY_API_KEY`, `AI_BASE_URL`, `AI_MODEL`, `AI_API_KEY`,
+`GMAIL_ADDRESS`, `GMAIL_APP_PASSWORD`, `PYRUNNER_WEBHOOK_SECRET`; optional
+`LODGIFY_DRAFT_TO` (default the sender), `REPLY_TO`,
+`LODGIFY_UNANSWERED_MINUTES` (default `0`). Schedule: daily 07:30 Europe/London.
+
 ## Step 2 — webhooks (deferred, not built)
 
 Goal: Lodgify POSTs new guest messages to the dashboard for instant
