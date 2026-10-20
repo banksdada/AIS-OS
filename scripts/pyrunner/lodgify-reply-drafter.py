@@ -266,7 +266,12 @@ def draft_one(thread) -> tuple[str, str]:
         body = json.dumps({"model": model, "messages": [
             {"role": "system", "content": PROMPT}, {"role": "user", "content": user}]}).encode()
         req = urllib.request.Request(base + "/chat/completions", data=body, method="POST", headers={
-            "Content-Type": "application/json", "Authorization": "Bearer " + key})
+            "Content-Type": "application/json",
+            "Authorization": "Bearer " + key,
+            # Same UA as the other PyRunner scripts: providers WAF-block the
+            # default Python-urllib UA with a bare 403.
+            "User-Agent": "Mozilla/5.0 (compatible; WebAwesomeBot/1.0)",
+        })
         with urllib.request.urlopen(req, timeout=90) as resp:
             text = json.loads(resp.read().decode())["choices"][0]["message"]["content"]
         text = re.sub(r"```.*?```", "", text, flags=re.S).strip()
@@ -277,8 +282,14 @@ def draft_one(thread) -> tuple[str, str]:
         note = note.strip()
         return (reply, "" if note.lower() in ("", "none") else note)
     except Exception as exc:  # noqa: BLE001
-        print("AI draft failed:", type(exc).__name__, exc)
-        return ("", f"AI draft failed ({type(exc).__name__}) - reply by hand")
+        detail = ""
+        if hasattr(exc, "read"):
+            try:
+                detail = exc.read().decode()[:400]
+            except Exception:  # noqa: BLE001
+                detail = ""
+        print("AI draft failed:", type(exc).__name__, exc, "|", detail)
+        return ("", f"AI draft failed ({type(exc).__name__} {exc}) - reply by hand")
 
 
 # ---------- email digest ----------
