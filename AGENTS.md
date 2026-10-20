@@ -20,6 +20,16 @@ Read references/3ms-framework.md once. It's how Banks Dada thinks about AI work.
 - /level-up — Weekly 3Ms interview. Find one automation, scope it, ship it. One per week.
 - Skills live in `.claude/skills/` (canonical) and `.agents/skills/` (Codex mirror). Keep them in sync with `bash scripts/sync-codex-skills.sh` after any skill edit.
 
+## Your agents
+
+- @executive-assistant — daily priorities brief, meeting prep, email and guest-message triage, follow-ups and chasing, task capture and tracking. Defined in `.opencode/agent/executive-assistant.md`; maintains `context/tasks.md`. Invoke it for "brief me", "prep my day", "chase X", "triage my inbox". It never sends anything on its own initiative.
+
+## Rules
+
+- `.claude/rules/` — one topic per file. `communication-style.md` covers tone and formatting; voice samples stay in AGENTS.md → Voice. Add new rule files only when a topic is confirmed, not assumed.
+
+## Placeholders
+
 ## Stack
 
 - **Language / Runtime**: Python 3.12 (Dockerfile: `FROM python:3.12-slim`)
@@ -61,6 +71,9 @@ docker build -t aios .
 ## Where things live
 
 - context/ — about you, your business, your priorities (filled by /onboard)
+- context/tasks.md — the single task list, maintained by @executive-assistant
+- projects/ — active workstreams, one folder each with a short README
+- .claude/rules/ — one topic per file; communication style lives here
 - references/ — frameworks, voice samples, API guides as you connect tools
 - connections.md — registry of every system your AIOS can reach
 - decisions/log.md — append-only record of decisions and why
