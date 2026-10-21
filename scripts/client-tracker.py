@@ -497,6 +497,26 @@ def add_client(service, name, email, stage="Lead"):
         print_stages()
         return False
     stage = canonical_stage(stage)
+
+    # Don't create a second row for an email we already hold. A website
+    # capture fires on every sign-in, so without this the same person would
+    # appear again and again. If they exist, just refresh Last Contact.
+    result = service.spreadsheets().values().get(
+        spreadsheetId=SPREADSHEET_ID, range='A1:E'
+    ).execute()
+    rows = result.get('values', [])
+    for i, row in enumerate(rows[1:], start=2):
+        row = (row + [''] * 2)[:2]
+        if row[1].strip().lower() == email.strip().lower():
+            service.spreadsheets().values().update(
+                spreadsheetId=SPREADSHEET_ID,
+                range=f'D{i}',
+                valueInputOption='USER_ENTERED',
+                body={'values': [[date.today().isoformat()]]}
+            ).execute()
+            print(f"{name} ({email}) is already in the CRM; refreshed last contact.")
+            return True
+
     service.spreadsheets().values().append(
         spreadsheetId=SPREADSHEET_ID,
         range='A1:E',
