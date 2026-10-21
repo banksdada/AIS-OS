@@ -8,7 +8,7 @@ Daily Lodgify reply drafts for two properties — Cutlass Court (`Stylish City L
 ## What runs
 
 - `scripts/pyrunner/lodgify-reply-drafter.py` — read-only Lodgify v2 fetch, AI-drafted plain-text replies, emailed digest. Schedule: daily 07:30 Europe/London. Live 2026-10-20, 4/4 drafts.
-- `scripts/pyrunner/overcomers-cleaner-notices.py` — departure digest to the cleaning team. Schedule: daily 07:45. Awaiting cleaner address.
+- `scripts/pyrunner/overcomers-cleaner-notices.py` — **shelved 2026-10-21.** The client stopped using cleaner services, so this is committed but unscheduled.
 
 ## Rules
 
@@ -18,6 +18,5 @@ Daily Lodgify reply drafts for two properties — Cutlass Court (`Stylish City L
 
 ## Open
 
-- Cleaner cadence may become weekly or on-new-booking — Banks is discussing with the owner.
 - Permit wording conflict: FAQ says no permit, the flow collects registrations.
 - Both FAQ files are currently identical; `references/overcomers-faq-modern-digbeth-stay.md` holds Cutlass Court content.
