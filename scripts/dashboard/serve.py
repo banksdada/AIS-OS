@@ -15,6 +15,7 @@ import http.server
 import json
 import os
 import socketserver
+import subprocess
 import sys
 
 _REPO_ROOT = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
@@ -95,6 +96,7 @@ class Handler(http.server.SimpleHTTPRequestHandler):
             super().do_GET()
 
     def do_POST(self):
+        import dashboard.crm_capture as crm
         import dashboard.newsletter_status as newsletter
         import dashboard.pyrunner_events as events
 
@@ -103,6 +105,8 @@ class Handler(http.server.SimpleHTTPRequestHandler):
             secret_name = 'PYRUNNER_WEBHOOK_SECRET'
         elif route == '/webhook/newsletter':
             secret_name = 'NEWSLETTER_WEBHOOK_SECRET'
+        elif route == '/webhook/crm':
+            secret_name = 'CRM_WEBHOOK_SECRET'
         else:
             self.send_error(404)
             return
@@ -138,6 +142,21 @@ class Handler(http.server.SimpleHTTPRequestHandler):
                 self.send_error(400, 'body must be a JSON object')
                 return
             newsletter.store(status)
+        elif route == '/webhook/crm':
+            contact = crm.sanitize(parsed)
+            if contact is None:
+                self.send_error(400, 'body needs a valid email')
+                return
+            try:
+                result = crm.capture(contact)
+                ok = result.returncode == 0
+                note = (result.stdout or result.stderr or '').strip()
+            except (OSError, subprocess.TimeoutExpired) as e:
+                ok, note = False, str(e)
+            crm.log_event(contact, ok, note)
+            if not ok:
+                self.send_error(502, f'CRM write failed: {note[:200]}')
+                return
         else:
             event = events.sanitize(parsed)
             if event is None:

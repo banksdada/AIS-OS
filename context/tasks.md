@@ -19,6 +19,7 @@ Close items by marking `[x]` with the date — never delete history.
 - [ ] EA-only week: route everything through @executive-assistant, no ChatGPT or custom GPTs — Banks, due 2026-10-28, source: skills backlog 2026-10-20
 - [ ] Buy nowsorted.co.uk — Banks, due 2026-10-21 (afternoon), source: domain search 2026-10-21
 - [ ] Rebrand Sorted to the new domain, once bought — run `docs/ideas/sorted-rebrand-plan.md` phases 0-4 — Banks, source: rebrand plan 2026-10-21
+- [ ] Tunisia hotel deal: follow up with the LinkedIn connection, introduce them to the Skool property group, agree a finders' fee in writing before the intro — Banks, due 2026-10-24, source: LinkedIn 2026-10-21
 
 ## Waiting on someone else
 
