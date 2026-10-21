@@ -39,6 +39,38 @@ class SanitizeTests(unittest.TestCase):
         self.assertEqual(set(clean), {'name', 'email', 'stage'})
 
 
+class StageNormalizeTests(unittest.TestCase):
+    def test_known_stage_passes_through(self):
+        self.assertEqual(crm.normalize_stage('Proposal'), 'Proposal')
+
+    def test_signup_maps_to_lead(self):
+        self.assertEqual(crm.normalize_stage('signup'), 'Lead')
+        self.assertEqual(crm.normalize_stage('Sign Up'), 'Lead')
+
+    def test_client_maps_to_won(self):
+        self.assertEqual(crm.normalize_stage('client'), 'Won')
+
+    def test_unknown_stage_falls_back_to_lead_not_error(self):
+        # A source sending its own word must not break the capture.
+        self.assertEqual(crm.normalize_stage('banana'), 'Lead')
+
+    def test_empty_maps_to_lead(self):
+        self.assertEqual(crm.normalize_stage(''), 'Lead')
+        self.assertEqual(crm.normalize_stage(None), 'Lead')
+
+    def test_every_output_is_cli_valid(self):
+        # Anything normalize_stage returns must survive the CLI's validation,
+        # otherwise capture() fails with a 502.
+        samples = ['signup', 'client', 'banana', '', 'Proposal', 'won', 'DORMANT', None]
+        for raw in samples:
+            self.assertIn(crm.normalize_stage(raw), crm.VALID_STAGES)
+
+    def test_sanitize_stage_is_always_cli_valid(self):
+        for raw in ['signup', 'nonsense', '', 'Lost']:
+            clean = crm.sanitize({'email': 'a@b.com', 'stage': raw})
+            self.assertIn(clean['stage'], crm.VALID_STAGES)
+
+
 class CaptureTests(unittest.TestCase):
     def test_capture_passes_name_email_stage_to_tracker(self):
         contact = {'name': 'Ada', 'email': 'ada@example.com', 'stage': 'Lead'}

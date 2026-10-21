@@ -24,6 +24,29 @@ MAX_NAME = 200
 MAX_EMAIL = 254
 DEFAULT_STAGE = 'Lead'
 
+# The CLI rejects unknown stages, so a source sending its own word ('signup',
+# 'new lead') would fail the whole capture. Map what we expect, and fall back
+# to Lead for anything else — a contact with a slightly generic stage beats a
+# capture that fails outright.
+STAGE_ALIASES = {
+    'signup': 'Lead', 'sign up': 'Lead', 'sign-up': 'Lead', 'new': 'Lead',
+    'new lead': 'Lead', 'registered': 'Lead', 'subscriber': 'Lead',
+    'contacted': 'Contacted', 'in touch': 'Contacted',
+    'qualified': 'Qualified', 'proposal': 'Proposal', 'quote': 'Proposal',
+    'negotiation': 'Negotiation', 'won': 'Won', 'client': 'Won',
+    'lost': 'Lost', 'dormant': 'Dormant',
+}
+VALID_STAGES = ('Lead', 'Contacted', 'Qualified', 'Proposal',
+                'Negotiation', 'Won', 'Lost', 'Dormant')
+
+
+def normalize_stage(raw):
+    """Return a stage the CLI will accept, or Lead. Never raises."""
+    value = str(raw or '').strip()
+    if value in VALID_STAGES:
+        return value
+    return STAGE_ALIASES.get(value.lower(), DEFAULT_STAGE)
+
 
 def sanitize(contact):
     """Keep only a usable name and email. Returns None if the input is junk.
@@ -39,8 +62,7 @@ def sanitize(contact):
     name = str(contact.get('name') or '').strip()[:MAX_NAME]
     if not name:
         name = email.split('@', 1)[0]
-    stage = str(contact.get('stage') or DEFAULT_STAGE).strip() or DEFAULT_STAGE
-    return {'name': name, 'email': email, 'stage': stage[:32]}
+    return {'name': name, 'email': email, 'stage': normalize_stage(contact.get('stage'))}
 
 
 def capture(contact, tracker_path=TRACKER):

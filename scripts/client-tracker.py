@@ -27,6 +27,7 @@ import os
 import sys
 import argparse
 import json
+from datetime import date, datetime, timedelta
 from google.oauth2 import service_account
 from googleapiclient.discovery import build
 
@@ -471,6 +472,25 @@ def list_clients(service, json_out=False):
         for c in clients:
             print(f"{c['name']:20s} | {c['stage']:12s} | {c['lastContact']:10s} | {c['notes']}")
 
+def parse_date(value: str) -> str:
+    """Turn a friendly date into an ISO date Sheets treats as a real date.
+
+    Accepts 'today', 'yesterday' or YYYY-MM-DD. Returns ISO (YYYY-MM-DD), or
+    raises ValueError. Storing a real date matters: the stale-contact flag
+    measures TODAY()-D, which only works on dates, not on text like 'today'.
+    """
+    v = (value or "").strip().lower()
+    today = date.today()
+    if v in ("", "today"):
+        return today.isoformat()
+    if v == "yesterday":
+        return (today - timedelta(days=1)).isoformat()
+    try:
+        return datetime.strptime(v, "%Y-%m-%d").date().isoformat()
+    except ValueError:
+        raise ValueError(f"'{value}' is not 'today', 'yesterday' or YYYY-MM-DD")
+
+
 def add_client(service, name, email, stage="Lead"):
     if not valid_stage(stage):
         print(f"Unknown stage '{stage}'.")
@@ -481,9 +501,9 @@ def add_client(service, name, email, stage="Lead"):
         spreadsheetId=SPREADSHEET_ID,
         range='A1:E',
         valueInputOption='RAW',
-        body={'values': [[name, email, stage, '', '']]}
+        body={'values': [[name, email, stage, date.today().isoformat(), '']]}
     ).execute()
-    print(f"Added {name} as {stage}.")
+    print(f"Added {name} as {stage} (first contact {date.today().isoformat()}).")
     return True
 
 def update_stage(service, name, new_stage):
@@ -509,6 +529,30 @@ def update_stage(service, name, new_stage):
     print(f"Client '{name}' not found.")
     return False
 
+def record_contact(service, name, when="today"):
+    """Stamp Last Contact (column D) for a client and return True if found."""
+    try:
+        iso = parse_date(when)
+    except ValueError as exc:
+        print(exc)
+        return False
+    result = service.spreadsheets().values().get(
+        spreadsheetId=SPREADSHEET_ID, range='A1:E'
+    ).execute()
+    rows = result.get('values', [])
+    for i, row in enumerate(rows[1:], start=2):
+        if row[0].lower() == name.lower():
+            service.spreadsheets().values().update(
+                spreadsheetId=SPREADSHEET_ID,
+                range=f'D{i}',
+                valueInputOption='USER_ENTERED',  # so Sheets stores it as a date
+                body={'values': [[iso]]}
+            ).execute()
+            print(f"Recorded contact with {name} on {iso}.")
+            return True
+    print(f"Client '{name}' not found.")
+    return False
+
 def print_stages():
     print("Valid stages: " + " -> ".join(STAGES))
 
@@ -528,6 +572,11 @@ def main():
     p_stage.add_argument('name')
     p_stage.add_argument('new_stage')
 
+    p_contact = sub.add_parser('contact')
+    p_contact.add_argument('name')
+    p_contact.add_argument('when', nargs='?', default='today',
+                           help="'today', 'yesterday' or YYYY-MM-DD (default today)")
+
     sub.add_parser('format')  # apply professional styling
     sub.add_parser('stages')  # list the valid stages
 
@@ -544,6 +593,9 @@ def main():
             sys.exit(1)
     elif args.cmd == 'stage':
         if not update_stage(service, args.name, args.new_stage):
+            sys.exit(1)
+    elif args.cmd == 'contact':
+        if not record_contact(service, args.name, args.when):
             sys.exit(1)
     elif args.cmd == 'format':
         format_crm(service)
