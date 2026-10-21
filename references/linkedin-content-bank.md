@@ -4,6 +4,12 @@ Built 2026-10-21. **30 days, one post a day, both pages.** Every entry is
 copy-paste ready. Voice matched to the AGENTS.md samples — short lines, plain
 talk, self-aware, no corporate gloss.
 
+**Hooks rewritten 2026-10-21** to lead with a concrete moment, number or scene
+rather than a claim — the "Story Open" shape that outperformed the corpus in the
+research (see `projects/linkedin-content/research/hooks-2026-10.md`). The old
+openings started wide ("Everyone is selling AI"); the new ones start inside a
+moment. Substance, sources and voice are unchanged.
+
 Read the "How to use this" section before posting, and the **Research appendix**
 before quoting any number. These are drafts; the AGENTS.md rule stands —
 nothing on external content without your review.
@@ -51,17 +57,17 @@ marked *optional*.
 # WEEK 1
 
 ## Day 1 — WA — OPINION
-> Everyone is selling AI.
+> A guest messaged at 2:07am asking where the key safe was.
 >
-> Almost nobody is selling the problem gone.
+> The host saw it at 8am.
 >
-> I build automations for small businesses. And the honest truth is nobody has ever come to me wanting AI.
->
-> They come with a headache. Guests messaging at 2am. Leads falling through a spreadsheet. A report someone rebuilds by hand every Monday.
+> Nobody has ever come to me wanting AI. Not once. They come with a headache. Guests messaging at 2am. Leads falling through a spreadsheet. A report someone rebuilds by hand every Monday.
 >
 > AI is the tool. The headache is the job.
 >
 > And the numbers back this up. ONS data this year shows most UK firms using AI are doing it to improve business operations — the boring, practical stuff. Not the moonshot. The operations.
+>
+> Everyone is selling AI. Almost nobody is selling the problem gone.
 >
 > Nobody asked for AI. They asked for their mornings back.
 >
@@ -72,9 +78,11 @@ June 2026. Improving business operations is the most common use of AI, reported
 by around three-fifths of AI-using businesses. (Appendix row 4.)
 
 ## Day 2 — MBA — TEACH
-> If you want to move into business analysis, stop learning tools.
+> A requirements document landed on my desk once that described the current process perfectly.
 >
-> Start learning how to ask one question well:
+> Twelve steps. Not one of them said why.
+>
+> If you want to move into business analysis, stop learning tools. Start learning how to ask one question well:
 >
 > "What is this process actually for?"
 >
@@ -85,15 +93,15 @@ by around three-fifths of AI-using businesses. (Appendix row 4.)
 > #BusinessAnalysis #CareerChange #Mentoring
 
 ## Day 3 — WA — PROOF
-> A short-stay host runs two apartments. Dozens of guest messages a week.
+> First run: four out of four, right first time.
 >
-> Every one had to be read and answered by hand. Miss one, or answer it late and vaguely, and it shows in the review score — which is the whole business.
+> Before that, a short-stay host running two apartments was reading dozens of guest messages a week by hand. Miss one, or answer it late and vaguely, and it shows in the review score — which is the whole business.
 >
 > We built something small. Every morning the messages get read, matched against the property's own rules, and drafted. A digest lands at 07:30.
 >
 > A person still approves every single one.
 >
-> First run: four out of four, right first time. Nobody's mornings are being lost to an inbox any more.
+> Nobody's mornings are being lost to an inbox any more.
 >
 > #Automation #SmallBusiness #AI
 
@@ -111,24 +119,26 @@ by around three-fifths of AI-using businesses. (Appendix row 4.)
 > #BusinessAnalysis #CareerChange
 
 ## Day 5 — WA — JOURNEY
-> Working on an AI Operating System and excited at what is possible.
+> Most of this week went on a signature check.
+>
+> Not the clever bit. A boring, invisible handshake between two systems I run — and it's the difference between a lead landing in your pipeline and a stranger writing rubbish into your CRM.
 >
 > The short version: I'm wiring my own two businesses up to AI properly. Not chat windows. A system. It checks my connections every morning, drafts the messages, keeps the client list, and tells me what actually needs me today.
 >
-> What I've learned so far:
->
 > Most of the value isn't the clever bit. It's the plumbing.
 >
-> A signature check sounds boring. It's the difference between a lead landing in your pipeline and a stranger writing rubbish into your CRM.
+> Working on an AI Operating System and excited at what is possible.
 >
 > #AIOS #BuildInPublic #Automation
 
 ## Day 6 — MBA — TEACH
-> A trick that gets business analysts taken seriously in their first month:
+> "The system is slow."
 >
-> When someone says "the system is slow", write down what they actually mean.
+> I wrote that down once, word for word, and spent two days finding out it meant: it needs three people to approve something it shouldn't.
 >
-> Slow to load? Slow to decide? Slow because it needs three people to approve something it shouldn't?
+> A trick that gets business analysts taken seriously in their first month: when someone says "the system is slow", write down what they actually mean.
+>
+> Slow to load? Slow to decide? Slow because of the approvals?
 >
 > "Slow" is never a requirement. It's a feeling looking for a question.
 >
@@ -137,13 +147,13 @@ by around three-fifths of AI-using businesses. (Appendix row 4.)
 > #BusinessAnalysis #Mentoring
 
 ## Day 7 — WA — TEACH *(optional)*
-> The most useful automation advice I can give a small business owner:
+> Find the task you do three times or more.
 >
-> Look at your week and find the task you do three times or more. Not the exciting one. The boring one.
+> Not the exciting one. The boring one. That's your first automation — usually the easiest to build, the lowest risk to get wrong, and the one that gives you your time back fastest.
 >
-> That's your first automation. It's usually the easiest to build, the lowest risk to get wrong, and the one that gives you your time back fastest.
+> There's a reason this matters more than the hype suggests. Research out this year found only about one in ten UK firms have built anything custom for their own operations. The rest are using generic tools, or nothing.
 >
-> There's a reason this matters more than the hype suggests. Research out this year found only about one in ten UK firms have built anything custom for their own operations. The rest are using generic tools, or nothing. The gap isn't technology. It's someone sitting down and fixing the specific thing that eats your week.
+> The gap isn't technology. It's someone sitting down and fixing the specific thing that eats your week.
 >
 > Don't start with the big transformation. Start with the Tuesday task.
 >
@@ -158,9 +168,9 @@ around 10% of all firms had adopted anything bespoke. (Appendix row 2.)
 # WEEK 2
 
 ## Day 8 — MBA — JOURNEY
-> Building a community for people moving into business analysis.
+> Most people don't need a course. They need one other person who's done it.
 >
-> The thing I keep noticing: most people don't need a course. They need one other person who's done it.
+> I keep meeting people who've bought three BA courses and still feel stuck — because what they're missing isn't information. It's someone a step ahead saying "yes, that bit's normal, keep going."
 >
 > That's the whole idea behind the community — people at different stages, comparing notes.
 >
@@ -180,13 +190,13 @@ around 10% of all firms had adopted anything bespoke. (Appendix row 2.)
 > #AI #Automation #SmallBusiness
 
 ## Day 10 — MBA — TEACH
-> The one line that's saved me more arguments than any framework:
+> The line that's saved me more arguments than any framework:
 >
 > "Help me understand how that works today."
 >
 > Not "why do you do it that way" — that sounds like an accusation. "Help me understand" gets you the real answer, because it treats them as the expert on their own mess.
 >
-> Use it early in every stakeholder chat.
+> I watched a stakeholder go from defensive to helpful in one sentence with this. Use it early in every stakeholder chat.
 >
 > #BusinessAnalysis #Mentoring
 
@@ -202,11 +212,11 @@ around 10% of all firms had adopted anything bespoke. (Appendix row 2.)
 > #Automation #SmallBusiness #AI
 
 ## Day 12 — MBA — OPINION
-> Business analysis is one of the best entry points into tech for career changers.
+> Walk into a room where nobody agrees, and leave with everyone knowing what happens next.
 >
-> And it's badly explained.
+> That's the job. Not the documents.
 >
-> It's not about documents. It's about being the person who can walk into a room where nobody agrees, and leave with everyone knowing what happens next.
+> Business analysis is one of the best entry points into tech for career changers — and it's badly explained. It's not about documents. It's about being the person who can hold that room together.
 >
 > That's a people skill with a process wrapper. Career changers usually have more of the first than they realise.
 >
@@ -242,22 +252,20 @@ around 10% of all firms had adopted anything bespoke. (Appendix row 2.)
 # WEEK 3
 
 ## Day 15 — WA — JOURNEY
-> Small update on the AI Operating System.
+> A task that used to need me in the middle now happens on its own — and I can see exactly when it did.
 >
-> This week I built the plumbing that lets one tool talk safely to another — a signed handshake between two systems I run.
+> That's what I built this week: the plumbing that lets one tool talk safely to another, a signed handshake between two systems I run.
 >
-> Unglamorous. Took patience. But it means a task that used to need me in the middle now happens on its own, and I can see exactly when it did.
+> Unglamorous. Took patience. No screenshots worth posting.
 >
 > Boring infrastructure is what makes the clever stuff trustworthy.
 >
 > #AIOS #BuildInPublic
 
 ## Day 16 — MBA — OPINION
-> A lot of BA training teaches you to fill in templates.
->
 > Nobody's business was ever fixed by a template.
 >
-> What fixes things is one person who understands the problem well enough to argue for the simplest solution — and can explain it to the person holding the budget.
+> A lot of BA training teaches you to fill them in. What actually fixes things is one person who understands the problem well enough to argue for the simplest solution — and can explain it to the person holding the budget.
 >
 > That's the skill. Templates are just where it gets written down.
 >
@@ -281,11 +289,11 @@ economy", 8 October 2026. ~30% of UK businesses used at least one AI technology
 in September 2026; ~29% of firms with fewer than 10 employees. (Appendix row 3.)
 
 ## Day 18 — MBA — TEACH
-> To anyone learning business analysis:
+> Keep a "confusion log".
 >
-> Keep a "confusion log". Every time something in your study or your job doesn't make sense, write it down in one line.
+> Every time something in your study or your job doesn't make sense, write it down in one line. Then go back weekly.
 >
-> Then go back weekly. You'll find your questions are better than your answers were. That's what growing as a BA feels like.
+> You'll find your questions are better than your answers were. That's what growing as a BA feels like.
 >
 > #BusinessAnalysis #CareerChange
 
@@ -310,11 +318,9 @@ in September 2026; ~29% of firms with fewer than 10 employees. (Appendix row 3.)
 > #BusinessAnalysis #Mentoring
 
 ## Day 21 — WA — TEACH *(optional)*
-> If you're about to buy any software, ask this first:
->
 > "What will we stop doing once this is in?"
 >
-> If nobody can answer, you're not buying a solution. You're buying more work with a nicer interface.
+> Ask that before you buy any software. If nobody can answer, you're not buying a solution. You're buying more work with a nicer interface.
 >
 > #SmallBusiness #Automation
 
@@ -323,7 +329,7 @@ in September 2026; ~29% of firms with fewer than 10 employees. (Appendix row 3.)
 # WEEK 4
 
 ## Day 22 — MBA — OPINION
-> The word "junior" scares a lot of career changers into staying put.
+> "Junior" scares a lot of career changers into staying put.
 >
 > But here's the thing — you don't start at zero. You start with a different set of skills than the person next to you.
 >
@@ -338,9 +344,9 @@ Job Market Report", June 2026. 20,362 unique postings Jan–Apr 2026; mean UK
 salary £56,743, 31.1% above the national average. (Appendix row 6.)
 
 ## Day 23 — WA — OPINION
-> There's a version of AI use I see a lot in small businesses.
+> A fortnight.
 >
-> Someone signs up for a shiny tool. Uses it for a fortnight. It doesn't fit how they actually work. It gets abandoned.
+> That's how long the shiny new tool lasted in one small business I know, before it didn't fit how they actually worked and got abandoned.
 >
 > The problem was never the tool. It's that nobody designed the workflow around the real person doing the job.
 >
@@ -349,18 +355,16 @@ salary £56,743, 31.1% above the national average. (Appendix row 6.)
 > #AI #SmallBusiness #Automation
 
 ## Day 24 — MBA — TEACH
-> A question worth asking in every business analysis interview:
->
 > "What does success look like six months in?"
 >
-> Not because you'll be graded on the answer — but because the answer tells you whether they know what they actually need. A vague answer is useful information too.
+> Ask that in every business analysis interview. Not because you'll be graded on the answer — but because the answer tells you whether they know what they actually need. A vague answer is useful information too.
 >
 > #BusinessAnalysis #CareerChange
 
 ## Day 25 — WA — JOURNEY
-> Quietly proud of this one.
+> One list instead of six things to check.
 >
-> A small automation now runs every morning and hands me one list instead of six things to check. It reads, it drafts, it flags what needs a human.
+> A small automation now runs every morning and hands me exactly that. It reads, it drafts, it flags what needs a human.
 >
 > The goal was never to remove myself. It was to make sure the important things reach me and the rest doesn't need to.
 >
@@ -369,9 +373,9 @@ salary £56,743, 31.1% above the national average. (Appendix row 6.)
 > #AIOS #Automation #BuildInPublic
 
 ## Day 26 — MBA — PROOF
-> A mentee told me they'd applied for nine jobs and heard nothing.
+> Nine applications. No replies.
 >
-> We rewrote one paragraph of their CV. Not the whole thing — one paragraph. The bit where they described what they actually did, instead of the job title they held.
+> That's where a mentee was when they came to me. We rewrote one paragraph of their CV — not the whole thing, one paragraph. The bit where they described what they actually did, instead of the job title they held.
 >
 > Two interviews the following week.
 >
@@ -400,9 +404,9 @@ salary £56,743, 31.1% above the national average. (Appendix row 6.)
 > #BusinessAnalysis #Mentoring
 
 ## Day 29 — WA — OFFER
-> I build small automations for small businesses. The kind that give you your mornings back.
->
 > If something in your week is repetitive, manual, or keeps getting missed — that's usually the one worth fixing first.
+>
+> I build small automations for small businesses. The kind that give you your mornings back.
 >
 > Happy to have a free 10-minute chat and tell you honestly whether it's worth automating, or whether you should just delete it. No pitch either way.
 >
