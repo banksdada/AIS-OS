@@ -1,0 +1,486 @@
+LINKEDIN DAILY POSTS — WebAwesome + mentoringba
+30 posts, one a day. Started 2026-10-21.
+
+How to use:
+  - Post one a day, in order. Day 1 = 21 Oct 2026.
+  - Copy everything between the ==== lines. Don't copy the ====.
+  - POST the main text. Then immediately add a comment with the "FIRST COMMENT"
+    line if there is one. The source goes in the comment, not the post.
+  - Nothing here has been invented. Numbers come from the sources listed.
+
+Posting order alternates pages: WA = webawesome.co.uk, MBA = mentoringba.
+
+
+================================================================================
+DAY 1 — WA — OPINION
+================================================================================
+
+A guest messaged at 2:07am asking where the key safe was.
+
+The host saw it at 8am.
+
+Nobody has ever come to me wanting AI. Not once. They come with a headache. Guests messaging at 2am. Leads falling through a spreadsheet. A report someone rebuilds by hand every Monday.
+
+AI is the tool. The headache is the job.
+
+And the numbers back this up. ONS data this year shows most UK firms using AI are doing it to improve business operations — the boring, practical stuff. Not the moonshot. The operations.
+
+Everyone is selling AI. Almost nobody is selling the problem gone.
+
+Nobody asked for AI. They asked for their mornings back.
+
+#AI #Automation #SmallBusiness
+
+FIRST COMMENT:
+Source — ONS, "Artificial intelligence in UK businesses", June 2026. Improving business operations is the most common use of AI, reported by around three-fifths of AI-using businesses.
+
+
+================================================================================
+DAY 2 — MBA — TEACH
+================================================================================
+
+A requirements document landed on my desk once that described the current process perfectly.
+
+Twelve steps. Not one of them said why.
+
+If you want to move into business analysis, stop learning tools. Start learning how to ask one question well:
+
+"What is this process actually for?"
+
+Half the requirements documents I've seen describe the current mess perfectly and never ask why it exists. A good BA notices the step nobody can justify.
+
+Learn the tools, yes. But the question is the job.
+
+#BusinessAnalysis #CareerChange #Mentoring
+
+
+================================================================================
+DAY 3 — WA — PROOF
+================================================================================
+
+First run: four out of four, right first time.
+
+Before that, a short-stay host running two apartments was reading dozens of guest messages a week by hand. Miss one, or answer it late and vaguely, and it shows in the review score — which is the whole business.
+
+We built something small. Every morning the messages get read, matched against the property's own rules, and drafted. A digest lands at 07:30.
+
+A person still approves every single one.
+
+Nobody's mornings are being lost to an inbox any more.
+
+#Automation #SmallBusiness #AI
+
+
+================================================================================
+DAY 4 — MBA — OPINION
+================================================================================
+
+"You don't have the experience."
+
+I hear this a lot from people trying to get into business analysis. And I understand the fear behind it.
+
+But experience is a story you tell well, not just years served.
+
+Someone who's run a till, handled a complaint, fixed a rota — that person has lived more processes than most of the people rejecting them.
+
+The trick isn't inventing experience. It's translating the one you have.
+
+#BusinessAnalysis #CareerChange
+
+
+================================================================================
+DAY 5 — WA — JOURNEY
+================================================================================
+
+Most of this week went on a signature check.
+
+Not the clever bit. A boring, invisible handshake between two systems I run — and it's the difference between a lead landing in your pipeline and a stranger writing rubbish into your CRM.
+
+The short version: I'm wiring my own two businesses up to AI properly. Not chat windows. A system. It checks my connections every morning, drafts the messages, keeps the client list, and tells me what actually needs me today.
+
+Most of the value isn't the clever bit. It's the plumbing.
+
+Working on an AI Operating System and excited at what is possible.
+
+#AIOS #BuildInPublic #Automation
+
+
+================================================================================
+DAY 6 — MBA — TEACH
+================================================================================
+
+"The system is slow."
+
+I wrote that down once, word for word, and spent two days finding out it meant: it needs three people to approve something it shouldn't.
+
+A trick that gets business analysts taken seriously in their first month: when someone says "the system is slow", write down what they actually mean.
+
+Slow to load? Slow to decide? Slow because of the approvals?
+
+"Slow" is never a requirement. It's a feeling looking for a question.
+
+Your first job is to find the question.
+
+#BusinessAnalysis #Mentoring
+
+
+================================================================================
+DAY 7 — WA — TEACH  (optional)
+================================================================================
+
+Find the task you do three times or more.
+
+Not the exciting one. The boring one. That's your first automation — usually the easiest to build, the lowest risk to get wrong, and the one that gives you your time back fastest.
+
+There's a reason this matters more than the hype suggests. Research out this year found only about one in ten UK firms have built anything custom for their own operations. The rest are using generic tools, or nothing.
+
+The gap isn't technology. It's someone sitting down and fixing the specific thing that eats your week.
+
+Don't start with the big transformation. Start with the Tuesday task.
+
+#Automation #SmallBusiness
+
+FIRST COMMENT:
+Source — BCC Business Outlook Survey via the University of Essex, January 2026 (N=672). Of 363 AI-using firms, 298 used generic tools only; around 10% of all firms had adopted anything bespoke.
+
+
+================================================================================
+DAY 8 — MBA — JOURNEY
+================================================================================
+
+Most people don't need a course. They need one other person who's done it.
+
+I keep meeting people who've bought three BA courses and still feel stuck — because what they're missing isn't information. It's someone a step ahead saying "yes, that bit's normal, keep going."
+
+That's the whole idea behind the community — people at different stages, comparing notes.
+
+Free to join, and honest about the hard parts.
+
+#BusinessAnalysis #Community #CareerChange
+
+
+================================================================================
+DAY 9 — WA — OPINION
+================================================================================
+
+I was told recently that AI will run businesses soon.
+
+Maybe. But I've just spent a week building a system where a person still reads every message before it leaves the building. On purpose.
+
+When an automation drafts a reply, the risk isn't the AI being wrong. It's the owner being asleep. The judgement has to stay human — the typing doesn't.
+
+Any AI that removes the human from customer conversations isn't saving you time. It's lending you risk.
+
+#AI #Automation #SmallBusiness
+
+
+================================================================================
+DAY 10 — MBA — TEACH
+================================================================================
+
+The line that's saved me more arguments than any framework:
+
+"Help me understand how that works today."
+
+Not "why do you do it that way" — that sounds like an accusation. "Help me understand" gets you the real answer, because it treats them as the expert on their own mess.
+
+I watched a stakeholder go from defensive to helpful in one sentence with this. Use it early in every stakeholder chat.
+
+#BusinessAnalysis #Mentoring
+
+
+================================================================================
+DAY 11 — WA — PROOF
+================================================================================
+
+A client told me they didn't want AI. They wanted their Monday mornings back.
+
+Fair. That's usually the truth behind the brief.
+
+So the work isn't "add AI". It's: what's eating your week, and what's the smallest thing that stops it?
+
+Sometimes the answer is automation. Sometimes it's deleting a step nobody needed. Neither of those is an AI project. Both solve the actual problem.
+
+#Automation #SmallBusiness #AI
+
+
+================================================================================
+DAY 12 — MBA — OPINION
+================================================================================
+
+Walk into a room where nobody agrees, and leave with everyone knowing what happens next.
+
+That's the job. Not the documents.
+
+Business analysis is one of the best entry points into tech for career changers — and it's badly explained. It's not about documents. It's about being the person who can hold that room together.
+
+That's a people skill with a process wrapper. Career changers usually have more of the first than they realise.
+
+#BusinessAnalysis #CareerChange
+
+
+================================================================================
+DAY 13 — WA — TEACH  (optional)
+================================================================================
+
+How to tell whether a task is worth automating.
+
+Ask three things:
+
+1. Does it happen often?
+2. Is it the same every time?
+3. Does it have a clear "done"?
+
+Three yeses — automate it.
+A no on any of them — leave it alone for now. The automation will cost you more than the task did.
+
+#Automation #SmallBusiness
+
+
+================================================================================
+DAY 14 — MBA — TEACH
+================================================================================
+
+If you're being interviewed for a business analysis role and they ask for a time you improved a process:
+
+Don't reach for something impressive. Reach for something true.
+
+The rota that always clashed. The stock count that took three people. The form nobody filled in properly.
+
+Small and real beats big and vague. They're testing whether you notice things, not whether you've saved a corporation.
+
+#BusinessAnalysis #CareerChange
+
+
+================================================================================
+DAY 15 — WA — JOURNEY
+================================================================================
+
+A task that used to need me in the middle now happens on its own — and I can see exactly when it did.
+
+That's what I built this week: the plumbing that lets one tool talk safely to another, a signed handshake between two systems I run.
+
+Unglamorous. Took patience. No screenshots worth posting.
+
+Boring infrastructure is what makes the clever stuff trustworthy.
+
+#AIOS #BuildInPublic
+
+
+================================================================================
+DAY 16 — MBA — OPINION
+================================================================================
+
+Nobody's business was ever fixed by a template.
+
+A lot of BA training teaches you to fill them in. What actually fixes things is one person who understands the problem well enough to argue for the simplest solution — and can explain it to the person holding the budget.
+
+That's the skill. Templates are just where it gets written down.
+
+#BusinessAnalysis #Mentoring
+
+
+================================================================================
+DAY 17 — WA — OPINION
+================================================================================
+
+"AI made me faster" is the least interesting thing AI does.
+
+The interesting bit: it makes things possible that weren't worth doing before.
+
+Checking every guest message instead of skimming. Reading every enquiry instead of triaging. Things a person would never have time for — now they're routine.
+
+Speed is nice. New capability is the real shift.
+
+And it's genuinely early. ONS data from September shows only about 3 in 10 UK businesses use any AI at all. Among the smallest firms — under 10 people — it's roughly 29%. The room for small businesses to get ahead here is still wide open.
+
+#AI #Automation
+
+FIRST COMMENT:
+Source — ONS, "Business insights and impact on the UK economy", 8 October 2026. ~30% of UK businesses used at least one AI technology in September 2026; ~29% of firms with fewer than 10 employees.
+
+
+================================================================================
+DAY 18 — MBA — TEACH
+================================================================================
+
+Keep a "confusion log".
+
+Every time something in your study or your job doesn't make sense, write it down in one line. Then go back weekly.
+
+You'll find your questions are better than your answers were. That's what growing as a BA feels like.
+
+#BusinessAnalysis #CareerChange
+
+
+================================================================================
+DAY 19 — WA — PROOF
+================================================================================
+
+Two businesses, one person, and a growing pile of "should have done this years ago".
+
+That's the honest state of it. I automate my own work first, prove it's useful, then offer it to clients.
+
+Not everything sticks. Some ideas I build and quietly drop. But the ones that survive are ones I trust.
+
+Nothing you sell should be something you don't use.
+
+#Automation #SmallBusiness
+
+
+================================================================================
+DAY 20 — MBA — JOURNEY
+================================================================================
+
+Every business analyst I admire can explain something complicated in a sentence a stranger would understand.
+
+That's the whole skill, really. Everything else — the tools, the diagrams, the documents — is in service of one clear explanation.
+
+Practise that. Explain your process to someone who doesn't work in your field. If it takes ten minutes, the work isn't done yet.
+
+#BusinessAnalysis #Mentoring
+
+
+================================================================================
+DAY 21 — WA — TEACH  (optional)
+================================================================================
+
+"What will we stop doing once this is in?"
+
+Ask that before you buy any software. If nobody can answer, you're not buying a solution. You're buying more work with a nicer interface.
+
+#SmallBusiness #Automation
+
+
+================================================================================
+DAY 22 — MBA — OPINION
+================================================================================
+
+"Junior" scares a lot of career changers into staying put.
+
+But here's the thing — you don't start at zero. You start with a different set of skills than the person next to you.
+
+Years in one industry is industry knowledge. Nobody teaches that in a course. It's what makes you useful in month one, while others are still learning the context.
+
+And the market is there. Analysis roles were posting over 20,000 unique vacancies in the first four months of this year, and average pay runs well above the national average. This isn't a shrinking field. It's an under-explained one.
+
+#BusinessAnalysis #CareerChange
+
+FIRST COMMENT:
+Source — Adzuna data via Learning People, "Business Analytics Job Market Report", June 2026. 20,362 unique postings Jan–Apr 2026; mean UK salary £56,743, 31.1% above the national average.
+
+
+================================================================================
+DAY 23 — WA — OPINION
+================================================================================
+
+A fortnight.
+
+That's how long the shiny new tool lasted in one small business I know, before it didn't fit how they actually worked and got abandoned.
+
+The problem was never the tool. It's that nobody designed the workflow around the real person doing the job.
+
+Tool second. Workflow first. Every time.
+
+#AI #SmallBusiness #Automation
+
+
+================================================================================
+DAY 24 — MBA — TEACH
+================================================================================
+
+"What does success look like six months in?"
+
+Ask that in every business analysis interview. Not because you'll be graded on the answer — but because the answer tells you whether they know what they actually need. A vague answer is useful information too.
+
+#BusinessAnalysis #CareerChange
+
+
+================================================================================
+DAY 25 — WA — JOURNEY
+================================================================================
+
+One list instead of six things to check.
+
+A small automation now runs every morning and hands me exactly that. It reads, it drafts, it flags what needs a human.
+
+The goal was never to remove myself. It was to make sure the important things reach me and the rest doesn't need to.
+
+That's the good version of automation.
+
+#AIOS #Automation #BuildInPublic
+
+
+================================================================================
+DAY 26 — MBA — PROOF
+================================================================================
+
+Nine applications. No replies.
+
+That's where a mentee was when they came to me. We rewrote one paragraph of their CV — not the whole thing, one paragraph. The bit where they described what they actually did, instead of the job title they held.
+
+Two interviews the following week.
+
+The lesson wasn't about the CV. It was that they'd been describing the role, not the work. Employers buy the work.
+
+#BusinessAnalysis #CareerChange #Mentoring
+
+
+================================================================================
+DAY 27 — WA — TEACH  (optional)
+================================================================================
+
+The best automation project I ever did wasn't an automation.
+
+I looked at a weekly task, traced it back, and found three steps that only existed because of a decision someone made years ago. We deleted them instead.
+
+No software. No AI. Just fewer steps.
+
+Always ask: does this need doing at all?
+
+#Automation #SmallBusiness
+
+
+================================================================================
+DAY 28 — MBA — OPINION
+================================================================================
+
+There's no shortage of business analysts. There's a shortage of people who can listen.
+
+Interviews are full of candidates who can name every framework and can't sit through a stakeholder conversation without filling the silence.
+
+You learn more in the pause than the question. That's a trainable skill. Most people never train it.
+
+#BusinessAnalysis #Mentoring
+
+
+================================================================================
+DAY 29 — WA — OFFER
+================================================================================
+
+If something in your week is repetitive, manual, or keeps getting missed — that's usually the one worth fixing first.
+
+I build small automations for small businesses. The kind that give you your mornings back.
+
+Happy to have a free 10-minute chat and tell you honestly whether it's worth automating, or whether you should just delete it. No pitch either way.
+
+#Automation #SmallBusiness #AI
+
+
+================================================================================
+DAY 30 — MBA — OFFER
+================================================================================
+
+If you're trying to move into business analysis and it isn't clicking, the missing piece is usually a person, not a course.
+
+That's what the mentoringba community is for. People at different stages, honest about the hard bits.
+
+Come and have a look. Free.
+
+#BusinessAnalysis #CareerChange #Community
+
+
+================================================================================
+END — 30 days done. Check what worked (sort by comments, not likes), then
+rewrite the winners for month two.
+================================================================================

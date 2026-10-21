@@ -1,5 +1,5 @@
 {
   "note": "Tracks progress through references/linkedin-content-bank.md. The morning-coffee skill reads this, reports today's post, and appends to 'posted' when Banks confirms one went out. 'startedOn' is the first posting day; day numbers are counted from it, not from the file's order.",
   "startedOn": "2026-10-21",
-  "posted": []
+  "posted": [{"day": 1, "date": "2026-10-21", "page": "WA", "pillar": "OPINION"}]
 }
