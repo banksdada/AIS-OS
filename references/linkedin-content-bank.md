@@ -28,8 +28,18 @@ your strongest angle five days in a row. The pillars:
 
 **Rule I held to:** no invented numbers, no "10x", no client names. The
 short-stay host stays anonymous. Any stat used below is in the **Research
-appendix** with a source and a date. If you can't point to the source, it
+appendix** with a source and a date. If you can't point to a source, it
 doesn't go out.
+
+**How sources are posted.** Where a post uses evidence, its source sits in a
+**first comment**, not in the post body — the standard LinkedIn convention.
+Paste the post, then immediately comment with the "First comment" line beneath
+it. This keeps the hook clean while still proving the number to anyone who
+checks. The appendix holds the full citation if someone pushes back.
+
+**Exception worth knowing:** Day 22 (mentoringba) keeps its *number* in the
+post body on purpose — job seekers are sceptical of career-change hype, so the
+evidence should be where they see it. Only its *citation* moves to the comment.
 
 **The honest bit:** daily posting only works if most posts are genuinely
 useful. If a day arrives and nothing's true to say, post nothing. A quiet
@@ -56,8 +66,10 @@ marked *optional*.
 > Nobody asked for AI. They asked for their mornings back.
 >
 > #AI #Automation #SmallBusiness
->
-> *Evidence: ONS, "Artificial intelligence in UK businesses", June 2026. See appendix row 4.*
+
+**First comment:** Source — ONS, "Artificial intelligence in UK businesses",
+June 2026. Improving business operations is the most common use of AI, reported
+by around three-fifths of AI-using businesses. (Appendix row 4.)
 
 ## Day 2 — MBA — TEACH
 > If you want to move into business analysis, stop learning tools.
@@ -136,8 +148,10 @@ marked *optional*.
 > Don't start with the big transformation. Start with the Tuesday task.
 >
 > #Automation #SmallBusiness
->
-> *Evidence: BCC Business Outlook Survey via University of Essex, January 2026. See appendix row 2.*
+
+**First comment:** Source — BCC Business Outlook Survey via the University of
+Essex, January 2026 (N=672). Of 363 AI-using firms, 298 used generic tools only;
+around 10% of all firms had adopted anything bespoke. (Appendix row 2.)
 
 ---
 
@@ -261,8 +275,10 @@ marked *optional*.
 > And it's genuinely early. ONS data from September shows only about 3 in 10 UK businesses use any AI at all. Among the smallest firms — under 10 people — it's roughly 29%. The room for small businesses to get ahead here is still wide open.
 >
 > #AI #Automation
->
-> *Evidence: ONS, Business insights and impact on the UK economy, 8 October 2026. See appendix row 3.*
+
+**First comment:** Source — ONS, "Business insights and impact on the UK
+economy", 8 October 2026. ~30% of UK businesses used at least one AI technology
+in September 2026; ~29% of firms with fewer than 10 employees. (Appendix row 3.)
 
 ## Day 18 — MBA — TEACH
 > To anyone learning business analysis:
@@ -316,8 +332,10 @@ marked *optional*.
 > And the market is there. Analysis roles were posting over 20,000 unique vacancies in the first four months of this year, and average pay runs well above the national average. This isn't a shrinking field. It's an under-explained one.
 >
 > #BusinessAnalysis #CareerChange
->
-> *Evidence: Adzuna data via Learning People, Jan–Apr 2026. See appendix row 6.*
+
+**First comment:** Source — Adzuna data via Learning People, "Business Analytics
+Job Market Report", June 2026. 20,362 unique postings Jan–Apr 2026; mean UK
+salary £56,743, 31.1% above the national average. (Appendix row 6.)
 
 ## Day 23 — WA — OPINION
 > There's a version of AI use I see a lot in small businesses.
