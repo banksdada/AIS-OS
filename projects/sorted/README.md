@@ -11,6 +11,8 @@
 
 **Rebrand plan:** `docs/ideas/sorted-rebrand-plan.md` — phased, with a strict rule that nothing runs before the domain is bought and Postal verifies a test send. Review on request.
 
+**Uplift + paid human-intervention calendar:** `docs/ideas/sorted-uplift-and-booking-plan.md` — site-wide readability and trust uplift, plus a TidyCal ladder (free 10 min → 20/30/60 min at £25/£40/£75) for clients who want a human. Human time is kept deliberately separate from the product, and priced at the accessible end of the UK market, to protect the free-tool positioning.
+
 **Positioning (decided 2026-10-21):** Sorted is a **free client-acquisition tool — no payment layer.** Stripe/Cashier stays unbuilt. The goal is getting clients, not MRR from the tool, so the only thing launch-ready really requires is: a visitor describes a problem and lands in Banks's pipeline.
 
 ## What it is
