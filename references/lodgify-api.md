@@ -114,13 +114,17 @@ PyRunner secrets: `LODGIFY_API_KEY`, `AI_BASE_URL`, `AI_MODEL`, `AI_API_KEY`,
 `LODGIFY_DRAFT_TO` (default the sender), `REPLY_TO`,
 `LODGIFY_UNANSWERED_MINUTES` (default `0`). Schedule: daily 07:30 Europe/London.
 
-`scripts/pyrunner/overcomers-cleaner-notices.py` does the same read-only poll
+**SHELVED 2026-10-21 — not scheduled.** The Overcomers client stopped using
+cleaner services, so this no longer runs. The script stays committed as a
+working pattern for any future property; the `CLEANER_*` secrets are inert.
+
+`scripts/pyrunner/overcomers-cleaner-notices.py` did the same read-only poll
 for the cleaning team: it emails the confirmed departures for the next 14 days
 (11:00 check-out) with the following arrival and its gap, flagging same-day
 turnarounds as URGENT. No guest names — dates and properties only. Secrets:
 the same Lodgify/Gmail/webhook set plus `CLEANER_EMAILS` (comma-separated),
 optional `CLEANER_CC`, `CLEANER_WINDOW_DAYS`, `CLEANER_INCLUDE_OPEN` (default
-off: unconfirmed stays are excluded). Schedule: daily 07:45 Europe/London.
+off: unconfirmed stays are excluded). Schedule was: daily 07:45 Europe/London.
 
 ## Step 2 — webhooks (deferred, not built)
 

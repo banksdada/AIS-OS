@@ -69,3 +69,67 @@ Outcome: `scripts/dashboard/lodgify.py` wired into the dashboard payload and "Lo
 Alternatives considered: Webhooks-first (rejected — signing unconfirmed, would risk accepting forged posts); auto-replies to guests (rejected — owner must review before guests hear from the system).
 
 Owner: Banks Dada (self)
+
+## 2026-10-20 - Rebrand BusinessBots to Sorted
+
+Decision: The customer-facing brand is **Sorted** (automation.baseuse.xyz — "Practical fixes for any business or organisation"). The GitHub repository keeps the legacy name `businessbots`; treat it as the same product and do not rename the remote.
+
+Why: Banks confirmed the project was rebranded and that Sorted is the better name. The repo name is cosmetic; renaming the remote would churn every clone and remote reference for no product benefit.
+
+Outcome: `projects/sorted/README.md` records both names so the split is not re-litigated. Open flag "reconcile the brand" closed.
+
+Owner: Banks Dada (self)
+
+## 2026-10-20 - Capture Sorted emails into the CRM on magic-link verify, via signed webhook
+
+Decision: Write a contact into the CRM only after the visitor **clicks the magic link** (`/login/verify/{token}`), not when they first submit their email. Delivery is a **HMAC-signed webhook into the AIOS** (`/webhook/<event>`), which runs `client-tracker.py add` to append to the CRM sheet.
+
+Why: On verify, the email is proven real — the CRM holds people who actually engaged rather than typos, bots and abandoned forms. A signed webhook keeps the sheet schema in exactly one place (client-tracker.py) instead of duplicating column logic in Laravel, and keeps lead data landing in Banks's own system rather than only inside Sorted's database.
+
+Alternatives considered: Capturing on submit (rejected — noisy, needs an `unverified` column to be meaningful); writing straight to Google Sheets from Laravel (rejected — schema logic would live in two codebases and drift); scheduled pull from the AIOS (rejected — requires building an endpoint plus a scheduler, and signups arrive late).
+
+Owner: Banks Dada (self)
+
+## 2026-10-20 - Mail transport: self-hosted Postal instead of Resend
+
+Decision: Sorted sends through **Postal**, self-hosted on Coolify, using `MAIL_MAILER=smtp` with the existing `config/mail.php`. Clear `RESEND_API_KEY` and remove any `MAIL_MAILER=resend`.
+
+Why: Banks runs Postal himself, so outbound mail no longer depends on a third-party API or a shared `onboarding@resend.dev` sender domain. Laravel already had a working SMTP path plus the `MAIL_VERIFY_PEER` / `smtp-relaxed` transport built for an earlier TLS mismatch, so this is configuration only — no code change.
+
+Outcome: Coolify env for the Sorted service takes `MAIL_MAILER`, `MAIL_HOST`, `MAIL_PORT`, `MAIL_SCHEME`, `MAIL_USERNAME`, `MAIL_PASSWORD`, `MAIL_EHLO_DOMAIN`, `MAIL_VERIFY_PEER`, `MAIL_FROM_ADDRESS`, `MAIL_FROM_NAME`. Note `config/mail.php` reads `MAIL_SCHEME`, not `MAIL_ENCRYPTION` — the latter would be silently ignored. Flux's `JOB_ALERT_EMAIL_TO` notifier inherits the same settings.
+
+Flags: sending domain must be added in Postal with MX/SPF/DKIM/DMARC published before `MAIL_FROM_ADDRESS` will pass; SMTP credentials come from Postal admin -> Server -> SMTP. -> Banks
+
+Owner: Banks Dada (self)
+
+## 2026-10-21 - Drop the Overcomers cleaner departure notices
+
+Decision: Shelve `scripts/pyrunner/overcomers-cleaner-notices.py`. The Overcomers client has stopped using cleaner services, so the daily departure digest has no recipient. The script stays committed and unscheduled rather than deleted; the `CLEANER_*` PyRunner secrets are left in place, inert. Documentation in `references/lodgify-api.md` is retained but marked shelved.
+
+Why: The automation shipped on 2026-10-20 and was correct — the business case underneath it disappeared, not the code. Keeping it costs nothing, preserves the pattern for any future property, and makes a reversal a one-line reschedule instead of a rebuild.
+
+Alternatives considered: Deleting the script outright (rejected — 273 lines of working, documented pattern for a trivial storage cost); moving it to an archive folder (rejected — `scripts/pyrunner/` is where the fleet lives, and the shelved note is enough).
+
+Owner: Banks Dada (self)
+
+## 2026-10-21 - Sorted is a free marketing tool; payment layer out of scope
+
+Decision: Sorted (`automation.baseuse.xyz`) is a **client-acquisition asset**, not a paid SaaS. The payment layer is out of scope: Stripe/Cashier stays unbuilt, and the multi-platform posting analytics that only matter to a paying customer are dropped from the launch blockers. The **lead capture -> CRM webhook** is promoted to the top priority after the app boots.
+
+Why: The stated goal is getting clients, not monthly recurring revenue from the tool itself. That reframes what "launch-ready" means: the only thing that must work is a visitor arriving, describing a problem, and reaching Banks's pipeline. Billing raises the bar for launch with no revenue upside.
+
+Alternatives considered: Building paid plans anyway on a free-tier-for-leads model (rejected — premature, and it would gate the funnel the tool exists to feed); leaving the scope undecided (rejected — it kept unbuilt billing items on the blocker list, distorting what to do next).
+
+Owner: Banks Dada (self)
+
+## 2026-10-21 - Sorted rebrand deferred until the domain is bought
+
+Decision: Keep **Sorted** as the brand name. Rebranding (APP_NAME, MAIL_FROM_ADDRESS, APP_URL, legal pages, Coolify domain + certificate, Postal sending domain, repo rename, social handles) is deferred and will be executed in a **single pass** once the domain is purchased. Preferred domain `nowsorted.co.uk`, with `theheadache.co.uk` bought as a redirect; both recorded as TBD until owned.
+
+Why: A rebrand touches mail, certificates and DNS at once, and doing it before the domain exists would break the magic-link login — currently the only sign-in path. Buying the word-after-word of an unowned domain into the repo would also leave a stale name in the AIOS that nobody can tell has not been purchased.
+
+Alternatives considered: Rebranding to `theheadache.co.uk` as the brand itself (rejected — names the problem rather than the outcome, so every touchpoint depends on a tagline, and it is long to say aloud); `getsorted.co.uk` (rejected — registered since 2003); `sorted.tools` / `sorted.digital` (rejected — renewal pricing); `sortedworks.co.uk` (viable fallback if `nowsorted.co.uk` is gone by the time of purchase).
+
+Note: the brand-name search has now cycled through businessbots, Sorted, sortedd, sortted, getSorted, sorted.tools, sortedworks, theheadache and nowsorted. If nothing settles, the honest move is to pick the word that describes the product and accept a weaker domain rather than keep searching.
+
+Owner: Banks Dada (self)
