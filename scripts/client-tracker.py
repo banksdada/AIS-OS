@@ -8,7 +8,19 @@ Usage:
   python3 client-tracker.py add "Name" "Email" "Stage"  # add a client
   python3 client-tracker.py stage "Name" "New Stage"    # move a client to a new stage
 
-Stages: Lead → Contacted → Proposal → Won → Lost
+Stages (in pipeline order):
+  Lead → Contacted → Qualified → Proposal → Negotiation → Won → Lost → Dormant
+
+The Stage column in the sheet is a strict drop-down limited to these values,
+sourced from a hidden 'Stages' tab. Add/stage refuse anything not on the list,
+so a typo can't silently split the pipeline or break the colour coding.
+
+Usage:
+  python3 client-tracker.py list                    # list all clients
+  python3 client-tracker.py add "Name" "Email" "Stage"  # add a client
+  python3 client-tracker.py stage "Name" "New Stage"    # move a client to a new stage
+  python3 client-tracker.py stages                  # list the valid stages
+  python3 client-tracker.py format                  # apply styling + the stage drop-down
 """
 
 import os
@@ -25,6 +37,20 @@ SPREADSHEET_ID = os.environ.get('CLIENT_TRACKER_ID', '')  # set after creating t
 
 HEADERS = ['Name', 'Email', 'Stage', 'Last Contact', 'Notes']
 
+# The pipeline, in order. This is the single source of truth: the sheet
+# drop-down, the colour rules and the CLI validation all read from it.
+STAGES = [
+    'Lead', 'Contacted', 'Qualified', 'Proposal',
+    'Negotiation', 'Won', 'Lost', 'Dormant',
+]
+
+# The hidden tab that backs the drop-down. Kept as a separate sheet (rather
+# than an inline list) so the list can be extended later without editing the
+# validation rule itself.
+STAGES_TAB = 'Stages'
+STAGES_COLUMN = 'C'
+CLIENTS_TAB = 'Clients'
+
 # WebAwesome brand colors
 WA_COLORS = {
     'royal_violet': {'red': 0.231, 'green': 0.102, 'blue': 0.533},      # #3B1A88
@@ -39,26 +65,48 @@ WA_COLORS = {
     'white':        {'red': 1.0, 'green': 1.0, 'blue': 1.0},            # #FFFFFF
 }
 
-STAGE_COLORS = {
-    'Lead':        {'red': 0.557, 'green': 0.302, 'blue': 1.0},     # electric violet
-    'Contacted':   {'red': 0.0, 'green': 0.898, 'blue': 1.0},       # neon cyan
-    'Proposal':    {'red': 1.0, 'green': 0.302, 'blue': 0.651},     # hot pink
-    'Won':         {'red': 0.231, 'green': 0.6, 'blue': 0.2},       # green-ish
-    'Lost':        {'red': 0.8, 'green': 0.2, 'blue': 0.2},         # red-ish
-}
-
-# Stage colors with readable foreground (dark text on light backgrounds)
 STAGE_STYLE = {
     'Lead':        {'bg': WA_COLORS['electric_violet'], 'fg': WA_COLORS['white']},
-    'Contacted':   {'bg': WA_COLORS['neon_cyan'],    'fg': WA_COLORS['midnight']},
-    'Proposal':    {'bg': WA_COLORS['hot_pink'],     'fg': WA_COLORS['midnight']},
+    'Contacted':   {'bg': WA_COLORS['neon_cyan'],       'fg': WA_COLORS['midnight']},
+    'Qualified':   {'bg': {'red': 0.65, 'green': 0.85, 'blue': 1.0}, 'fg': WA_COLORS['midnight']},
+    'Proposal':    {'bg': WA_COLORS['hot_pink'],        'fg': WA_COLORS['midnight']},
+    'Negotiation': {'bg': {'red': 1.0, 'green': 0.78, 'blue': 0.30}, 'fg': WA_COLORS['midnight']},
     'Won':         {'bg': {'red': 0.20, 'green': 0.55, 'blue': 0.20}, 'fg': WA_COLORS['white']},
     'Lost':        {'bg': {'red': 0.72, 'green': 0.20, 'blue': 0.20}, 'fg': WA_COLORS['white']},
+    'Dormant':     {'bg': {'red': 0.72, 'green': 0.72, 'blue': 0.78}, 'fg': WA_COLORS['midnight']},
 }
+
+
+def valid_stage(stage: str) -> bool:
+    """Exact (case-insensitive) match against the pipeline."""
+    return any(stage.lower() == s.lower() for s in STAGES)
+
+
+def canonical_stage(stage: str) -> str:
+    """Return the properly-cased stage name, or the input if it isn't valid."""
+    for s in STAGES:
+        if stage.lower() == s.lower():
+            return s
+    return stage
 
 def get_service():
     creds = service_account.Credentials.from_service_account_file(CREDENTIALS_FILE, scopes=SCOPES)
     return build('sheets', 'v4', credentials=creds)
+
+def get_clients_tab(service) -> str:
+    """Title of the tab holding client rows.
+
+    Prefers 'Clients', falls back to the first sheet — the live sheet's tab is
+    named 'Sheet1', so the fallback is what's actually in use. Resolved rather
+    than hardcoded so renaming the tab later doesn't break anything.
+    """
+    meta = service.spreadsheets().get(spreadsheetId=SPREADSHEET_ID, fields='sheets.properties').execute()
+    sheets = meta.get('sheets', [])
+    for s in sheets:
+        if s['properties']['title'] == CLIENTS_TAB:
+            return CLIENTS_TAB
+    return sheets[0]['properties']['title'] if sheets else CLIENTS_TAB
+
 
 def get_sheet_id(service):
     """Get the sheet ID (numeric) of the 'Clients' tab."""
@@ -69,10 +117,82 @@ def get_sheet_id(service):
     # fallback: first sheet
     return meta['sheets'][0]['properties']['sheetId']
 
+
+def ensure_stages_tab(service):
+    """Make sure the hidden 'Stages' tab exists, is up to date, and is hidden.
+
+    Returns its numeric sheet id. The list lives in A1:A of this tab so the
+    drop-down can reference a real range — extension later is just adding rows.
+    """
+    meta = service.spreadsheets().get(spreadsheetId=SPREADSHEET_ID, fields='sheets.properties').execute()
+    stages_sheet = None
+    for s in meta.get('sheets', []):
+        if s['properties']['title'] == STAGES_TAB:
+            stages_sheet = s['properties']
+            break
+
+    if stages_sheet is None:
+        service.spreadsheets().batchUpdate(
+            spreadsheetId=SPREADSHEET_ID,
+            body={'requests': [{'addSheet': {'properties': {'title': STAGES_TAB}}}]},
+        ).execute()
+        meta = service.spreadsheets().get(spreadsheetId=SPREADSHEET_ID, fields='sheets.properties').execute()
+        for s in meta.get('sheets', []):
+            if s['properties']['title'] == STAGES_TAB:
+                stages_sheet = s['properties']
+                break
+
+    # Write the stage list, then blank any leftover rows from a longer old list.
+    service.spreadsheets().values().update(
+        spreadsheetId=SPREADSHEET_ID,
+        range=f"'{STAGES_TAB}'!A1",
+        valueInputOption='RAW',
+        body={'values': [[s] for s in STAGES]},
+    ).execute()
+
+    # Hide the tab so it stays out of the way but remains editable by hand.
+    service.spreadsheets().batchUpdate(
+        spreadsheetId=SPREADSHEET_ID,
+        body={'requests': [{'updateSheetProperties': {
+            'properties': {'sheetId': stages_sheet['sheetId'], 'hidden': True},
+            'fields': 'hidden',
+        }}]},
+    ).execute()
+
+    return stages_sheet['sheetId']
+
 def format_crm(service):
     """Apply professional webawesome styling to the CRM sheet."""
     sheet_id = get_sheet_id(service)
+    ensure_stages_tab(service)
     requests = []
+
+    # 0. Stage drop-down (strict) on the Stage column, existing rows only.
+    #    Referencing the hidden Stages tab means extending the list later is
+    #    just adding a row there — no need to touch this rule.
+    used = service.spreadsheets().values().get(
+        spreadsheetId=SPREADSHEET_ID, range=f"'{get_clients_tab(service)}'!A1:A"
+    ).execute().get('values', [])
+    last_row = max(len(used), 1)  # header at least, so the rule is never empty
+    requests.append({
+        'setDataValidation': {
+            'range': {
+                'sheetId': sheet_id,
+                'startRowIndex': 1,
+                'endRowIndex': last_row,
+                'startColumnIndex': 2,
+                'endColumnIndex': 3,
+            },
+            'rule': {
+                'condition': {
+                    'type': 'ONE_OF_RANGE',
+                    'values': [{'userEnteredValue': f"='{STAGES_TAB}'!$A$1:$A${len(STAGES)}"}],
+                },
+                'strict': True,
+                'showCustomUi': True,
+            },
+        }
+    })
 
     # 1. Header row formatting (row 0, index 0)
     requests.append({
@@ -225,6 +345,11 @@ def list_clients(service, json_out=False):
             print(f"{c['name']:20s} | {c['stage']:12s} | {c['lastContact']:10s} | {c['notes']}")
 
 def add_client(service, name, email, stage="Lead"):
+    if not valid_stage(stage):
+        print(f"Unknown stage '{stage}'.")
+        print_stages()
+        return False
+    stage = canonical_stage(stage)
     service.spreadsheets().values().append(
         spreadsheetId=SPREADSHEET_ID,
         range='A1:E',
@@ -232,8 +357,14 @@ def add_client(service, name, email, stage="Lead"):
         body={'values': [[name, email, stage, '', '']]}
     ).execute()
     print(f"Added {name} as {stage}.")
+    return True
 
 def update_stage(service, name, new_stage):
+    if not valid_stage(new_stage):
+        print(f"Unknown stage '{new_stage}'.")
+        print_stages()
+        return False
+    new_stage = canonical_stage(new_stage)
     result = service.spreadsheets().values().get(
         spreadsheetId=SPREADSHEET_ID, range='A1:E'
     ).execute()
@@ -247,8 +378,12 @@ def update_stage(service, name, new_stage):
                 body={'values': [[new_stage]]}
             ).execute()
             print(f"Moved {name} to {new_stage}.")
-            return
+            return True
     print(f"Client '{name}' not found.")
+    return False
+
+def print_stages():
+    print("Valid stages: " + " -> ".join(STAGES))
 
 def main():
     parser = argparse.ArgumentParser()
@@ -267,6 +402,7 @@ def main():
     p_stage.add_argument('new_stage')
 
     sub.add_parser('format')  # apply professional styling
+    sub.add_parser('stages')  # list the valid stages
 
     args = parser.parse_args()
     if not SPREADSHEET_ID:
@@ -277,11 +413,15 @@ def main():
     if args.cmd == 'list':
         list_clients(service, json_out=getattr(args, 'json', False))
     elif args.cmd == 'add':
-        add_client(service, args.name, args.email, args.stage)
+        if not add_client(service, args.name, args.email, args.stage):
+            sys.exit(1)
     elif args.cmd == 'stage':
-        update_stage(service, args.name, args.new_stage)
+        if not update_stage(service, args.name, args.new_stage):
+            sys.exit(1)
     elif args.cmd == 'format':
         format_crm(service)
+    elif args.cmd == 'stages':
+        print_stages()
     else:
         parser.print_help()
 
