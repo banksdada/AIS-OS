@@ -1,0 +1,271 @@
+diff --git a/.env.example b/.env.example
+index 02b58d3..25b9f9d 100644
+--- a/.env.example
++++ b/.env.example
+@@ -106,6 +106,13 @@ JOB_ALERT_SCORE_THRESHOLD=65
+ # Leave blank to get alerts for all target roles, not just this one.
+ JOB_ALERT_ROLE_FILTER=business_analyst
+ 
++# AIOS CRM — a verified sign-up (magic link clicked) is POSTed here so the
++# contact lands in the Clients sheet. The secret signs the body: HMAC-SHA256
++# over "<timestamp>.<body>". Must match CRM_WEBHOOK_SECRET set on the AIOS
++# side (Coolify). Leave blank locally to disable capture entirely.
++CRM_WEBHOOK_URL=https://aios.webawesome.co.uk/webhook/crm
++CRM_WEBHOOK_SECRET=
++
+ # OpenAI (DALL-E image generation — not covered by AI abstraction)
+ OPENAI_API_KEY=
+ 
+diff --git a/app/Http/Controllers/Auth/AuthController.php b/app/Http/Controllers/Auth/AuthController.php
+index 330f7a1..b3475ad 100644
+--- a/app/Http/Controllers/Auth/AuthController.php
++++ b/app/Http/Controllers/Auth/AuthController.php
+@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
+ use App\Mail\LoginLinkMail;
+ use App\Models\LoginToken;
+ use App\Models\User;
++use App\Services\Crm\CrmCaptureService;
+ use Illuminate\Http\Request;
+ use Illuminate\Support\Facades\Auth;
+ use Illuminate\Support\Facades\Mail;
+@@ -60,7 +61,7 @@ class AuthController extends Controller
+     /**
+      * Log the user in from a valid, unused, unexpired token.
+      */
+-    public function verify(Request $request, string $token)
++    public function verify(Request $request, string $token, CrmCaptureService $crm)
+     {
+         $loginToken = LoginToken::where('token', $token)->first();
+ 
+@@ -74,6 +75,11 @@ class AuthController extends Controller
+         Auth::login($loginToken->user);
+         $request->session()->regenerate();
+ 
++        // Clicking the link is the proof the email is real, so this is where a
++        // lead enters the CRM. Fail-safe: capture() never throws, so a CRM
++        // outage can't block a login.
++        $crm->capture($loginToken->user);
++
+         return redirect()->intended(route('onboarding'));
+     }
+ 
+diff --git a/app/Services/Crm/CrmCaptureService.php b/app/Services/Crm/CrmCaptureService.php
+new file mode 100644
+index 0000000..3de8f1e
+--- /dev/null
++++ b/app/Services/Crm/CrmCaptureService.php
+@@ -0,0 +1,84 @@
++<?php
++
++namespace App\Services\Crm;
++
++use App\Models\User;
++use Illuminate\Support\Facades\Http;
++use Illuminate\Support\Facades\Log;
++
++/**
++ * Push a verified sign-up into the AIOS CRM.
++ *
++ * Called from AuthController::verify() once the magic link has been clicked —
++ * that is the only moment we know the email is real. The AIOS accepts a
++ * signed POST at /webhook/crm and appends the contact to the Clients sheet.
++ *
++ * The signature is HMAC-SHA256 over "<timestamp>.<body>" using the shared
++ * CRM_WEBHOOK_SECRET, sent as X-AIOS-Timestamp / X-AIOS-Signature. This is the
++ * same scheme the AIOS uses for its other webhooks (scripts/dashboard/
++ * pyrunner_events.py), so the receiving side is already tested.
++ *
++ * Fail-safe by design: a CRM outage must never stop a user logging in. Every
++ * failure is logged and swallowed; the caller never gets an exception.
++ */
++class CrmCaptureService
++{
++    /**
++     * Notify the AIOS of a verified user. Never throws.
++     *
++     * @return bool true if the AIOS accepted the contact.
++     */
++    public function capture(User $user): bool
++    {
++        $url = config('services.crm.webhook_url');
++        $secret = config('services.crm.webhook_secret');
++
++        if (empty($url) || empty($secret)) {
++            Log::warning('CRM capture skipped: url or secret not configured', [
++                'has_url' => ! empty($url),
++                'has_secret' => ! empty($secret),
++            ]);
++
++            return false;
++        }
++
++        $body = json_encode([
++            'name' => (string) $user->name,
++            'email' => strtolower((string) $user->email),
++            'stage' => 'Lead',
++        ], JSON_UNESCAPED_SLASHES);
++
++        $timestamp = (string) time();
++        $signature = 'sha256=' . hash_hmac('sha256', $timestamp . '.' . $body, $secret);
++
++        try {
++            $response = Http::timeout(config('services.crm.timeout_seconds', 10))
++                ->withHeaders([
++                    'X-AIOS-Timestamp' => $timestamp,
++                    'X-AIOS-Signature' => $signature,
++                    'User-Agent' => config('services.crm.user_agent', 'Sorted/1.0'),
++                ])
++                ->withBody($body, 'application/json')
++                ->post($url);
++
++            if ($response->failed()) {
++                Log::warning('CRM capture rejected by AIOS', [
++                    'status' => $response->status(),
++                    'body' => $response->body(),
++                ]);
++
++                return false;
++            }
++
++            return true;
++        } catch (\Throwable $e) {
++            // Network error, DNS failure, timeout — log it, but let the login
++            // carry on. The user is already authenticated by this point.
++            Log::warning('CRM capture failed to reach the AIOS', [
++                'error' => $e->getMessage(),
++            ]);
++
++            return false;
++        }
++    }
++}
+diff --git a/config/services.php b/config/services.php
+index d9f3eff..1ff512d 100644
+--- a/config/services.php
++++ b/config/services.php
+@@ -165,4 +165,23 @@ return [
+         ),
+     ],
+ 
++    /*
++    |--------------------------------------------------------------------------
++    | AIOS CRM
++    |--------------------------------------------------------------------------
++    |
++    | A verified sign-up (magic link clicked) is POSTed to the AIOS, which
++    | appends the contact to the Clients sheet. The shared secret signs the
++    | body: HMAC-SHA256 over "<timestamp>.<body>". Leave the secret blank in
++    | local/dev to disable capture — the service logs and moves on.
++    |
++    */
++
++    'crm' => [
++        'webhook_url' => env('CRM_WEBHOOK_URL', 'https://aios.webawesome.co.uk/webhook/crm'),
++        'webhook_secret' => env('CRM_WEBHOOK_SECRET'),
++        'timeout_seconds' => (int) env('CRM_WEBHOOK_TIMEOUT', 10),
++        'user_agent' => env('CRM_WEBHOOK_USER_AGENT', 'Sorted/1.0'),
++    ],
++
+ ];
+diff --git a/tests/Feature/CrmCaptureTest.php b/tests/Feature/CrmCaptureTest.php
+new file mode 100644
+index 0000000..163c72a
+--- /dev/null
++++ b/tests/Feature/CrmCaptureTest.php
+@@ -0,0 +1,96 @@
++<?php
++
++namespace Tests\Feature;
++
++use App\Models\LoginToken;
++use App\Models\User;
++use App\Services\Crm\CrmCaptureService;
++use Illuminate\Foundation\Testing\RefreshDatabase;
++use Illuminate\Support\Facades\Http;
++use Illuminate\Support\Facades\Log;
++
++class CrmCaptureTest extends TestCase
++{
++    use RefreshDatabase;
++
++    protected function setUp(): void
++    {
++        parent::setUp();
++
++        config()->set('services.crm.webhook_url', 'https://aios.test/webhook/crm');
++        config()->set('services.crm.webhook_secret', 'test-secret');
++    }
++
++    public function test_clicking_the_magic_link_pushes_the_user_to_the_crm(): void
++    {
++        Http::fake(['aios.test/*' => Http::response(['ok' => true], 200)]);
++
++        $user = User::factory()->create(['email' => 'Verifier@Example.com', 'name' => 'Ada Lovelace']);
++        $token = LoginToken::issueFor($user);
++
++        $this->get(route('login.verify', $token->token))->assertRedirect(route('onboarding'));
++
++        Http::assertSent(function ($request) {
++            $body = $request->body();
++
++            $expected = 'sha256=' . hash_hmac(
++                'sha256',
++                $request->header('X-AIOS-Timestamp')[0] . '.' . $body,
++                'test-secret'
++            );
++
++            $decoded = json_decode($body, true);
++
++            return $request->url() === 'https://aios.test/webhook/crm'
++                && $decoded['email'] === 'verifier@example.com'
++                && $decoded['name'] === 'Ada Lovelace'
++                && $decoded['stage'] === 'Lead'
++                && $request->header('X-AIOS-Signature')[0] === $expected;
++        });
++    }
++
++    public function test_a_crm_failure_does_not_block_the_login(): void
++    {
++        Http::fake(['aios.test/*' => Http::response('nope', 500)]);
++        Log::shouldReceive('warning')->atLeast()->once();
++
++        $user = User::factory()->create();
++        $token = LoginToken::issueFor($user);
++
++        $this->get(route('login.verify', $token->token))->assertRedirect(route('onboarding'));
++        $this->assertAuthenticatedAs($user);
++    }
++
++    public function test_a_network_error_does_not_block_the_login(): void
++    {
++        Http::fake(fn () => throw new \Illuminate\Http\Client\ConnectionException('timed out'));
++        Log::shouldReceive('warning')->atLeast()->once();
++
++        $user = User::factory()->create();
++        $token = LoginToken::issueFor($user);
++
++        $this->get(route('login.verify', $token->token))->assertRedirect(route('onboarding'));
++        $this->assertAuthenticatedAs($user);
++    }
++
++    public function test_capture_is_skipped_when_no_secret_is_configured(): void
++    {
++        config()->set('services.crm.webhook_secret', '');
++        Http::fake();
++        Log::shouldReceive('warning')->atLeast()->once();
++
++        $result = app(CrmCaptureService::class)->capture(User::factory()->create());
++
++        $this->assertFalse($result);
++        Http::assertNothingSent();
++    }
++
++    public function test_an_invalid_token_does_not_touch_the_crm(): void
++    {
++        Http::fake();
++
++        $this->get(route('login.verify', 'not-a-real-token'))->assertRedirect(route('login'));
++
++        Http::assertNothingSent();
++    }
++}
