@@ -97,5 +97,36 @@ class TabNameTests(unittest.TestCase):
         self.assertEqual(ct.STAGES_COLUMN, "C")
 
 
+class RowTintTests(unittest.TestCase):
+    def test_every_stage_has_a_row_tint(self):
+        for stage in ct.STAGES:
+            self.assertIn(stage, ct.STAGE_ROW_TINT, f"{stage} has no row tint")
+
+    def test_tint_keys_match_stages(self):
+        self.assertEqual(set(ct.STAGE_ROW_TINT), set(ct.STAGES))
+
+    def test_tints_are_light_enough_for_text(self):
+        # A dark tint would hide the dark body text. Every channel must stay
+        # high (light), since data text is WA_COLORS['midnight'].
+        for stage, tint in ct.STAGE_ROW_TINT.items():
+            for channel in ("red", "green", "blue"):
+                self.assertGreater(
+                    tint[channel], 0.8,
+                    f"{stage} {channel} is too dark for readable dark text")
+
+
+class PaletteTests(unittest.TestCase):
+    def test_zebra_is_defined_and_light(self):
+        z = ct.WA_COLORS["zebra"]
+        for channel in ("red", "green", "blue"):
+            self.assertGreater(z[channel], 0.9)
+
+    def test_amber_flag_has_contrasting_text(self):
+        bg = ct.WA_COLORS["amber"]
+        fg = ct.WA_COLORS["amber_fg"]
+        # Sanity: text far darker than the amber background.
+        self.assertLess(sum(fg.values()), sum(bg.values()))
+
+
 if __name__ == "__main__":
     unittest.main()

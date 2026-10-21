@@ -58,11 +58,27 @@ WA_COLORS = {
     'electric_violet': {'red': 0.557, 'green': 0.302, 'blue': 1.0},     # #8E4DFF
     'neon_cyan':    {'red': 0.0, 'green': 0.898, 'blue': 1.0},          # #00E5FF
     'hot_pink':     {'red': 1.0, 'green': 0.302, 'blue': 0.651},        # #FF4DA6
-    'mist':         {'red': 0.965, 'green': 0.957, 'blue': 1.0},        # #F6F4FF
     'muted':        {'red': 0.357, 'green': 0.337, 'blue': 0.502},      # #5B5680
     'line':         {'red': 0.890, 'green': 0.867, 'blue': 0.965},      # #E3DDF6
     'deep_night':   {'red': 0.024, 'green': 0.043, 'blue': 0.169},      # #060B2B
     'white':        {'red': 1.0, 'green': 1.0, 'blue': 1.0},            # #FFFFFF
+    'zebra':        {'red': 0.980, 'green': 0.976, 'blue': 1.0},        # #FAF9FF
+    'amber':        {'red': 1.0, 'green': 0.95, 'blue': 0.80},          # stale-contact flag
+    'amber_fg':     {'red': 0.55, 'green': 0.33, 'blue': 0.0},          # readable on amber
+}
+
+# Very light tints, one per stage, applied to the WHOLE row so the sheet reads
+# as a pipeline at a glance rather than only colouring the Stage cell. Kept pale
+# so text stays readable; the Stage cell keeps its strong colour on top.
+STAGE_ROW_TINT = {
+    'Lead':        {'red': 0.960, 'green': 0.945, 'blue': 1.0},
+    'Contacted':   {'red': 0.925, 'green': 0.980, 'blue': 1.0},
+    'Qualified':   {'red': 0.900, 'green': 0.955, 'blue': 1.0},
+    'Proposal':    {'red': 1.0,   'green': 0.930, 'blue': 0.965},
+    'Negotiation': {'red': 1.0,   'green': 0.965, 'blue': 0.870},
+    'Won':         {'red': 0.905, 'green': 0.965, 'blue': 0.905},
+    'Lost':        {'red': 0.975, 'green': 0.915, 'blue': 0.915},
+    'Dormant':     {'red': 0.945, 'green': 0.945, 'blue': 0.960},
 }
 
 STAGE_STYLE = {
@@ -204,17 +220,35 @@ def format_crm(service):
                     'textFormat': {
                         'foregroundColor': WA_COLORS['white'],
                         'fontFamily': 'Space Grotesk',
-                        'fontSize': 11,
+                        'fontSize': 12,
                         'bold': True
                     },
                     'horizontalAlignment': 'CENTER',
                     'verticalAlignment': 'MIDDLE',
                     'borders': {
-                        'bottom': {'style': 'SOLID', 'width': 2, 'color': WA_COLORS['electric_violet']}
+                        'bottom': {'style': 'SOLID', 'width': 3, 'color': WA_COLORS['neon_cyan']}
                     }
                 }
             },
             'fields': 'userEnteredFormat(backgroundColor,textFormat,horizontalAlignment,verticalAlignment,borders)'
+        }
+    })
+
+    # 1b. Taller header, so it reads as a band rather than a thin strip.
+    requests.append({
+        'updateDimensionProperties': {
+            'range': {'sheetId': sheet_id, 'dimension': 'ROWS', 'startIndex': 0, 'endIndex': 1},
+            'properties': {'pixelSize': 42},
+            'fields': 'pixelSize'
+        }
+    })
+
+    # 1c. Full-height data rows so cells breathe.
+    requests.append({
+        'updateDimensionProperties': {
+            'range': {'sheetId': sheet_id, 'dimension': 'ROWS', 'startIndex': 1, 'endIndex': 1000},
+            'properties': {'pixelSize': 34},
+            'fields': 'pixelSize'
         }
     })
 
@@ -227,7 +261,7 @@ def format_crm(service):
     })
 
     # 3. Column widths
-    col_widths = [180, 220, 110, 140, 300]
+    col_widths = [200, 240, 130, 150, 340]
     for i, width in enumerate(col_widths):
         requests.append({
             'updateDimensionProperties': {
@@ -237,46 +271,115 @@ def format_crm(service):
             }
         })
 
-    # 4. Clear any existing banding (so re-runs don't stack)
-    meta = service.spreadsheets().get(spreadsheetId=SPREADSHEET_ID, fields='sheets(bandedRanges)').execute()
+    # 4. Clear existing conditional formats and banding, so re-running this
+    #    never stacks duplicate rules (which quietly multiply colours).
+    meta = service.spreadsheets().get(
+        spreadsheetId=SPREADSHEET_ID,
+        fields='sheets(properties,bandedRanges,conditionalFormats)').execute()
     for sh in meta.get('sheets', []):
+        sh_id = sh['properties']['sheetId']
         for br in sh.get('bandedRanges', []):
+            requests.append({'deleteBanding': {'bandedRangeId': br['bandedRangeId']}})
+        # Delete conditional rules from the top down; deleting index 0 shifts
+        # the rest up, so repeat for as many as exist.
+        for _ in range(len(sh.get('conditionalFormats', []))):
             requests.append({
-                'deleteBanding': {
-                    'bandedRangeId': br['bandedRangeId']
-                }
+                'deleteConditionalFormatRule': {'sheetId': sh_id, 'index': 0}
             })
 
-    # 5. Alternating row colors via repeatCell (data rows only, starting from row 1)
-    # Using repeatCell instead of addBanding: banding's headerColor was being applied
-    # to the first data row, making text invisible on dark backgrounds.
+    # 5. Zebra striping via MOD custom formula — a real alternating pattern.
+    #    (repeatCell cannot alternate; it paints one flat colour, which is what
+    #    made the sheet look inert.)
     requests.append({
-        'repeatCell': {
-            'range': {'sheetId': sheet_id, 'startRowIndex': 1, 'endRowIndex': 1000},
-            'cell': {
-                'userEnteredFormat': {
-                    'backgroundColor': WA_COLORS['mist'],
-                    'textFormat': {'foregroundColor': WA_COLORS['midnight']}
+        'addConditionalFormatRule': {
+            'rule': {
+                'ranges': [{'sheetId': sheet_id, 'startRowIndex': 1, 'startColumnIndex': 0, 'endColumnIndex': 5}],
+                'booleanRule': {
+                    'condition': {
+                        'type': 'CUSTOM_FORMULA',
+                        'values': [{'userEnteredValue': '=MOD(ROW(),2)=0'}]
+                    },
+                    'format': {'backgroundColor': WA_COLORS['zebra']}
                 }
             },
-            'fields': 'userEnteredFormat(backgroundColor,textFormat.foregroundColor)'
+            'index': 100
         }
     })
+
+    # 5b. Base text + padding for all data cells, so nothing is cramped.
     requests.append({
         'repeatCell': {
             'range': {'sheetId': sheet_id, 'startRowIndex': 1, 'endRowIndex': 1000, 'startColumnIndex': 0, 'endColumnIndex': 5},
             'cell': {
                 'userEnteredFormat': {
                     'backgroundColor': WA_COLORS['white'],
-                    'textFormat': {'foregroundColor': WA_COLORS['midnight']}
+                    'textFormat': {'foregroundColor': WA_COLORS['midnight'], 'fontFamily': 'Inter', 'fontSize': 10},
+                    'verticalAlignment': 'MIDDLE',
+                    'padding': {'top': 6, 'bottom': 6, 'left': 10, 'right': 10}
                 }
             },
-            'fields': 'userEnteredFormat(backgroundColor,textFormat.foregroundColor)'
+            'fields': 'userEnteredFormat(backgroundColor,textFormat,verticalAlignment,padding)'
         }
     })
 
-    # 6. Conditional formatting for Stage column (C)
-    # Dark text on light stage backgrounds so it stays readable
+    # 5c. Name column: bolder, so the eye lands on the client first.
+    requests.append({
+        'repeatCell': {
+            'range': {'sheetId': sheet_id, 'startRowIndex': 1, 'endRowIndex': 1000, 'startColumnIndex': 0, 'endColumnIndex': 1},
+            'cell': {'userEnteredFormat': {'textFormat': {'bold': True, 'fontSize': 11}}},
+            'fields': 'userEnteredFormat.textFormat'
+        }
+    })
+
+    # 5d. Stage column: centred, so the chips line up down the column.
+    requests.append({
+        'repeatCell': {
+            'range': {'sheetId': sheet_id, 'startRowIndex': 1, 'endRowIndex': 1000, 'startColumnIndex': 2, 'endColumnIndex': 3},
+            'cell': {'userEnteredFormat': {'horizontalAlignment': 'CENTER'}},
+            'fields': 'userEnteredFormat.horizontalAlignment'
+        }
+    })
+
+    # 5e. Last Contact: centred.
+    requests.append({
+        'repeatCell': {
+            'range': {'sheetId': sheet_id, 'startRowIndex': 1, 'endRowIndex': 1000, 'startColumnIndex': 3, 'endColumnIndex': 4},
+            'cell': {'userEnteredFormat': {'horizontalAlignment': 'CENTER'}},
+            'fields': 'userEnteredFormat.horizontalAlignment'
+        }
+    })
+
+    # 5f. Notes: top-aligned and wrapped, so long notes read cleanly.
+    requests.append({
+        'repeatCell': {
+            'range': {'sheetId': sheet_id, 'startRowIndex': 1, 'endRowIndex': 1000, 'startColumnIndex': 4, 'endColumnIndex': 5},
+            'cell': {'userEnteredFormat': {'wrapStrategy': 'WRAP', 'verticalAlignment': 'TOP'}},
+            'fields': 'userEnteredFormat(wrapStrategy,verticalAlignment)'
+        }
+    })
+
+    # 6a. Row tint by stage — the whole row, so the sheet reads as a pipeline.
+    #     Lower priority (higher index) than the Stage-chip rule below, so the
+    #     Stage cell still shows its strong stage colour on top.
+    for stage, tint in STAGE_ROW_TINT.items():
+        requests.append({
+            'addConditionalFormatRule': {
+                'rule': {
+                    'ranges': [{'sheetId': sheet_id, 'startRowIndex': 1, 'startColumnIndex': 0, 'endColumnIndex': 5}],
+                    'booleanRule': {
+                        'condition': {
+                            'type': 'CUSTOM_FORMULA',
+                            'values': [{'userEnteredValue': f'=$C2="{stage}"'}]
+                        },
+                        'format': {'backgroundColor': tint}
+                    }
+                },
+                'index': 50
+            }
+        })
+
+    # 6b. Conditional formatting for Stage column (C) — the strong "chip".
+    # Dark text on light stage backgrounds so it stays readable.
     for stage, style in STAGE_STYLE.items():
         requests.append({
             'addConditionalFormatRule': {
@@ -299,6 +402,30 @@ def format_crm(service):
                 'index': 0
             }
         })
+
+    # 6c. Stale-contact flag: any active client (not Won/Lost) whose Last
+    #     Contact is older than 30 days gets an amber cell. Uses DATEDIF on the
+    #     Last Contact cell; empty cells are ignored, so a new lead isn't
+    #     flagged before there's a real date to measure from.
+    requests.append({
+        'addConditionalFormatRule': {
+            'rule': {
+                'ranges': [{'sheetId': sheet_id, 'startRowIndex': 1, 'startColumnIndex': 3, 'endColumnIndex': 4}],
+                'booleanRule': {
+                    'condition': {
+                        'type': 'CUSTOM_FORMULA',
+                        'values': [{'userEnteredValue':
+                                    '=AND($D2<>"", $C2<>"Won", $C2<>"Lost", TODAY()-$D2>30)'}]
+                    },
+                    'format': {
+                        'backgroundColor': WA_COLORS['amber'],
+                        'textFormat': {'foregroundColor': WA_COLORS['amber_fg'], 'bold': True}
+                    }
+                }
+            },
+            'index': 0
+        }
+    })
 
     # 7. Filter view on header row
     requests.append({
