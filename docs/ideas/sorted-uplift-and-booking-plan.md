@@ -47,6 +47,11 @@ owner trusts with their problem. Ordered cheapest-to-highest-leverage.
 
 - A **worked example** on the homepage: one real-ish problem, what Sorted
   returned, how long it took. Concrete beats a features list.
+- A **real case study** directly after it — Overcomers (two short-let
+  properties, daily guest-reply drafting). Draft content:
+  `sorted-case-study-overcomers.md`. It proves the human-in-the-loop promise
+  with a business in the same audience. Needs client consent and one real quote
+  before publishing.
 - **Who's behind it** — a short, human "built by WebAwesome" line with a face.
   Small-business buyers trust a named person far more than a logo.
 - **Data handling in one plain sentence** — what's stored, for how long, how to
