@@ -9,6 +9,8 @@
 **Brand:** **Sorted**. The repo keeps the legacy name `businessbots` — cosmetic, do not rename the remote.
 **Intended domain:** `<TBD — nowsorted.co.uk preferred (purchase planned 2026-10-21); theheadache.co.uk as redirect>`. Not owned yet, so not wired in.
 
+**Rebrand plan:** `docs/ideas/sorted-rebrand-plan.md` — phased, with a strict rule that nothing runs before the domain is bought and Postal verifies a test send. Review on request.
+
 **Positioning (decided 2026-10-21):** Sorted is a **free client-acquisition tool — no payment layer.** Stripe/Cashier stays unbuilt. The goal is getting clients, not MRR from the tool, so the only thing launch-ready really requires is: a visitor describes a problem and lands in Banks's pipeline.
 
 ## What it is

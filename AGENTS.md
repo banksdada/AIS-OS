@@ -18,6 +18,8 @@ Read references/3ms-framework.md once. It's how Banks Dada thinks about AI work.
 - /link: Link a project, file, folder, or source into the right operating-manual route or index.
 - /3d-brain: Choose a brain name and categories, then build a local 3D knowledge globe with Cinema and interactive growth replay. Uses selected local files and the bundled app template.
 - /level-up — Weekly 3Ms interview. Find one automation, scope it, ship it. One per week.
+- /morning-coffee — Daily plan: priorities, overdue tasks, live system status, messages awaiting reply. Under 20 lines.
+- /pulse-check — Review every active workstream in projects/ and flag only what is stale, overdue or needs a decision.
 - Skills live in `.claude/skills/` (canonical) and `.agents/skills/` (Codex mirror). Keep them in sync with `bash scripts/sync-codex-skills.sh` after any skill edit.
 
 ## Your agents
@@ -72,7 +74,7 @@ docker build -t aios .
 
 - context/ — about you, your business, your priorities (filled by /onboard)
 - context/tasks.md — the single task list, maintained by @executive-assistant
-- projects/ — active workstreams, one folder each with a short README
+- projects/ — active workstreams, one folder each with a short README. Code usually lives outside this repo (Desktop, client repos); these folders are the index and the status.
 - .claude/rules/ — one topic per file; communication style lives here
 - references/ — frameworks, voice samples, API guides as you connect tools
 - connections.md — registry of every system your AIOS can reach
