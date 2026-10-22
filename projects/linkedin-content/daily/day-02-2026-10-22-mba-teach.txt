@@ -1,0 +1,20 @@
+DAY 2 — MBA — TEACH
+Date: 22 Oct 2026
+Page: mentoringba
+Pillar: TEACH
+
+--- POST BODY: copy everything below this line ---
+
+A requirements document landed on my desk once that described the current process perfectly.
+
+Twelve steps. Not one of them said why.
+
+If you want to move into business analysis, stop learning tools. Start learning how to ask one question well:
+
+"What is this process actually for?"
+
+Half the requirements documents I've seen describe the current mess perfectly and never ask why it exists. A good BA notices the step nobody can justify.
+
+Learn the tools, yes. But the question is the job.
+
+#BusinessAnalysis #CareerChange #Mentoring

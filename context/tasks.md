@@ -25,6 +25,8 @@ Close items by marking `[x]` with the date — never delete history.
 - [ ] Reply to Manny with the HMRC-based CV for the London/Surrey BA contract — Banks, due 2026-10-22 (before 17:00), source: job search 2026-10-22
 - [ ] Apply to TTC Tech Senior Business Analyst using the legacyR-based CV, stating the travel/cruise gap plainly — Banks, source: job search 2026-10-22
 - [ ] Decide Laravel vs Django for the bankoledada.co.uk rebuild, then confirm hosting (Coolify?) and design direction — Banks, source: docs/ideas/bankoledada-rebuild-plan.md
+- [ ] Authorise Drive write access: open the consent URL (already copied to clipboard, regenerate with `python3 scripts/gdrive-authorize.py`), then run `python3 scripts/gdrive-authorize.py <CODE>` — Banks, source: 2026-10-22
+- [ ] Post LinkedIn Day 2 (MBA — TEACH) — copy from `projects/linkedin-content/daily/day-02-2026-10-22-mba-teach.txt` or the Drive `linkedin-posts` folder — Banks, due 2026-10-22, source: morning coffee 2026-10-22
 
 ## Waiting on someone else
 
