@@ -13,3 +13,5 @@ scripts/potential_newsletter_contacts.csv
 data/pyrunner-events.json
 data/lodgify-cache.json
 data/lodgify-draft-packet.json
+# Personal CV data — this repo is PUBLIC. Contains name, phone, email.
+projects/job-search/resumes/

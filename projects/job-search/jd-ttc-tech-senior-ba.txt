@@ -1,0 +1,157 @@
+===== TTC Tech - Senior Business Analyst - LR & TTR Job Spec.pdf =====
+THE TRAVEL CORPORATION  
+Senior Business Analyst 
+Department: TTC Tech / IT 
+Brands: Group – TTC Tech 
+Reports to: Head of PMO 
+Direct Reports: None 
+ 
+ABOUT US 
+Our philosophy at The Travel Corporation (TTC) is simple, we create enriching experiences  
+for travellers by combining an unbeatable mix of exceptional service and quality at great  
+value.  
+ 
+As a global business with over 100 years of experience in the travel industry, our ethos of  
+being ‘Driven by Service’, ensures we keep our values of passion, people and purpose at  
+the heart of everything we do - designing and running immersive, innovative and  
+responsible travel experiences for our guests across 70 countries. Join us in creating life-
+changing moments for every guest across our award-winning brands and experience  
+the TTC difference.  
+ 
+OUR VALUES 
+• Driven by service 
+• An inherent passion for travel 
+• Commitment to our customers and to our people 
+• Commitment to social responsibility and our 5-year sustainability strategy 
+POSITION SUMMARY 
+The Senior Business Analyst will play a pivotal role in two interconnected strategic 
+transformation initiatives: the replacement of Uniworld’s legacy Longitude reservations 
+platform and the development of Trafalgar River’s booking, servicing and operational 
+capabilities. Acting as the bridge between business stakeholders and implementation teams, 
+they will independently lead the analysis required to define needs, shape practical solutions and 
+deliver measurable business outcomes. 
+Sitting within the TTC Tech PMO and reporting to the Head of PMO, the role will work across 
+reservations, sales and customer servicing, digital commerce, CRM, cruise operations, finance, 
+data and technology. It will coordinate analysis across multiple brands, markets, platforms, 
+suppliers and stakeholder groups, with Longitude Replacement as the primary focus and 
+Trafalgar River as a closely related project. 
+ 
+Operating across the full delivery lifecycle, the Senior Business Analyst will lead discovery, 
+requirements elicitation and validation, current- and future-state process mapping, gap and 
+ 
+The Travel Corporation | | TTC.com 
+ 
+ 
+impact analysis, solution assessment, requirements traceability and business inputs to testing 
+and implementation. They will help validate the future reservations and order-management 
+capability without assuming that all requirements, solution choices or delivery structures have 
+already been agreed. 
+The successful candidate will be a hands-on, technically literate and commercially aware analyst 
+who can operate independently in an ambiguous, fast-paced and matrixed environment. They 
+will challenge constructively, influence senior stakeholders and understand complex workflows, 
+integrations, data dependencies and business rules, while working within clear accountability 
+boundaries alongside programme management, product, architecture, engineering, QA, 
+vendors and operational teams. 
+ 
+KEY RESPONSIBILITIES 
+• Serve as the primary bridge between business stakeholders and technology 
+implementation teams for assigned Longitude Replacement and Trafalgar River 
+workstreams, building trusted relationships and maintaining clear communication 
+throughout delivery 
+• Lead end-to-end business analysis activities across the full delivery lifecycle, from 
+discovery and options assessment through requirements validation, design, build, 
+testing, implementation and benefits realisation 
+• Plan and facilitate workshops, interviews and working sessions; map current- and future-
+state processes; and analyse manual workarounds, exceptions, operational risks and 
+opportunities for simplification or automation 
+• Elicit, document, analyse and validate end-to-end business needs, translating them into 
+clear functional and non-functional requirements, business rules, use cases, user stories, 
+process models and measurable acceptance criteria 
+• Identify requirements gaps, overlaps, conflicts and dependencies; support prioritisation 
+and impact assessment; and maintain traceability from agreed business objectives 
+through solution design, build, testing and implementation 
+• Collaborate with product owners, solution architects, engineering teams and vendors on 
+solution design, fit-gap assessment and business validation, documenting interfaces, 
+data flows and cross-system requirements without owning the technical architecture 
+• Assess impacts across reservations, digital, CRM, payments, customer servicing, cruise 
+operations, data, reporting and third-party platforms, ensuring decisions for Longitude 
+Replacement appropriately consider Trafalgar River requirements and wider TTC 
+dependencies 
+• Coordinate business analysis inputs to UAT by defining scenarios and acceptance 
+criteria, supporting appropriate coverage and business-user participation, and providing 
+requirements clarification and functional defect triage; contribute to migration, cutover, 
+readiness and operational transition activities as required 
+• Act as the central coordination point for business analysis across assigned workstreams, 
+maintaining the quality and consistency of deliverables, escalating requirement-related 
+risks and dependencies, facilitating timely decisions and aligning analysis activity with 
+programme plans and milestones 
+The above list is not exhaustive, and you may be required to carry out any other reasonable 
+task as requested, appropriate to the scope of the post.  
+ 
+ 
+ 
+The Travel Corporation | | TTC.com 
+ 
+ 
+ROLE SUCCESS CRITERIA 
+• Business objectives, operational problems, requirements, assumptions and decisions are 
+clearly defined, prioritised, validated and traceable 
+• Current and future processes are understood end to end, including exceptions, manual 
+workarounds, business rules and impacts on customers, colleagues and operations 
+• Dependencies across Longitude Replacement, Trafalgar River and connected platforms 
+are identified early, assessed consistently and communicated to the appropriate 
+accountable roles 
+• Proposed solutions are objectively assessed against agreed business needs, with gaps, 
+constraints and business implications made visible before decisions are taken 
+• UAT, migration, cutover and business-readiness activities are supported by clear 
+requirements, acceptance criteria and timely analysis throughout delivery 
+• Implemented capabilities are operationally viable, support measurable business benefits 
+and remain aligned to the agreed scope and customer and commercial outcomes 
+KEY INDIVIDUAL TRAITS 
+• Structured, commercially aware and evidence-led, with excellent analytical judgement 
+and attention to detail 
+• A clear and persuasive communicator who can translate complex technology, 
+integration, process and data topics into understandable business implications 
+• Credible and collaborative, with the confidence to influence senior stakeholders, 
+challenge assumptions constructively and resolve conflicting requirements 
+• Comfortable navigating ambiguity, organisational complexity, competing priorities and 
+change across a global, matrixed environment 
+• Outcome-focused, balancing analytical rigour with customer, operational and 
+commercial awareness and pragmatic delivery decisions 
+• Proactive and resourceful, able to uncover root causes, anticipate delivery risks and 
+identify opportunities for process improvement and automation 
+• Hands-on and self-directed, able to lead complex cross-functional analysis while 
+respecting the accountabilities of programme, product, architecture and test leadership 
+ 
+YOUR EXPERIENCE AND EXPERTISE  
+• At least 7 years’ experience as a Business Analyst, including substantial experience 
+independently leading analysis on complex enterprise technology and business 
+transformation programmes 
+• Proven experience of enterprise system implementation, replacement, modernisation or 
+integration, ideally involving business-critical legacy platforms and significant 
+operational change 
+• Expertise in requirements elicitation, documentation, analysis and validation, with strong 
+current- and future-state process mapping, gap analysis, business-rule definition and 
+requirements traceability 
+• Strong technical literacy and experience analysing solutions involving multiple systems, 
+APIs, integrations, data flows, third-party platforms and complex end-to-end workflows 
+• Experience supporting functional solution design, supplier fit-gap assessment and 
+business validation, with the ability to translate architectural choices and technology 
+constraints into clear business impacts 
+• Strong stakeholder management and workshop facilitation skills, including influencing 
+senior leaders, coordinating cross-functional analysis and resolving ambiguous or 
+conflicting requirements 
+ 
+The Travel Corporation | | TTC.com 
+ 
+ 
+• Experience supporting build, functional testing, UAT, defect clarification, data migration, 
+cutover and business readiness across Agile, Waterfall or hybrid delivery approaches 
+• Travel, cruise, airline, hospitality, reservations, booking-engine, order-management, CRM 
+or digital-commerce experience is highly desirable; knowledge of Longitude, iTravel, 
+Tropics, Salesforce or Boomi is advantageous but not essential 
+TRAVEL & OTHER REQUIREMENTS 
+• Work Location: Hybrid (office & remote) – specific office location to be confirmed 
+• Travel: Occasional international travel may be required 
+• Other: This role is global in nature and requires working hours to be structured around 
+collaboration with teams in different time zones
