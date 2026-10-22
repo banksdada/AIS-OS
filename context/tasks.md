@@ -20,6 +20,11 @@ Close items by marking `[x]` with the date — never delete history.
 - [ ] Buy nowsorted.co.uk — Banks, due 2026-10-21 (afternoon), source: domain search 2026-10-21
 - [ ] Rebrand Sorted to the new domain, once bought — run `docs/ideas/sorted-rebrand-plan.md` phases 0-4 — Banks, source: rebrand plan 2026-10-21
 - [ ] Tunisia hotel deal: follow up with the LinkedIn connection, introduce them to the Skool property group, agree a finders' fee in writing before the intro — Banks, due 2026-10-24, source: LinkedIn 2026-10-21
+- [ ] Share the Virgin Active "Master Data Management" doc with aios-bot@aios-credentials.iam.gserviceaccount.com (Viewer), then scan it for software/application keywords to build a tools-worked-with list for the CV — Banks, source: CV/job hunt 2026-10-21
+- [ ] Fix Webawesome start date to April 2022 in the Drive CV originals (CMS, legacyR, util variants say April 2024) and fix the NHS Professionals dates in SFCRM — Banks, due 2026-10-23, source: projects/job-search/DATE-FIXES.md
+- [ ] Reply to Manny with the HMRC-based CV for the London/Surrey BA contract — Banks, due 2026-10-22 (before 17:00), source: job search 2026-10-22
+- [ ] Apply to TTC Tech Senior Business Analyst using the legacyR-based CV, stating the travel/cruise gap plainly — Banks, source: job search 2026-10-22
+- [ ] Decide Laravel vs Django for the bankoledada.co.uk rebuild, then confirm hosting (Coolify?) and design direction — Banks, source: docs/ideas/bankoledada-rebuild-plan.md
 
 ## Waiting on someone else
 
