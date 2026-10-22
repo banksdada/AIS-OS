@@ -1,17 +1,18 @@
+# Job search and site-capture data may carry personal details
+# Personal CV data — this repo is PUBLIC. Contains name, phone, email.
+*.log
+.DS_Store
+.claude/settings.local.json
 .env
 .env.local
-scripts/credentials.json
-.DS_Store
-*.log
-__pycache__/
-node_modules/
-.claude/settings.local.json
 CLAUDE.local.md
+__pycache__/
 audits/
 brainstorms/
-scripts/potential_newsletter_contacts.csv
-data/pyrunner-events.json
 data/lodgify-cache.json
 data/lodgify-draft-packet.json
-# Personal CV data — this repo is PUBLIC. Contains name, phone, email.
+data/pyrunner-events.json
+node_modules/
 projects/job-search/resumes/
+scripts/credentials.json
+scripts/potential_newsletter_contacts.csv
