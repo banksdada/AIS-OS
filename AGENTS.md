@@ -57,6 +57,15 @@ python3 scripts/verify-connections.py
 # List Google Drive files
 python3 scripts/gdrive-list.py --max 20
 
+# Read a Drive file (PDF, DOCX, Google Doc, text) as text
+python3 scripts/gdrive-get.py FILE_ID
+python3 scripts/gdrive-get.py --folder FOLDER_ID --save-dir projects/
+
+# Write to Drive — needs the user's token, not the service account
+python3 scripts/gdrive-authorize.py          # prints the consent URL
+python3 scripts/gdrive-authorize.py <CODE>   # exchanges it, saves the token
+python3 scripts/gdrive-upload.py FILE --folder FOLDER_ID
+
 # Regenerate dashboard data (data/dashboard.json)
 python3 scripts/dashboard/generate.py
 
@@ -75,6 +84,8 @@ docker build -t aios .
 - context/ — about you, your business, your priorities (filled by /onboard)
 - context/tasks.md — the single task list, maintained by @executive-assistant
 - projects/ — active workstreams, one folder each with a short README. Code usually lives outside this repo (Desktop, client repos); these folders are the index and the status.
+  - `projects/job-search/` — CV variants and role scoring. `README.md` holds the confirmed facts (what can be claimed); `DATE-FIXES.md` lists corrections to make in the Drive originals. CV text is gitignored — this repo is public.
+  - `projects/bankoledada-site/` — rebuild of the personal site. `README.md` has the plan; the plan itself is `docs/ideas/bankoledada-rebuild-plan.md`.
 - .claude/rules/ — one topic per file; communication style lives here
 - references/ — frameworks, voice samples, API guides as you connect tools
 - connections.md — registry of every system your AIOS can reach
@@ -116,7 +127,7 @@ Good times
 
 ## Connections
 
-Registry populated: Revenue/Financials (Stripe unused, Monzo connected to Stripe), Customer interactions (Gmail + bankoledada@gmail.com — **VERIFIED live 2026-10-15**, OAuth 2.0 refresh-token flow, app configured with test user bankoledada@gmail.com), Calendar (Google Calendar — 403, API not enabled in GCP project 266063022919; sharing the service account may still work once enabled), Communication (Gmail — same verified OAuth probe), Project/task tracking (CRM — Google Sheet via scripts/client-tracker.py, VERIFIED live: list/add/stage all succeed), Meeting intelligence (TidyCal booking + Google Drive docs — no API key), Knowledge/files (Google Drive — VERIFIED 2026-10-14: service account aios-bot@aios-credentials.iam.gserviceaccount.com lists root, finds "webawesome CRM" sheet and "aios folder"), Community/mentoringba (HumHub at meetup.mentoringba.org — API reachable, aios-bot password accepted, awaiting REST API enable in admin panel; sandbox egress to the host is unreliable, verify locally). Run `python3 scripts/verify-connections.py` for a live status check of every domain, or `/audit` for the scored report.
+Registry populated: Revenue/Financials (Stripe unused, Monzo connected to Stripe), Customer interactions (Gmail + bankoledada@gmail.com — **VERIFIED live 2026-10-15**, OAuth 2.0 refresh-token flow, app configured with test user bankoledada@gmail.com), Calendar (Google Calendar — 403, API not enabled in GCP project 266063022919; sharing the service account may still work once enabled), Communication (Gmail — same verified OAuth probe), Project/task tracking (CRM — Google Sheet via scripts/client-tracker.py, VERIFIED live: list/add/stage all succeed), Meeting intelligence (TidyCal booking + Google Drive docs — no API key), Knowledge/files (Google Drive — VERIFIED 2026-10-14: service account aios-bot@aios-credentials.iam.gserviceaccount.com lists root, finds "webawesome CRM" sheet and "aios folder". **Service accounts have no Drive storage quota, so the AIOS can read Drive but cannot own files** — writing needs OAuth delegation via scripts/gdrive-authorize.py, which acts as the user. Drive folders shared with the SA: `resumes` (job search CVs), `aios folder` (contains `linkedin-posts`)), Community/mentoringba (HumHub at meetup.mentoringba.org — API reachable, aios-bot password accepted, awaiting REST API enable in admin panel; sandbox egress to the host is unreliable, verify locally). Run `python3 scripts/verify-connections.py` for a live status check of every domain, or `/audit` for the scored report.
 
 ## How you work with me
 
