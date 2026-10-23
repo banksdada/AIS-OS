@@ -48,7 +48,18 @@ import urllib.parse
 import urllib.request
 from dataclasses import dataclass
 from datetime import date, datetime
+from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
+
+# The health-check module lives next to this script. It is stdlib-only and
+# produces the annual website health report that gives the renewal a reason
+# to be paid — the report IS the product. Optional: if it is missing, the
+# script still sends the plain payment reminder.
+try:
+    from health_check import health_check as run_health_check, render_html
+    HAS_HEALTH_CHECK = True
+except ImportError:
+    HAS_HEALTH_CHECK = False
 
 
 # --------------------------------------------------------------------------
@@ -122,6 +133,16 @@ BANK_ACCOUNT_NUMBER = os.environ.get("BANK_ACCOUNT_NUMBER", "")
 BANK_NAME = os.environ.get("BANK_NAME", "")
 
 DRY_RUN = os.environ.get("DRY_RUN", "false").strip().lower() in ("1", "true", "yes")
+
+# WordPress Application Passwords, one entry per client site. Format:
+#   [{"name":"webawesome","url":"https://webawesome.co.uk",
+#     "user":"aios","app_password":"xxxx xxxx"}]
+# Optional — without it the report skips plugin-update checks and says so.
+WP_SITES = os.environ.get("WP_SITES", "").strip()
+
+# Whether to attach the annual health report to the renewal email. The report
+# is the reason to renew — without it the email just asks for money.
+INCLUDE_HEALTH_REPORT = os.environ.get("INCLUDE_HEALTH_REPORT", "true").strip().lower() in ("1", "true", "yes")
 
 # Reminder bands: (threshold_days, sheet_column_name, notice_label)
 # A reminder fires once days-until-expiry falls to at or below the
@@ -309,7 +330,11 @@ def mark_sent(ws: SheetClient, row_number: int, col_index: dict, colname: str) -
 # Email
 # --------------------------------------------------------------------------
 
-def build_email(client: ClientRow, notice_label: str) -> MIMEText:
+def build_email(client: ClientRow, notice_label: str) -> MIMEMultipart:
+    """The renewal email now LEADS with the annual health report, not the
+    invoice. The report is the reason to renew; payment is the obvious next
+    step. Falls back to the plain payment reminder if the health check is
+    unavailable or fails."""
     days_left = (client.expiry_date - date.today()).days
     payment_lines = []
     if BANK_ACCOUNT_NAME:
@@ -325,40 +350,95 @@ def build_email(client: ClientRow, notice_label: str) -> MIMEText:
 
     cost_line = f"£{client.renewal_cost}" if client.renewal_cost else "the amount on your plan"
 
-    body = f"""Hi {client.customer_name or 'there'},
-
-This is a friendly reminder that the {client.hosting_type or 'web'} hosting for
-{client.website_url} is due for renewal on {client.expiry_date.strftime('%d %B %Y')}
-({days_left} day{'s' if days_left != 1 else ''} from now).
-
-Renewal amount due: {cost_line}
-
-Payment details:
-{payment_block}
-
-If you have already made this payment, please ignore this email — no action is needed.
-
-If you decide you dont want to renew please note that all services such as the emails
-and website attached to the service will stop working and you will be required to set
-up new services at a cost to you!
-
-Got any questions?, just reply to this email and we'll be happy to help.
-
-Thanks,
-{SENDER_NAME}
-"""
-
-    subject = (
-        f"Hosting renewal reminder ({notice_label} notice) — {client.website_url} "
+    msg = MIMEMultipart()
+    msg["Subject"] = (
+        f"Your annual website health report + hosting renewal — {client.website_url} "
         f"renews {client.expiry_date.strftime('%d %b %Y')}"
     )
-
-    msg = MIMEText(body)
-    msg["Subject"] = subject
     msg["From"] = f"{SENDER_NAME} <{GMAIL_ADDRESS}>"
     msg["To"] = client.customer_email
     if REPLY_TO:
         msg["Reply-To"] = REPLY_TO
+
+    # ---- health report -------------------------------------------------------
+    report_html = ""
+    if INCLUDE_HEALTH_REPORT and HAS_HEALTH_CHECK:
+        try:
+            auth = None
+            if WP_SITES:
+                import json as _json
+                try:
+                    for s in _json.loads(WP_SITES):
+                        if s.get("url", "").rstrip("/") == client.website_url.rstrip("/"):
+                            user = s.get("user", "")
+                            pw = s.get("app_password", "")
+                            if user and pw:
+                                auth = (user, pw)
+                            break
+                except _json.JSONDecodeError:
+                    pass
+            report = run_health_check(client.website_url, auth=auth)
+            report_html = render_html(report)
+            summary_lines = []
+            for c in report.checks:
+                summary_lines.append(f"  {c.icon} {c.label}: {c.detail}")
+            summary_block = "\n".join(summary_lines)
+        except Exception as exc:
+            log.warning("Health check failed for %s: %s", client.website_url, exc)
+            report_html = ""
+            summary_block = ""
+
+    # ---- body ----------------------------------------------------------------
+    if report_html:
+        report_summary = summary_block
+        intro = (
+            f"Hi {client.customer_name or 'there'},\n\n"
+            f"Along with your renewal, here is your annual website health report for {client.website_url}. "
+            f"It's a snapshot of what the site looks like right now — uptime, security, backups, "
+            f"and what's changed this year.\n\n"
+            f"{report_summary}\n\n"
+            f"The full report is attached as a PDF. If anything looks off, just reply to this email "
+            f"and we'll take a look.\n\n"
+            f"Your {client.hosting_type or 'web'} hosting renews on "
+            f"{client.expiry_date.strftime('%d %B %Y')} ({days_left} day{'s' if days_left != 1 else ''} from now), "
+            f"at {cost_line}.\n\n"
+            f"Payment details:\n{payment_block}\n\n"
+            f"If you've already paid, please ignore this — no action needed.\n\n"
+            f"Thanks,\n{SENDER_NAME}"
+        )
+    else:
+        intro = (
+            f"Hi {client.customer_name or 'there'},\n\n"
+            f"This is a friendly reminder that the {client.hosting_type or 'web'} hosting for "
+            f"{client.website_url} is due for renewal on {client.expiry_date.strftime('%d %B %Y')} "
+            f"({days_left} day{'s' if days_left != 1 else ''} from now).\n\n"
+            f"Renewal amount due: {cost_line}\n\n"
+            f"Payment details:\n{payment_block}\n\n"
+            f"If you have already made this payment, please ignore this email — no action is needed.\n\n"
+            f"If you decide you don't want to renew, please note that all services such as the emails "
+            f"and website attached to the service will stop working and you will be required to set up "
+            f"new services at a cost to you!\n\n"
+            f"Got any questions? Just reply to this email and we'll be happy to help.\n\n"
+            f"Thanks,\n{SENDER_NAME}"
+        )
+
+    msg.attach(MIMEText(intro, "plain"))
+
+    if report_html:
+        msg.attach(MIMEText(report_html, "html"))
+        # Also send the report as a plain-text attachment so it's readable
+        # without opening the HTML inline.
+        attachment = MIMEText(
+            f"WEBSITE HEALTH REPORT — {client.website_url}\n"
+            f"Generated: {date.today().isoformat()}\n\n" + summary_block + "\n",
+            "plain",
+        )
+        attachment.add_header(
+            "Content-Disposition", "attachment",
+            filename=f"health-report-{client.website_url.replace('https://', '').replace('/', '-')}.txt",
+        )
+        msg.attach(attachment)
+
     return msg
 
 
