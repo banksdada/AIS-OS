@@ -1,0 +1,67 @@
+<!doctype html>
+<html lang="en" data-theme="light">
+  <head>
+    <meta charset="utf-8">
+    <title>Sorted Career Change Strategy</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+      :root { --bg: #f8fafc; --fg: #1e293b; --muted: #64748b; --accent: #3b82f6; --accent-soft: #bfdbfe; --card: #ffffff; --border: #e2e8f0; }
+      [data-theme="dark"] { --bg: #0f172a; --fg: #f1f5f9; --muted: #94a3b8; --accent: #60a5fa; --accent-soft: #3b82f6; --card: #1e293b; --border: #334155; }
+      * { box-sizing: border-box; }
+      body { font-family: 'Inter', sans-serif; background: var(--bg); color: var(--fg); min-height: 100vh; margin: 0; }
+      .btn { display: inline-flex; align-items: center; justify-content: center; gap: 0.5rem; padding: 0.75rem 1.5rem; border-radius: 0.5rem; font-weight: 600; text-decoration: none; transition: opacity 0.2s; }
+      .btn-primary { background: var(--accent); color: white; }
+      .btn-primary:hover { opacity: 0.9; }
+      .btn-secondary { background: var(--fg); color: white; }
+      .btn-secondary:hover { opacity: 0.9; }
+      .feature-card { background: var(--card); border: 1px solid var(--border); border-radius: 0.75rem; padding: 1.5rem; }
+      .nav-link { color: var(--muted); text-decoration: none; font-size: 0.875rem; }
+      .nav-link:hover { color: var(--fg); }
+    </style>
+  </head>
+  <body>
+    <nav class="p-4 border-b border-border fixed w-full top-0 z-20 background-white/95 backdrop-blur-sm">
+      <div class="max-w-7xl mx-auto flex items-center justify-between">
+        <a href="/projects/microsites/nowsorted-career/" class="text-sm font-medium hover:text-fg transition-colors">Sorted Career</a>
+        <a href="https://tidycal.com/mentoringba/career-change-booking-call?utm_source=microsite&utm_medium=nowsorted_career&utm_campaign=career_microsite" class="btn btn-primary">Book a Career Call</a>
+      </div>
+    </nav>
+
+    <main class="max-w-7xl mx-auto py-12 px-4">
+      <section class="mb-12">
+        <h1 class="text-4xl md:text-5xl font-bold leading-tight mb-4">Career Change Strategy</h1>
+        <p class="text-lg text-muted mb-6">Helping professionals transition into new careers with structured mentoring, skills mapping, and real-world project experience.</p>
+        <a href="https://tidycal.com/mentoringba/career-change-booking-call?utm_source=microsite&utm_medium=nowsorted_career&utm_campaign=career_microsite" class="btn btn-primary">Book a Career Change Call</a>
+        <a href="#about" class="btn btn-secondary ml-4">About</a>
+      </section>
+
+      <section class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mb-12">
+        <div class="feature-card">
+          <h3 class="font-semibold mb-2">Skills Mapping</h3>
+          <p class="text-sm text-muted">Identify transferable skills from your current role to your target career.</p>
+        </div>
+        <div class="feature-card">
+          <h3 class="font-semibold mb-2">Project Portfolio</h3>
+          <p class="text-sm text-muted">Build 3 real-world projects to showcase to employers in your new field.</p>
+        </div>
+        <div class="feature-card">
+          <h3 class="font-semibold mb-2">Mentor Access</h3>
+          <p class="text-sm text-muted">Direct access to experienced professionals for guidance and feedback.</p>
+        </div>
+      </section>
+
+      <section id="about" class="mt-12 pt-8 border-t border-border">
+        <h2 class="text-2xl font-bold mb-3">About</h2>
+        <p class="text-muted">Sorted helps professionals transition to new careers through mentoring and structured support. <a href="https://nowsorted.co.uk" class="underline text-accent hover:text-accent-opacity-90" target="_blank">Learn more</a>.</p>
+      </section>
+    </main>
+
+    <footer class="p-4 text-sm text-muted border-t border-border fixed bottom-0 w-full">
+      <div class="max-w-7xl mx-auto">2026 Sorted — Book via <a href="https://tidycal.com" class="underline text-accent hover:text-accent-opacity-90" target="_blank">TidyCal</a></div>
+    </footer>
+  </body>
+</html>
