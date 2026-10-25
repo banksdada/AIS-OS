@@ -11,6 +11,7 @@ Usage:
   python3 scripts/dashboard/serve.py --port 9000
 """
 import argparse
+import base64
 import http.server
 import json
 import os
@@ -31,8 +32,37 @@ if os.path.exists(_ENV):
                 _k, _v = _line.split('=', 1)
                 os.environ.setdefault(_k.strip(), _v.strip())
 
+# Basic Auth credentials (change these to your own)
+AUTH_USERNAME = os.environ.get('DASHBOARD_USER', 'admin')
+AUTH_PASSWORD = os.environ.get('DASHBOARD_PASS', 'changeme')
+
 PAGE = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'index.html')
 DATA = os.path.join(_REPO_ROOT, 'data', 'dashboard.json')
+
+
+def check_auth(handler):
+    """Return True if request has valid Basic Auth credentials."""
+    auth = handler.headers.get('Authorization', '')
+    if not auth.startswith('Basic '):
+        return False
+    try:
+        decoded = base64.b64decode(auth[6:]).decode('utf-8')
+        user, pwd = decoded.split(':', 1)
+        return user == AUTH_USERNAME and pwd == AUTH_PASSWORD
+    except Exception:
+        return False
+
+
+def require_auth(handler_method):
+    """Decorator to enforce Basic Auth on GET/POST handlers."""
+    def wrapper(self, *args, **kwargs):
+        if not check_auth(self):
+            self.send_response(401)
+            self.send_header('WWW-Authenticate', 'Basic realm="AIOS Dashboard"')
+            self.end_headers()
+            return
+        return handler_method(self, *args, **kwargs)
+    return wrapper
 
 
 def regenerate():
@@ -76,6 +106,7 @@ class Handler(http.server.SimpleHTTPRequestHandler):
         self.end_headers()
         self.wfile.write(content)
 
+    @require_auth
     def do_GET(self):
         requested = self.path.split('?', 1)[0]
         if requested in ('/', '/index.html'):
@@ -95,6 +126,7 @@ class Handler(http.server.SimpleHTTPRequestHandler):
         else:
             super().do_GET()
 
+    @require_auth
     def do_POST(self):
         import dashboard.crm_capture as crm
         import dashboard.newsletter_status as newsletter
