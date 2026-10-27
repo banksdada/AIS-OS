@@ -2,7 +2,7 @@
 
 **Status:** active — SEO foundation, legal-email rebrand and legacy WhatsApp removal done 2026-10-27; launch blockers remain
 **Live:** https://automation.baseuse.xyz (verified HTTP 200, 2026-10-20)
-**Repo:** `git@github.com:banksdada/businessbots.git` (branch **`master`**, 90 commits)
+**Repo:** `git@github.com:banksdada/businessbots.git` (branch **`master`**)
 **Local code:** `projects/sorted-app` (separate git repo, branch `master`)
 **Stack:** Laravel + Blade/Livewire, Filament admin, Python workers, Docker/Coolify
 
