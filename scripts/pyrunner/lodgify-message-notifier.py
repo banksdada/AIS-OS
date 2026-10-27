@@ -5,6 +5,12 @@ Public API v2 for messaging threads where the guest spoke last and no
 Owner reply has been sent yet, and emails a short alert to a list of
 recipients. Run on a frequent schedule (e.g. every 15 minutes).
 
+Dedup: a small state file (LODGIFY_NOTIFY_STATE, default
+lodgify-notified.json) records which thread UIDs have already been
+alerted. A thread is alerted only once per guest message; once an Owner
+reply lands, the thread is cleared from state so a later new guest
+message re-alerts. No repeat emails for the same unanswered message.
+
 It never messages a guest. Read-only.
 
 PyRunner secrets:
@@ -16,6 +22,7 @@ PyRunner secrets:
   PYRUNNER_WEBHOOK_SECRET  same value as the AI OS server (optional)
 Optional:
   LODGIFY_NOTIFY_FROM_NAME display name on the alert email
+  LODGIFY_NOTIFY_STATE     path to the dedup state file
 
 Schedule suggestion: every 15 minutes, Europe/London.
 """
@@ -36,6 +43,7 @@ AGENT = "lodgify-message-notifier"
 
 LODGIFY_BASE = "https://api.lodgify.com/v2"
 DEFAULT_RECIPIENTS = "bankoledada@gmail.com,ademolajoyce@yahoo.co.uk"
+STATE_PATH = os.environ.get("LODGIFY_NOTIFY_STATE", "lodgify-notified.json")
 
 
 def report(status, message=""):
@@ -65,25 +73,46 @@ def lodgify_get(path):
         return json.loads(r.read().decode())
 
 
-def guest_spoke_last(thread_uid):
+def load_state():
+    try:
+        with open(STATE_PATH) as f:
+            return set(json.load(f))
+    except Exception:
+        return set()
+
+
+def save_state(s):
+    try:
+        with open(STATE_PATH, "w") as f:
+            json.dump(sorted(s), f)
+    except Exception as e:
+        print("state save failed:", e)
+
+
+def thread_last_type(thread_uid):
+    """Return ('renter'|'owner'|'', last_message_id_or_None)."""
     try:
         msgs = lodgify_get("/messaging/" + thread_uid)
     except Exception as e:
         print("thread fetch failed:", thread_uid, e)
-        return False
+        return "", None
     if not isinstance(msgs, list) or not msgs:
-        return False
+        return "", None
     last = msgs[-1] if isinstance(msgs[-1], dict) else None
     t = ((last.get("type") if last else "") or "").lower()
-    if t not in ("renter", "guest"):
+    if t not in ("renter", "guest", "owner"):
         thread = msgs[0] if isinstance(msgs[0], dict) else {}
         arr = thread.get("messages") or []
         if not arr:
-            return False
-        t = (arr[-1].get("type") or "").lower()
-        if t not in ("renter", "guest"):
-            return False
-    return True
+            return "", None
+        last = arr[-1]
+        t = (last.get("type") or "").lower()
+    mid = None
+    if isinstance(last, dict):
+        mid = last.get("id")
+    if t in ("renter", "guest"):
+        t = "renter"
+    return t, mid
 
 
 def main():
@@ -94,16 +123,25 @@ def main():
         report("failed", "bookings fetch failed: " + str(e))
         return
     items = bookings.get("items", []) if isinstance(bookings, dict) else []
+
+    notified = load_state()
     fresh = []
     for b in items:
         tu = b.get("thread_uid")
         if not tu:
             continue
-        if guest_spoke_last(tu):
-            guest = (b.get("guest") or {}).get("name") or "Guest"
-            fresh.append((guest, tu, b.get("property_id")))
+        ltype, mid = thread_last_type(tu)
+        if ltype == "renter":
+            if tu not in notified:
+                guest = (b.get("guest") or {}).get("name") or "Guest"
+                fresh.append((guest, tu, b.get("property_id"), mid))
+        elif ltype == "owner":
+            # thread got a reply -> clear so a future new message re-alerts
+            notified.discard(tu)
+
     if not fresh:
-        report("idle", "no fresh guest messages")
+        save_state(notified)
+        report("idle", "no new guest messages to alert")
         return
 
     to_raw = os.environ.get("LODGIFY_NOTIFY_TO", DEFAULT_RECIPIENTS)
@@ -113,7 +151,7 @@ def main():
     from_name = os.environ.get("LODGIFY_NOTIFY_FROM_NAME", "AIOS Lodgify Notifier")
 
     lines = ["Fresh guest messages needing a reply:", ""]
-    for guest, tu, pid in fresh:
+    for guest, tu, pid, mid in fresh:
         lines.append("- " + guest + " (thread " + str(tu) + ", property " + str(pid) + ")")
     lines.append("")
     lines.append("Reply in Lodgify. This is an automated alert only.")
@@ -129,7 +167,10 @@ def main():
         with smtplib.SMTP_SSL("smtp.gmail.com", 465, timeout=30) as s:
             s.login(sender, password)
             s.sendmail(sender, recipients, msg.as_string())
-        report("ok", "emailed " + str(len(recipients)) + " recipients about " + str(len(fresh)) + " message(s)")
+        for _, tu, _, _ in fresh:
+            notified.add(tu)
+        save_state(notified)
+        report("ok", "emailed " + str(len(recipients)) + " recipients about " + str(len(fresh)) + " new message(s)")
     except Exception as e:
         report("failed", "email send failed: " + str(e))
 
