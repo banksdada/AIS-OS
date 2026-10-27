@@ -16,7 +16,7 @@ Close items by marking `[x]` with the date — never delete history.
 - [ ] Build dashboard parking-permits panel — Banks/DI, source: audit 2026-10
 - [ ] Restart opencode, then authorise the TidyCal MCP in-browser and confirm the account is Pro — Banks, due 2026-10-21, source: mcp setup 2026-10-20
 - [ ] EA-only week: route everything through @executive-assistant, no ChatGPT or custom GPTs — Banks, due 2026-10-28, source: skills backlog 2026-10-20
-- [ ] Rebrand Sorted to the new domain — code-side defaults updated; Coolify/DNS/Postal/redirect outstanding — Banks, source: rebrand plan 2026-10-21
+- [ ] Rebrand Sorted to the new domain — code-side defaults and Postal done; Coolify/DNS/redirect outstanding — Banks, source: rebrand plan 2026-10-21
 - [ ] Tunisia hotel deal: follow up with the LinkedIn connection, introduce them to the Skool property group, agree a finders' fee in writing before the intro — Banks, due 2026-10-24, source: LinkedIn 2026-10-21
 - [ ] Share the Virgin Active "Master Data Management" doc with aios-bot@aios-credentials.iam.gserviceaccount.com (Viewer), then scan it for software/application keywords to build a tools-worked-with list for the CV — Banks, source: CV/job hunt 2026-10-21
 - [ ] Fix Webawesome start date to April 2022 in the Drive CV originals (CMS, legacyR, util variants say April 2024) and fix the NHS Professionals dates in SFCRM — Banks, due 2026-10-23, source: projects/job-search/DATE-FIXES.md
@@ -30,7 +30,7 @@ Close items by marking `[x]` with the date — never delete history.
 - [ ] Sweet Soul Guest Inn — Phase 3: Deploy to Coolify, point domain — pending
 - [ ] Sweet Soul Guest Inn — Phase 4: Swap placeholder content for real room data/photos — pending
 - [ ] Sweet Soul Guest Inn — Phase 5: iCal sync (export + import) for Airbnb availability — pending
-- [ ] Production Coolify env: `APP_URL`, Postal SMTP, `MAIL_FROM_ADDRESS`; verify live magic-link delivery — Banks, source: 2026-10-27; Postal confirmed working 2026-10-27
+- [ ] Production Coolify env: `APP_URL`, `MAIL_FROM_ADDRESS`; verify live magic-link delivery — Banks, source: 2026-10-27; Postal SMTP confirmed working 2026-10-27
 - [ ] Create `legal@`/`privacy@` forwarders and fix SPF duplicate/DMARC — Banks, source: 2026-10-27; site already renders both addresses from `config/legal.php`
 
 ## Waiting on someone else
@@ -56,5 +56,6 @@ Close items by marking `[x]` with the date — never delete history.
 - [x] SEO technical foundation: robots.txt, sitemap.xml, OG/Twitter meta — 2026-10-27; sitemap route fixed, OG image added, microsite meta added
 - [x] Re-ran connection check — 2026-10-27; 4/7 live. Calendar needs calendar shared, HumHub needs REST API enabled, TidyCal needs re-auth
 - [x] Removed out-of-scope Resend mail integration — 2026-10-27; mail is Postal/SMTP only, `PROJECT-STATUS.md` updated
+- [x] Postal confirmed set up and working — 2026-10-27
 - [x] Removed legacy WhatsApp automation from sorted-app — 2026-10-27; webhook, handler, services, model, migration, OAuth channel, onboarding requirement and public copy removed; Instagram/LinkedIn/GBP posting preserved; residual refs cleaned and committed in `5cd8f1f`; full suite 79 tests/287 assertions pass (PHP 8.5 vendor deprecation flags only)
 - [x] Remove inert lead AI-reply fields and dashboard reply stats before re-enabling social — 2026-10-27; columns dropped in `ab09218`, lead attention follows status, reply metrics replaced with lead/status metrics
