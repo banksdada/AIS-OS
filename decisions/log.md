@@ -1,5 +1,12 @@
 # Decisions Log
 
+2026-10-25 | Level‑up week 1 – Pre-arrival follow-up for Lodgify guests
+- Scope: automate data pull (deterministic) + AI-drafted email + manual send (L2 autonomy).
+- KPI: % of cancellations avoided.
+- Artifact: `lodgify-follow-up-template.md` + `scripts/email-lodgify-greet.py`.
+- Key finding: Lodgify's `stayFilter=Past` returns 0 items for this account, so no post-stay guests exist to chase. Cancellation risk is pre-arrival, so the follow-up is a pre-arrival nudge, not a thank-you. The template was rewritten accordingly.
+- Next step: run script, review drafts, send via Gmail, track cancellations.
+
 ## 2026-09-06 - Audit evidence and routing maintenance
 
 Decision: Ship audit rubric v2 and a small /link skill. Audit scores working evidence across the Four Cs, checks operating-manual routing and freshness, and passes one concrete gap into /level-up. A selected repair can improve an existing workflow instead of creating another skill.
@@ -122,6 +129,23 @@ Alternatives considered: Building paid plans anyway on a free-tier-for-leads mod
 
 Owner: Banks Dada (self)
 
+## 2026-10-23 - nowsorted.co.uk purchased; rebrand unblocked
+
+Decision: `nowsorted.co.uk` is purchased and active (2026-10-23 → 2028-10-23).
+The rebrand is no longer blocked on the domain, and the rebrand plan
+(`docs/ideas/sorted-rebrand-plan.md`) may now be executed in one pass.
+
+Reminder set: a renewal reminder is on the task list due **2028-09-23**
+(30 days before expiry), so the domain does not lapse silently.
+
+Why: the domain was the single blocker on the rebrand plan — nothing in it may
+run before the domain is owned and Postal has sent a verified test message from
+it. That condition is now met, so the plan moves from "deferred" to "ready to
+run", in the order it was written (Postal → Coolify → app config → legal pages →
+redirect → announcement).
+
+Owner: Banks Dada (self)
+
 ## 2026-10-21 - Sorted rebrand deferred until the domain is bought
 
 Decision: Keep **Sorted** as the brand name. Rebranding (APP_NAME, MAIL_FROM_ADDRESS, APP_URL, legal pages, Coolify domain + certificate, Postal sending domain, repo rename, social handles) is deferred and will be executed in a **single pass** once the domain is purchased. Preferred domain `nowsorted.co.uk`, with `theheadache.co.uk` bought as a redirect; both recorded as TBD until owned.
@@ -131,5 +155,15 @@ Why: A rebrand touches mail, certificates and DNS at once, and doing it before t
 Alternatives considered: Rebranding to `theheadache.co.uk` as the brand itself (rejected — names the problem rather than the outcome, so every touchpoint depends on a tagline, and it is long to say aloud); `getsorted.co.uk` (rejected — registered since 2003); `sorted.tools` / `sorted.digital` (rejected — renewal pricing); `sortedworks.co.uk` (viable fallback if `nowsorted.co.uk` is gone by the time of purchase).
 
 Note: the brand-name search has now cycled through businessbots, Sorted, sortedd, sortted, getSorted, sorted.tools, sortedworks, theheadache and nowsorted. If nothing settles, the honest move is to pick the word that describes the product and accept a weaker domain rather than keep searching.
+
+Owner: Banks Dada (self)
+
+## 2026-10-27 - Remove legacy WhatsApp automation from Sorted
+
+Decision: Remove the WhatsApp webhook, queued handler, signature middleware, conversation model/service classes, channel OAuth, onboarding requirement, config/env keys and public copy. Keep Instagram/LinkedIn/GBP posting and the generic lead/consent tables; do not add a destructive drop migration. Replace the dead WhatsApp-era AI model keys with a single `AI_MODEL`.
+
+Why: WhatsApp is no longer part of the free client-acquisition product; the code added a webhook surface, Meta-specific config and an onboarding requirement without serving the launch path. Keeping generic leads preserves future channel work. Existing `whatsapp_conversations` data is left orphaned rather than risking a destructive migration.
+
+Outcome: `d177264` committed the removal; final cleanup and docs committed in `5cd8f1f`. Full suite passes: 75 tests, 274 assertions, 0 failures (all 75 flagged deprecated by a PHP 8.5 vendor PDO warning). Instagram/LinkedIn/GBP routes remain. Flag: lead `ai_reply_sent`/`reply_time_seconds` and dashboard reply stats are now inert; decide whether to remove or repurpose them before re-enabling social.
 
 Owner: Banks Dada (self)

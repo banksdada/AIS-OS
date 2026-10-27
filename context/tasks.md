@@ -8,7 +8,6 @@ Close items by marking `[x]` with the date — never delete history.
 
 ## Open
 
-- [ ] Paste and send 4 Lodgify guest replies: Stephen O'Leary (J25 STV), Dawn Herridge (HK22KKG), Charles Rounce (DX68 YSW), Estella Foster (no vehicle — acknowledge reg details only) — Banks, due 2026-10-21, source: lodgify-reply-drafter 2026-10-20
 - [ ] Set `lodgify-reply-drafter` schedule to daily 07:30 Europe/London — Banks, due 2026-10-21, source: setup 2026-10-20
 - [ ] Share the permits sheet (`1ZAQhPWOShrp0xX-Em4_wZl4reKK48HmLt0CyFIlF5uk`) with a person, remove "anyone with link" — Banks, due 2026-10-22, source: audit 2026-10
 - [ ] Enable Google Calendar API in GCP project 266063022919 — Banks, source: connections.md (blocks meeting prep)
@@ -17,8 +16,7 @@ Close items by marking `[x]` with the date — never delete history.
 - [ ] Build dashboard parking-permits panel — Banks/DI, source: audit 2026-10
 - [ ] Restart opencode, then authorise the TidyCal MCP in-browser and confirm the account is Pro — Banks, due 2026-10-21, source: mcp setup 2026-10-20
 - [ ] EA-only week: route everything through @executive-assistant, no ChatGPT or custom GPTs — Banks, due 2026-10-28, source: skills backlog 2026-10-20
-- [ ] Buy nowsorted.co.uk — Banks, due 2026-10-21 (afternoon), source: domain search 2026-10-21
-- [ ] Rebrand Sorted to the new domain, once bought — run `docs/ideas/sorted-rebrand-plan.md` phases 0-4 — Banks, source: rebrand plan 2026-10-21
+- [ ] Rebrand Sorted to the new domain — code-side defaults updated; Coolify/DNS/Postal/redirect outstanding — Banks, source: rebrand plan 2026-10-21
 - [ ] Tunisia hotel deal: follow up with the LinkedIn connection, introduce them to the Skool property group, agree a finders' fee in writing before the intro — Banks, due 2026-10-24, source: LinkedIn 2026-10-21
 - [ ] Share the Virgin Active "Master Data Management" doc with aios-bot@aios-credentials.iam.gserviceaccount.com (Viewer), then scan it for software/application keywords to build a tools-worked-with list for the CV — Banks, source: CV/job hunt 2026-10-21
 - [ ] Fix Webawesome start date to April 2022 in the Drive CV originals (CMS, legacyR, util variants say April 2024) and fix the NHS Professionals dates in SFCRM — Banks, due 2026-10-23, source: projects/job-search/DATE-FIXES.md
@@ -27,6 +25,14 @@ Close items by marking `[x]` with the date — never delete history.
 - [ ] Decide Laravel vs Django for the bankoledada.co.uk rebuild, then confirm hosting (Coolify?) and design direction — Banks, source: docs/ideas/bankoledada-rebuild-plan.md
 - [ ] Authorise Drive write access: open the consent URL (already copied to clipboard, regenerate with `python3 scripts/gdrive-authorize.py`), then run `python3 scripts/gdrive-authorize.py <CODE>` — Banks, source: 2026-10-22
 - [ ] Post LinkedIn Day 2 (MBA — TEACH) — copy from `projects/linkedin-content/daily/day-02-2026-10-22-mba-teach.txt` or the Drive `linkedin-posts` folder — Banks, due 2026-10-22, source: morning coffee 2026-10-22
+- [ ] Sweet Soul Guest Inn — Phase 1: Django rooms + bookings models & API (incl. ExternalBooking for Airbnb iCal sync) — pending
+- [ ] Sweet Soul Guest Inn — Phase 2: Embed React design-system bundle into Django, wire to API — pending
+- [ ] Sweet Soul Guest Inn — Phase 3: Deploy to Coolify, point domain — pending
+- [ ] Sweet Soul Guest Inn — Phase 4: Swap placeholder content for real room data/photos — pending
+- [ ] Sweet Soul Guest Inn — Phase 5: iCal sync (export + import) for Airbnb availability — pending
+- [ ] Production Coolify env: `APP_URL`, Postal SMTP, `MAIL_FROM_ADDRESS`; verify live magic-link delivery — Banks, source: 2026-10-27; Postal confirmed working 2026-10-27
+- [ ] Create `legal@`/`privacy@` forwarders and fix SPF duplicate/DMARC — Banks, source: 2026-10-27; site already renders both addresses from `config/legal.php`
+- [ ] Remove inert lead AI-reply fields and dashboard reply stats before re-enabling social; re-add with a real reply pipeline — recommended by DI, source: 2026-10-27
 
 ## Waiting on someone else
 
@@ -44,3 +50,11 @@ Close items by marking `[x]` with the date — never delete history.
 - [x] Lodgify reply-draft digest live (4/4 drafted) — 2026-10-20
 - [x] Cleaner departure notices dropped — client no longer uses cleaner services — 2026-10-21
 - [x] Newsletter re-permission 40/40 delivered — 2026-10
+- [x] Buy nowsorted.co.uk — 2026-10-23
+- [x] Push AIOS homepage section to GitHub — 2026-10-27
+- [x] Replied to all Lodgify guest messages — 2026-10-27; 0 awaiting reply at 07:51 UTC
+- [x] Review all emails on all pages of the website and change to the provided email — 2026-10-27; legal pages use `config/legal.php` (`legal@`/`privacy@nowsorted.co.uk`); `LegalEmailTest` added
+- [x] SEO technical foundation: robots.txt, sitemap.xml, OG/Twitter meta — 2026-10-27; sitemap route fixed, OG image added, microsite meta added
+- [x] Re-ran connection check — 2026-10-27; 4/7 live. Calendar needs calendar shared, HumHub needs REST API enabled, TidyCal needs re-auth
+- [x] Removed out-of-scope Resend mail integration — 2026-10-27; mail is Postal/SMTP only, `PROJECT-STATUS.md` updated
+- [x] Removed legacy WhatsApp automation from sorted-app — 2026-10-27; webhook, handler, services, model, migration, OAuth channel, onboarding requirement and public copy removed; Instagram/LinkedIn/GBP posting preserved; residual refs cleaned and committed in `5cd8f1f`; full suite 75 tests/274 assertions pass (PHP 8.5 vendor deprecation flags only)
