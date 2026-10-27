@@ -32,7 +32,6 @@ Close items by marking `[x]` with the date — never delete history.
 - [ ] Sweet Soul Guest Inn — Phase 5: iCal sync (export + import) for Airbnb availability — pending
 - [ ] Production Coolify env: `APP_URL`, Postal SMTP, `MAIL_FROM_ADDRESS`; verify live magic-link delivery — Banks, source: 2026-10-27; Postal confirmed working 2026-10-27
 - [ ] Create `legal@`/`privacy@` forwarders and fix SPF duplicate/DMARC — Banks, source: 2026-10-27; site already renders both addresses from `config/legal.php`
-- [ ] Remove inert lead AI-reply fields and dashboard reply stats before re-enabling social; re-add with a real reply pipeline — recommended by DI, source: 2026-10-27
 
 ## Waiting on someone else
 
@@ -57,4 +56,5 @@ Close items by marking `[x]` with the date — never delete history.
 - [x] SEO technical foundation: robots.txt, sitemap.xml, OG/Twitter meta — 2026-10-27; sitemap route fixed, OG image added, microsite meta added
 - [x] Re-ran connection check — 2026-10-27; 4/7 live. Calendar needs calendar shared, HumHub needs REST API enabled, TidyCal needs re-auth
 - [x] Removed out-of-scope Resend mail integration — 2026-10-27; mail is Postal/SMTP only, `PROJECT-STATUS.md` updated
-- [x] Removed legacy WhatsApp automation from sorted-app — 2026-10-27; webhook, handler, services, model, migration, OAuth channel, onboarding requirement and public copy removed; Instagram/LinkedIn/GBP posting preserved; residual refs cleaned and committed in `5cd8f1f`; full suite 75 tests/274 assertions pass (PHP 8.5 vendor deprecation flags only)
+- [x] Removed legacy WhatsApp automation from sorted-app — 2026-10-27; webhook, handler, services, model, migration, OAuth channel, onboarding requirement and public copy removed; Instagram/LinkedIn/GBP posting preserved; residual refs cleaned and committed in `5cd8f1f`; full suite 79 tests/287 assertions pass (PHP 8.5 vendor deprecation flags only)
+- [x] Remove inert lead AI-reply fields and dashboard reply stats before re-enabling social — 2026-10-27; columns dropped in `ab09218`, lead attention follows status, reply metrics replaced with lead/status metrics

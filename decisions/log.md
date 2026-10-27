@@ -164,6 +164,16 @@ Decision: Remove the WhatsApp webhook, queued handler, signature middleware, con
 
 Why: WhatsApp is no longer part of the free client-acquisition product; the code added a webhook surface, Meta-specific config and an onboarding requirement without serving the launch path. Keeping generic leads preserves future channel work. Existing `whatsapp_conversations` data is left orphaned rather than risking a destructive migration.
 
-Outcome: `d177264` committed the removal; final cleanup and docs committed in `5cd8f1f`. Full suite passes: 75 tests, 274 assertions, 0 failures (all 75 flagged deprecated by a PHP 8.5 vendor PDO warning). Instagram/LinkedIn/GBP routes remain. Flag: lead `ai_reply_sent`/`reply_time_seconds` and dashboard reply stats are now inert; decide whether to remove or repurpose them before re-enabling social.
+Outcome: `d177264` committed the removal; final cleanup and docs committed in `5cd8f1f`. Full suite passes: 79 tests, 287 assertions, 0 failures (all 79 flagged deprecated by a PHP 8.5 vendor PDO warning). Instagram/LinkedIn/GBP routes remain. The inert lead AI-reply fields and reply metrics were removed in the follow-up decision below.
+
+Owner: Banks Dada (self)
+
+## 2026-10-27 - Remove inert lead AI-reply fields and reply metrics
+
+Decision: Drop `ai_reply_sent`, `ai_reply_text` and `reply_time_seconds` from `leads`, and replace reply-time/reply-rate metrics on the dashboard, homepage and live-proof page with lead/status metrics. A lead needs human attention when `status !== 'closed'`.
+
+Why: after the WhatsApp removal nothing wrote those fields, so the dashboard showed false zeros and every lead looked unreplied. `status` is the real workflow. Reply tracking can return when a real reply pipeline exists.
+
+Outcome: Migration `2026_10_27_000001` drops the columns; lead table, Filament filter, dashboard and public metrics updated. Committed in `ab09218`. Full suite passes: 79 tests, 287 assertions, 0 failures (PHP 8.5 vendor PDO deprecation flags only).
 
 Owner: Banks Dada (self)
