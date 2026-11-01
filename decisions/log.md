@@ -177,3 +177,33 @@ Why: after the WhatsApp removal nothing wrote those fields, so the dashboard sho
 Outcome: Migration `2026_10_27_000001` drops the columns; lead table, Filament filter, dashboard and public metrics updated. Committed in `ab09218`. Full suite passes: 79 tests, 287 assertions, 0 failures (PHP 8.5 vendor PDO deprecation flags only).
 
 Owner: Banks Dada (self)
+
+## 2026-10-29 - LinkedIn page cadence: twice weekly, not daily
+
+Decision: Post to the LinkedIn page twice a week, not daily. The content bank stays a 30-day sequence; day numbers advance by posts made (highest posted + 1), not by calendar day. Morning-coffee only surfaces the next post when ≥3 days have passed since the last one.
+
+Why: Advice received 2026-10-29 — daily posting on the page can be seen as spam. The bank is still the source; only the consumption rate changes.
+
+Outcome: `data/linkedin-tracker.json` gains `cadence: twice-weekly` and an updated note; `.claude/skills/morning-coffee/SKILL.md` step 6 and the starting-the-bank section rewritten; Day 2 task on the list reworded (no longer a daily due date). Codex mirror synced.
+
+Owner: Banks Dada (self)
+
+## 2026-11-01 - BA toolkit stays agent-neutral, not Claude-only
+
+Decision: The ba-automation-toolkit targets any AI agent — rules duplicated in `AGENTS.md`/`CLAUDE.md`, skill mirrored to `.claude/skills/` and `.agents/skills/`, prompts as plain markdown, validation tools in pure Python. Claude Code is one reference path, not the requirement.
+
+Why: Banks' explicit direction — don't limit students to Claude. mentoringba students arrive with different tools and budgets; the framework's value is the approval gates and error-propagation model, which protect you regardless of model.
+
+Outcome: Repo live at github.com/banksdada/mentoringba-automation-toolkit (private), commits f117575..04a9962. Blind fresh-context dry-run of Stages 1–2 passed: 19/19 cited rows, no invented rules, Checkpoint 1 correctly self-failed.
+
+Owner: Banks Dada (self)
+
+## 2026-11-01 - GitHub Issues as default Stage 3 backend, Jira demoted to an adapter
+
+Decision: Stage 3 (backlog publication) is backend-agnostic. Default = GitHub Issues; adapters for Trello, Google Sheets → NativeTasks, and Atlassian Jira/Confluence as the enterprise option.
+
+Why: Jira needs org approval and a real site; every student already has GitHub, and issue keys give real (not invented) traceability rows for the RTM with gates enforced by the tool. NativeTasks has no public API/MCP — its only automation hook is the Google Sheets integration, so that path treats the sheet as system of record.
+
+Outcome: `adapters/` in the toolkit; Stage 3/7 prompts and repo rules de-Jira'd; SETUP/README updated; pushed in c3fc039.
+
+Owner: Banks Dada (self)

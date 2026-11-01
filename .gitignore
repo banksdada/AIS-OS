@@ -16,3 +16,4 @@ node_modules/
 projects/job-search/resumes/
 scripts/credentials.json
 scripts/potential_newsletter_contacts.csv
+data/nativetasks-events.json

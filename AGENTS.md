@@ -86,6 +86,7 @@ docker build -t aios .
 - projects/ — active workstreams, one folder each with a short README. Code usually lives outside this repo (Desktop, client repos); these folders are the index and the status.
   - `projects/job-search/` — CV variants and role scoring. `README.md` holds the confirmed facts (what can be claimed); `DATE-FIXES.md` lists corrections to make in the Drive originals. CV text is gitignored — this repo is public.
   - `projects/bankoledada-site/` — rebuild of the personal site. `README.md` has the plan; the plan itself is `docs/ideas/bankoledada-rebuild-plan.md`.
+  - `projects/ba-automation-toolkit/` — mentoringba BA automation teaching toolkit. Code lives at `~/Desktop/ba-automation-toolkit`.
 - .claude/rules/ — one topic per file; communication style lives here
 - references/ — frameworks, voice samples, API guides as you connect tools
 - connections.md — registry of every system your AIOS can reach

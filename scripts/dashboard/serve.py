@@ -111,6 +111,20 @@ class Handler(http.server.SimpleHTTPRequestHandler):
         requested = self.path.split('?', 1)[0]
         if requested in ('/', '/index.html'):
             self._serve_file(PAGE, 'text/html; charset=utf-8')
+        elif requested == '/webhook/nativetasks':
+            import dashboard.native_tasks_events as nte
+            try:
+                with open(nte.EVENTS_PATH) as fh:
+                    events = json.load(fh)
+            except (OSError, json.JSONDecodeError):
+                events = []
+            body = json.dumps({'count': len(events), 'events': events[-20:]},
+                              indent=2).encode()
+            self.send_response(200)
+            self.send_header('Content-Type', 'application/json')
+            self.send_header('Content-Length', str(len(body)))
+            self.end_headers()
+            self.wfile.write(body)
         elif requested in ('/data', '/data/dashboard.json'):
             try:
                 payload = regenerate()
@@ -126,13 +140,46 @@ class Handler(http.server.SimpleHTTPRequestHandler):
         else:
             super().do_GET()
 
-    @require_auth
     def do_POST(self):
         import dashboard.crm_capture as crm
         import dashboard.newsletter_status as newsletter
         import dashboard.pyrunner_events as events
 
         route = self.path.split('?', 1)[0]
+
+        # Webhooks authenticate with their own HMAC signature, not Basic Auth.
+        if not route.startswith('/webhook/') and not check_auth(self):
+            self.send_response(401)
+            self.send_header('WWW-Authenticate', 'Basic realm="AIOS Dashboard"')
+            self.end_headers()
+            return
+
+        if route == '/webhook/nativetasks':
+            import urllib.parse
+            import dashboard.native_tasks_events as nte
+            secret = os.environ.get('NATIVETASKS_WEBHOOK_SECRET', '')
+            query = self.path.split('?', 1)[1] if '?' in self.path else ''
+            token = urllib.parse.parse_qs(query).get('token', [''])[0]
+            if not secret or not nte.check_token(secret, token):
+                self.send_error(401, 'missing or bad token')
+                return
+            length = self.headers.get('Content-Length')
+            if not length or not length.isdigit():
+                self.send_error(411, 'Content-Length required')
+                return
+            if int(length) > nte.MAX_BODY_BYTES:
+                self.send_error(413, 'payload too large')
+                return
+            body = self.rfile.read(int(length))
+            completed = nte.record(body)
+            response = json.dumps({'ok': True, 'completed': completed}).encode()
+            self.send_response(200)
+            self.send_header('Content-Type', 'application/json')
+            self.send_header('Content-Length', str(len(response)))
+            self.end_headers()
+            self.wfile.write(response)
+            return
+
         if route == '/webhook/pyrunner':
             secret_name = 'PYRUNNER_WEBHOOK_SECRET'
         elif route == '/webhook/newsletter':
