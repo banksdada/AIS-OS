@@ -16,6 +16,14 @@ used without asking again. Anything not listed is unverified: do not claim it.
   prototypes), confirmed 2026-10-22. Can lead with this for Manny's role.
 - **Security clearance: DBS only. Cannot apply for DV clearance.** Rules out
   any DV-required role.
+- **LaSer (Oct 2016 – Mar 2017, via Capgemini): Stage 1 discovery validation
+  of contact-centre automation.** Evidence in `laser/` +
+  `interviews/simpro-2026-11-06/laser-story.md`: 116 use cases qualified
+  (RPA/IVR/OCR/new app), 23% zero-extra-FTE at 65–75% effort reduction, 42/43
+  workshops with zero playback comments, business case sized 89 RPA scripts.
+  NOT confirmed: "Centre of Excellence", "delivery/implementation" — those
+  claims removed from all variants 2026-11-02. Still open: Stage 1 vs "Stage
+  12" naming; whether Banks stayed on for POC/implementation.
 
 ## Known conflicts to fix before sending a CV
 
@@ -28,7 +36,7 @@ used without asking again. Anything not listed is unverified: do not claim it.
 
 ## Active roles
 
-### 1. Manny's contract — APPLY FIRST (stretch)
+### 1. Manny's contract — SUBMITTED 2026-10-28 (stretch)
 6-month contract, outside IR35, London/Surrey, hybrid/remote, up to £300–400/day.
 - Wants: BA in software dev; complex compliance/legal/financial constraints;
   field-level data spec and low-level design; strong communication.
@@ -37,6 +45,7 @@ used without asking again. Anything not listed is unverified: do not claim it.
 - HR/payroll covered by NHS Professionals (leave management, DocuSign, ATS).
 - No hospitality experience. Do not claim it.
 - Rate is "up to" — ask the band before accepting an interview.
+- **Submitted via email 2026-10-28.** Waiting on recruiter.
 
 ### 2. TTC Tech — Senior Business Analyst (stretch on domain)
 The Travel Corporation, hybrid, occasional international travel.
@@ -47,6 +56,7 @@ The Travel Corporation, hybrid, occasional international travel.
 - **CV base: legacyR variant** (legacy replacement, booking/membership platform).
 - **Gap: no travel, cruise or airline work.** State it plainly; point to the
   booking/membership platform as the closest match.
+- **Submitted via email 2026-10-28.** Waiting on recruiter.
 
 ### 3. NCA Business Analyst — DROPPED
 £470.97/day to umbrella, IR35 in scope, DV clearance required, hybrid.

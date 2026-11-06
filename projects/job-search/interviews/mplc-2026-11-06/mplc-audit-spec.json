@@ -1,0 +1,65 @@
+{
+ "company": "MPLC",
+ "title": "AI Adoption Audit",
+ "prepared_by": "Banks Dada",
+ "date": "November 2026",
+ "positioning_quote": "“Technology is the engine of how MPLC grows. People are the fuel, AI is the turbocharger.” — A turbo needs an engine: this audit sequences AI behind the GTS rebuild, not beside it.",
+ "method_note": "Built from public information only — MPLC sites and FAQs, published GTS job adverts, leadership profiles, association advisories and UK policy papers. Every current-state claim carries an evidence tag; every inference is labelled. Where evidence is thin, the finding is framed as a question, because that is how a BA hands work over.",
+ "why_now": "MPLC has no visible AI initiatives in public — true greenfield. But greenfield into a rebuild is a different animal: GTS is being designed from the ground up under a new CIO while post-exit PE ownership sets the growth bar. AI can be designed into the Plan / Design & Build / Run pillars rather than retrofitted later at three times the cost. The published Analytics Engineer hire (Snowflake + dbt, “a number defined once, trusted by everyone”) shows leadership already knows the one precondition for useful AI: data foundations.",
+ "business_model": [
+  ["Element", "How it works", "Evidence"],
+  ["Core product", "Blanket Licence: one annual fee, no reporting, unlimited covered showings in public/commercial spaces", "uk.mplc.com"],
+  ["Second product", "Single Title Licence: application, returns form within 10 days, 5%/month late fee, audit rights", "uk.mplc.com T&Cs"],
+  ["Customers", "Tens of thousands of businesses — hotels, restaurants, surgeries, dealerships, offices — 40+ countries", "us/uk.mplc.com FAQs"],
+  ["Rightsholders", "Studios + independents (CNN/Turner renewal 2025, CNBC added 2026); MPLC collects and distributes", "mplc.com news"],
+  ["Enforcement", "Education-first: association partnerships (FRLA), outreach to unlicensed venues, legal action as last resort", "ie.mplc.com, FRLA/NJCAR"],
+  ["Renewal today", "Customer initiates via support form quoting licence/invoice number", "uk.mplc.com FAQ"],
+  ["Organisation", "~250 staff, 21% sales; GTS = all technology under CIO, three pillars", "LinkedIn, GTS job ads"]
+ ],
+ "ratings": [
+  {"domain": "Data platform", "state": 2, "evidence": "Snowflake + dbt, Analytics Engineer reporting to CIO; ad language explicitly targets “future AI-driven capabilities”"},
+  {"domain": "CRM / RevOps", "state": 2, "evidence": "Salesforce operated via Run pillar; Pardot; NetSuite + Sage Intacct; named Revenue Ops team"},
+  {"domain": "Licensing: issue & renew", "state": 1, "evidence": "Renewal is customer-initiated via support form — friction inside a “zero hassle, one annual fee” product; no proactive renewal evidence"},
+  {"domain": "Enforcement & compliance", "state": 1, "evidence": "Education-first outreach and association partnerships; correspondence-heavy across 40+ countries; no monitoring-tech signals"},
+  {"domain": "Customer & support ops", "state": 1, "evidence": "Forms + email across country sites; highly repetitive coverage questions answered publicly in FAQs"},
+  {"domain": "Finance / rightsholder reporting", "state": 1, "evidence": "Royalty machinery implied (ERP stack present; Tenzing case study notes research into data sources for royalty calculation)"},
+  {"domain": "Internal IT (Run)", "state": 1, "evidence": "Published targets: service catalogue, MSP to spec, “joiners/movers/leavers… increasingly automated” — aspiration, not finished state"},
+  {"domain": "AI in use", "state": 0, "evidence": "Nothing public. Which also means shadow AI is already happening informally; formalising it is the cheapest early win"}
+ ],
+ "strategic": {
+  "title": "The strategic twist — AI as a product, not just a cost line",
+  "body": "The House of Lords Communications and Digital Committee report (HL Paper 267, Feb 2026) and the Data (Use and Access) Act obligations (Mar 2026) point the UK toward a licensing-first model for training AI on copyrighted works. MPLC already holds what that market needs: a title-level rights registry, decades of studio relationships and collective-licensing machinery. Question to test with GTS: are the rightsholders already asking? If yes, the same data foundations being built for internal efficiency are a future revenue platform — exhibition licensing was the 20th-century version; AI-training rights is the 21st-century one."
+ },
+ "opportunities": [
+  {"horizon": "Now 0–90d", "title": "Support triage + agent assist", "detail": "LLM pre-triage of inbound licensing questions; drafts grounded in MPLC licence docs and country FAQs", "boundary": "Nothing legal leaves unapproved; every draft cites its source document", "measure": "% deflected, time-to-first-response, CSAT by territory"},
+  {"horizon": "Now 0–90d", "title": "Renewal desk", "detail": "MPLC-initiated, segmented, personalised annual renewal packs with human sign-off", "boundary": "Human approval on outbound; studio relationships never automated", "measure": "Renewal rate, days-to-renew, lapsed-to-recovered"},
+  {"horizon": "Now 0–90d", "title": "Rights-coverage lookup (staff-first)", "detail": "Assistant over the title/territory registry answering “is this covered here?” before any public exposure", "boundary": "Read-only; legal workflow signs off before external use", "measure": "Answers per hour, error rate vs registry"},
+  {"horizon": "Now 0–90d", "title": "Joiners/movers/leavers automation", "detail": "Make the published Run aspiration real: one end-to-end HR process, automated with gates", "boundary": "HR gate on exceptions", "measure": "Days to full access, tickets per starter"},
+  {"horizon": "Next 3–12m", "title": "Enforcement lead triage", "detail": "Score outreach targets, summarise field reports into a risk-ordered queue", "boundary": "Never auto-accusation — fines cited run to $150k per work; humans investigate and decide; bias-check by sector", "measure": "Leads worked per week, conversion to licensed"},
+  {"horizon": "Next 3–12m", "title": "Single Title returns reconciliation", "detail": "OCR + extraction on returns forms vs screening records; flag non-returns inside the 10-day window", "boundary": "Fee decisions stay human; audit rights are legal instruments", "measure": "Recovered fees, days-to-flag"},
+  {"horizon": "Next 3–12m", "title": "Renewal forecasting + pipeline enrichment", "detail": "Which accounts lapse, which association-verticals convert best (FRLA model repeatable)", "boundary": "Sales owns the relationship; AI owns the shortlist", "measure": "Forecast accuracy, partner-channel conversion"},
+  {"horizon": "Next 3–12m", "title": "Self-service analytics on Snowflake", "detail": "Text-to-SQL for defined metrics for Finance/RevOps", "boundary": "Defined-once metrics only — no re-derived numbers", "measure": "Reports automated, ad-hoc request deflection"},
+  {"horizon": "Beyond 12m", "title": "AI-training rights licensing", "detail": "Extend the registry and licensing machinery into rights for AI training data", "boundary": "Rightsholder consent is the product — nothing ships without it", "measure": "Pilot studio agreements"}
+ ],
+ "governance": [
+  "One-page policy: approved tools, approved data, what never enters a model (rightsholder terms, licensee personal data, enforcement case files)",
+  "Human sign-off as default for anything leaving the building — the same “run gate” discipline GTS already publishes",
+  "Spend metered from day one: caps, monthly review — cost creep is the most predictable AI failure mode",
+  "Vendor/model register with an exit note per entry",
+  "GDPR across 40+ territories; EU AI Act care wherever firms or people are scored",
+  "No use case launches without a before-number — automation with receipts"
+ ],
+ "first90": [
+  {"span": "D1–30 floor time", "body": "Process-owner interviews across Licensing, Enforcement, Finance, RevOps; sit the support queue; read the licence corpus; output a use-case register scored impact/effort/risk"},
+  {"span": "D31–60", "body": "Two instrumented pilots from the Now list with agreed baselines; governance v1 ratified; prototypes built personally — a live pilot beats a plan slide"},
+  {"span": "D61–90", "body": "First automation in production with published before/after numbers; register becomes Plan's rolling quarterly roadmap; live items handed into Design & Build and Run"}
+ ],
+ "risks": [
+  "Transformation stacking — GTS is being rebuilt, staffed and AI-enabled at once; one quiet win per quarter beats five stalled pilots",
+  "Shadow AI — already happening; formalise rather than ban",
+  "Legal-risk automation creep — anything resembling accusation stays human-decided",
+  "AI theatre — demos that never reach production; spend meter + baseline discipline is the vaccine",
+  "Data before dashboards — protect the defined-once-metric culture from projects that re-derive numbers"
+ ],
+ "sources": ["uk.mplc.com / us.mplc.com / ie.mplc.com — licence T&Cs, FAQs, news", "GTS job adverts (Analytics Engineer, Enterprise Architect, Director of IT & Security Operations)", "Steven Logan leadership profile (LinkedIn)", "Great Hill Partners / Tenzing PE case studies (Project 21)", "FRLA (2026) and NJCAR (2022) advisories", "HL Paper 267, AI copyright and the creative industries (Feb 2026)", "Data (Use and Access) Act 2025 obligations"]
+}

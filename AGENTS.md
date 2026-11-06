@@ -18,8 +18,11 @@ Read references/3ms-framework.md once. It's how Banks Dada thinks about AI work.
 - /link: Link a project, file, folder, or source into the right operating-manual route or index.
 - /3d-brain: Choose a brain name and categories, then build a local 3D knowledge globe with Cinema and interactive growth replay. Uses selected local files and the bundled app template.
 - /level-up — Weekly 3Ms interview. Find one automation, scope it, ship it. One per week.
+- /ai-audit — Public-evidence AI adoption audit for any company: research → structured spec → one-page A4 + full doc, PDFs rendered by `scripts/ai-audit.py`.
 - /morning-coffee — Daily plan: priorities, overdue tasks, live system status, messages awaiting reply. Under 20 lines.
 - /pulse-check — Review every active workstream in projects/ and flag only what is stale, overdue or needs a decision.
+- /prompt-master — Generate optimized prompts for any AI tool (Claude, ChatGPT, Cursor, Midjourney, coding agents…). Activates only when you explicitly ask to write, fix, improve, or adapt a prompt. Never activates for general conversation or coding.
+- /setup-check — Verify the machine is ready for Agentic Automation 3.0 (Claude Code, headless agent run, uv, Python, git, Node). Use when you run /setup-check or ask to check, verify, or fix your setup.
 - Skills live in `.claude/skills/` (canonical) and `.agents/skills/` (Codex mirror). Keep them in sync with `bash scripts/sync-codex-skills.sh` after any skill edit.
 
 ## Your agents
@@ -28,7 +31,7 @@ Read references/3ms-framework.md once. It's how Banks Dada thinks about AI work.
 
 ## Rules
 
-- `.claude/rules/` — one topic per file. `communication-style.md` covers tone and formatting; voice samples stay in AGENTS.md → Voice. Add new rule files only when a topic is confirmed, not assumed.
+- `.claude/rules/` — one topic per file. `communication-style.md` covers tone and formatting; voice samples stay in AGENTS.md → Voice. Add new rule files only when a topic is confirmed, not assumed. **`break-it-check.md` is a standing global requirement: every feature built through AIOS gets a break-it check before it is called done.**
 
 ## Placeholders
 
@@ -68,6 +71,18 @@ python3 scripts/gdrive-upload.py FILE --folder FOLDER_ID
 
 # Regenerate dashboard data (data/dashboard.json)
 python3 scripts/dashboard/generate.py
+
+# Live offline speech-to-text (interviews/meetings): local whisper, nothing leaves the Mac.
+# Needs the dedicated venv (~/.venvs/interview, python3.12 + faster-whisper), NOT system python3:
+~/.venvs/interview/bin/python scripts/interview-transcribe.py --list-devices
+~/.venvs/interview/bin/python scripts/interview-transcribe.py --out transcript.txt
+
+# SEO watch: live sites + microsites, diffs vs last run (data/seo-watch/); exit 1 on regression
+python3 scripts/seo-watch.py
+
+# AI adoption audit tool: research-informed spec (JSON) -> one-pager + full HTML/PDF
+python3 scripts/ai-audit.py spec --company "Acme Ltd" --out spec.json
+python3 scripts/ai-audit.py render --spec spec.json --out-dir OUT --pdf
 
 # Sync .claude/skills into the Codex mirror (.agents/skills)
 bash scripts/sync-codex-skills.sh
