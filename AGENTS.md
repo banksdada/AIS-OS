@@ -31,7 +31,7 @@ Read references/3ms-framework.md once. It's how Banks Dada thinks about AI work.
 
 ## Rules
 
-- `.claude/rules/` — one topic per file. `communication-style.md` covers tone and formatting; voice samples stay in AGENTS.md → Voice. Add new rule files only when a topic is confirmed, not assumed. **`break-it-check.md` is a standing global requirement: every feature built through AIOS gets a break-it check before it is called done.**
+- `.claude/rules/` — one topic per file. `communication-style.md` covers tone and formatting; voice samples stay in AGENTS.md → Voice. Add new rule files only when a topic is confirmed, not assumed. **`break-it-check.md` is a standing global requirement: every feature built through AIOS gets a break-it check before it is called done.** **`registry-before-build.md` is the second: check `projects/`, then local git remotes, then GitHub — out loud — before ever proposing a new repo.** **`project-registration.md` is the third: new projects are never added to the AIOS index unless Banks says so for that project; when unclear, ask.**
 
 ## Placeholders
 

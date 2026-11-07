@@ -9,7 +9,7 @@ Close items by marking `[x]` with the date — never delete history.
 ## Open
 
 - [ ] Apply for the MPLC Business Transformation Consultant role via Steve's work email (round-2 interview likely end of Nov): CV + one-paragraph pitch; attach `~/Desktop/MPLC-AI-Audit/audit-onepager.pdf` framed as "a weekend discovery exercise — corrections welcome"; subject line plain, no AI flourish — Banks, due 2026-11-07, source: interview done 2026-11-06
-- [ ] AI audit tool shipped: `scripts/ai-audit.py` + `/ai-audit` skill + tests (10) + break-it 8/8 CAUGHT; MPLC audit PDFs on Desktop — 2026-11-06
+- [ ] ai-audit.webawesome.co.uk go-live — deploy files pushed to `banksdada/webawesome-ai-audit` main 2026-11-07; Banks to: ① DNS A record `ai-audit` → Coolify IP ② Coolify new resource from that repo (auto-detects Dockerfile) ③ env: APP_KEY, Postgres DB vars, ANTHROPIC_API_KEY (optional), RUN_MIGRATIONS=true first boot ④ domain + Let's Encrypt ⑤ tell me and I verify /up + /ai-audit live — Banks, due 2026-11-08, source: deploy 2026-11-07
 
 - [ ] MOCK RUN Thu 2026-11-05 10:00 — EA plays Steve: his 4 asks + salary + "why permanent". Use `demo-answers.md` as benchmark; run the live transcriber during it to double as the pre-Friday audio test. Demo answers ready 2026-11-02 — Banks/EA, due 2026-11-05, source: LinkedIn/email 2026-11-02
 - [ ] Interview practice sheet built locally (SA can't create Drive files): drag `projects/job-search/interviews/simpro-2026-11-06/mplc-practice-sheet.xlsx` into Drive to open it as a Google Sheet — and run `python3 scripts/gdrive-authorize.py` to restore write access so future sheets are automatic — Banks, due 2026-11-04, source: interview prep 2026-11-03
