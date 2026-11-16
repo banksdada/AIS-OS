@@ -1,0 +1,6 @@
+# About
+
+Source: https://www.webawesome.co.uk/about/
+Updated: 2026-10-05T14:29:15
+
+About WebAwesome Business challenges become effective digital products. We bring strategy, business analysis, experience design and engineering together to create digital products that are useful, maintainable and built around real outcomes. Our story Built by people who care about solving the right problem. WebAwesome grew from hands-on experience across websites, digital transformation, business analysis and custom platforms. Our approach is collaborative, honest and focused on making technology work for the people who depend on it. You will always know who you are working with, and they will always understand what you are trying to achieve. See our work What guides us Four principles behind every project. Business first We begin with goals and constraints, not technology preferences. People-centred Accessibility and usability are non-negotiable, for customers and teams. Built to last We favour maintainable, secure solutions over quick fixes. Evidence-led Decisions are informed by discovery, data and measurement. 6 steps Phoenix Framework 8 Core capabilities 5 sectors And growing 1 day Enquiry response time Let’s talk about your challenge. Book a strategy call
