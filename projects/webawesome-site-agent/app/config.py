@@ -46,10 +46,13 @@ class Settings:
     data_dir: str
 
 
-def _dotenv_paths() -> tuple[Path, ...]:
+def _dotenv_paths(config_file: Path | None = None) -> tuple[Path, ...]:
     here = Path.cwd() / ".env"
-    repo = Path(__file__).resolve().parents[3] / ".env"
-    return (here,) if here == repo else (here, repo)
+    parents = (config_file or Path(__file__)).resolve().parents
+    if len(parents) <= 3:
+        return (here,)
+    repo = parents[3] / ".env"
+    return (here,) if repo == here else (here, repo)
 
 
 def load_settings(dotenv: bool = True) -> Settings:
