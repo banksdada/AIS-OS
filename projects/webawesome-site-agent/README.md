@@ -52,6 +52,28 @@ public WordPress pages and posts into `knowledge/site/`. Hand-written pages
 (`products.md`, `ai-audit.md`, `faq.md`) take precedence and are never
 overwritten by the scraper.
 
+There is no admin UI and no runtime write API: the container is read-only and
+only `/app/data` persists, so knowledge is changed through git.
+
+### Updating knowledge
+
+1. Edit an existing file or add a new `.md` in `knowledge/`. Use a plain title,
+   short paragraphs, real links, and the words a customer would search for.
+   Hand-written files rank above scraped ones, so put client examples and
+   services here rather than in `knowledge/site/`.
+2. Optional: refresh the scraped site copy with
+   `python3 tools/scrape_site.py` (writes `knowledge/site/`).
+3. Check retrieval and answers:
+   ```bash
+   PYTHONPATH=. python3 -m unittest discover -s tests -v
+   PYTHONPATH=. python3 -c "from app.knowledge import search; print([n for n,_ in search('your question')])"
+   ```
+4. Commit and push. Coolify redeploys and `/health` reports the new
+   `knowledge_docs` count. Confirm with the real question you care about.
+
+`knowledge/site/` is generated: safe to delete and regenerate, do not hand-edit.
+
+
 ## TidyCal notes
 
 - Only **free** booking types can be auto-booked; priced types need a 100%-off coupon.
