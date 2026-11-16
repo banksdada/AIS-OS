@@ -13,7 +13,26 @@ private: live sites and public repositories can be shown today.
 - Some client systems are covered by exclusive agreements, so not every client
   or system is public. Offer a walkthrough on a call instead of guessing.
 
-## Live sites we can show (all checked and working)
+## Client websites we have built and can name
+
+These are live client sites, all checked and working:
+
+- https://besthomesupport.uk — supported living for autistic adults
+- https://ceclilcare.co.uk — residential care home
+- https://medpluscare.co.uk — care solutions provider
+- https://medibox.ng — e-commerce and telemedicine in Nigeria
+- https://bridgespharma.com — pharmaceutical services
+- https://felsdesheilsinv.com.ng — investment company in Nigeria
+- https://ypopularglobal.co.uk — logistics company
+- https://bjkgroupltd.com — UK business group
+- https://navan.ad — hydration drink brand
+- https://kingsleybooks.online — book publisher
+- https://africanculturenetwork.org — African Culture Network CIC
+- https://risegencic.org — RiseGen CIC
+- https://gpchapel.org — church website
+- https://gracechurchlondon.org — Grace Church London
+
+## Our own live sites (all checked and working)
 
 - https://nowsorted.co.uk — brand site
 - https://nowsorted.co.uk/ai-audit/ — AI readiness audit page
