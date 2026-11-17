@@ -1,0 +1,168 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Aurum Listening Bar · A room built for listening</title>
+<meta name="description" content="A nocturnal listening bar where the album plays through, the pour is measured, and the evening moves in chapters.">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='7' fill='%230b0907'/><text x='16' y='21' font-size='14' text-anchor='middle' fill='%23d2a45b' font-family='Georgia,serif'>A</text></svg>">
+<link rel="stylesheet" href="scrollcraft.css">
+<link rel="stylesheet" href="site.css">
+</head>
+<body>
+<span data-sc-progress></span>
+<div class="sc-grain" aria-hidden="true"></div>
+
+<aside class="folio" aria-label="Chapter folio and listening trace">
+  <div class="folio__inner">
+    <div class="folio__mark" aria-hidden="true">AURUM</div>
+    <div class="folio__chapter">
+      <span class="folio__num" id="folioNum">00</span>
+      <span class="folio__title" id="folioTitle">Title page</span>
+    </div>
+    <div class="folio__eq" aria-hidden="true">
+      <div class="folio__trace" id="folioTrace"></div>
+      <div class="folio__bars" id="folioBars">
+        <span></span><span></span><span></span><span></span><span></span>
+      </div>
+    </div>
+    <div class="folio__hint">scroll to listen</div>
+  </div>
+</aside>
+
+<main id="top" class="chapters">
+  <!-- Cinematic open: scrub hero -->
+  <section class="hero-scrub" data-sc-act="scrub" data-sc-span="2.4" data-sc-dwell="0.34" data-sc-drift="#0b0907" data-chapter="1" data-title="Title page">
+    <div data-sc-stage>
+      <img class="sc-stage__poster" src="assets/hero-still.png" alt="Bartender pouring a cocktail in a warm listening bar.">
+      <video data-sc-scrub data-sc-src="assets/hero.mp4" data-sc-src-mobile="assets/hero-m.mp4" muted playsinline preload="auto"></video>
+      <div class="sc-scrim sc-scrim--lead" aria-hidden="true"></div>
+      <div class="sc-copy sc-copy--lead hero-copy" data-sc-cue="0 0.82 0">
+        <p class="eyeline">Listening bar · after dark</p>
+        <h1 class="sc-display sc-display--xl" data-sc-kinetic="lines">A room built<br>for listening.</h1>
+        <p class="sc-body hero-lede">Not a backdrop. Not a playlist on shuffle. An evening arranged in movements, where the needle stays down and the glass stays cold.</p>
+      </div>
+      <div class="hero-meta sc-copy sc-copy--trail" data-sc-cue="0.2 0.9">
+        <p>Doors at nine · Side A to side B · Seats held, not hurried</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Chapter 2: The door (intertitle + text, threshold hush) -->
+  <section class="chapter chapter--intertitle" data-sc-act="flow" data-sc-drift="#070605" data-chapter="2" data-title="The door">
+    <div class="intertitle">
+      <div class="intertitle__plate" data-sc-reveal="up" data-sc-reveal-at="0.05 0.7">
+        <span class="chapter-no">02</span>
+        <h2 class="sc-display sc-display--lg">The door</h2>
+      </div>
+    </div>
+  </section>
+  <section class="chapter chapter--text sc-section" data-sc-act="flow" data-sc-drift="#070605" data-chapter="2b" data-title="The door">
+    <div class="sc-wrap narrow" data-sc-in data-sc-stagger="80">
+      <p class="sc-body lead-copy">Outside, the street keeps its own time. Inside, we keep a different one.</p>
+      <p class="sc-body">You cross a threshold and the volume of everything else drops. Coats find hooks. Voices find a lower register. The room asks for one small agreement before it gives anything back: be here, on purpose.</p>
+      <p class="sc-body quiet">This is the hush before the first note.</p>
+    </div>
+  </section>
+
+  <!-- Chapter 3: The room (immersion, media column) -->
+  <section class="chapter chapter--intertitle" data-sc-act="flow" data-sc-drift="#120d09" data-chapter="3" data-title="The room">
+    <div class="intertitle">
+      <div class="intertitle__plate" data-sc-reveal="left" data-sc-reveal-at="0.05 0.7">
+        <span class="chapter-no">03</span>
+        <h2 class="sc-display sc-display--lg">The room</h2>
+      </div>
+    </div>
+  </section>
+  <section class="chapter chapter--spread sc-section" data-sc-act="flow" data-sc-drift="#120d09" data-chapter="3b" data-title="The room">
+    <div class="sc-wrap spread">
+      <div class="spread__text sc-stack" data-sc-in data-sc-stagger="70">
+        <p class="sc-body">Amber light held low enough to soften the edges, never low enough to lose the grain of the wood. Speakers placed like instruments, not furniture.</p>
+        <p class="sc-body">Every seat has a line of sight and a pocket of quiet. The room is tuned before the record is chosen.</p>
+        <p class="sc-body caption-inline">Warmth is a kind of engineering.</p>
+      </div>
+      <figure class="spread__media" data-sc-reveal="right" data-sc-reveal-at="0.08 0.75">
+        <div class="media-frame" data-sc-parallax="0.08">
+          <img src="assets/room.png" alt="A dim listening room with wood, warm amber light, and speakers arranged for attentive listening." width="1600" height="1200" loading="lazy">
+        </div>
+        <figcaption>Placement, light, and the patience to leave space empty.</figcaption>
+      </figure>
+    </div>
+  </section>
+
+  <!-- Chapter 4: The pour (delight/appetite) -->
+  <section class="chapter chapter--intertitle" data-sc-act="flow" data-sc-drift="#0f0c0a" data-chapter="4" data-title="The pour">
+    <div class="intertitle">
+      <div class="intertitle__plate" data-sc-reveal="up" data-sc-reveal-at="0.05 0.7">
+        <span class="chapter-no">04</span>
+        <h2 class="sc-display sc-display--lg">The pour</h2>
+      </div>
+    </div>
+  </section>
+  <section class="chapter chapter--spread spread--reverse sc-section" data-sc-act="flow" data-sc-drift="#0f0c0a" data-chapter="4b" data-title="The pour">
+    <div class="sc-wrap spread">
+      <figure class="spread__media" data-sc-reveal="left" data-sc-reveal-at="0.08 0.75">
+        <div class="media-frame" data-sc-parallax="0.06">
+          <img src="assets/pour.png" alt="A carefully poured cocktail on a dark bar with warm highlights." width="1600" height="1200" loading="lazy">
+        </div>
+        <figcaption>Measured, stirred, set down without hurry.</figcaption>
+      </figure>
+      <div class="spread__text sc-stack" data-sc-in data-sc-stagger="70">
+        <p class="sc-body">The bar works at the tempo of the room. Ice cut clear. Citrus expressed over the glass. A pour measured because the drink is part of the listening.</p>
+        <p class="sc-body">Highballs that keep their lift, low light in the glass, nothing sweetened to shout over the record.</p>
+        <p class="sc-body caption-inline">Attention has a flavour.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Chapter 5: The record (PEAK, reverence) -->
+  <section class="chapter chapter--intertitle chapter--peak" data-sc-act="flow" data-sc-drift="#050404" data-chapter="5" data-title="The record">
+    <div class="intertitle intertitle--peak">
+      <div class="intertitle__plate" data-sc-reveal="up" data-sc-reveal-at="0.08 0.8">
+        <span class="chapter-no">05</span>
+        <h2 class="sc-display sc-display--lg">The record</h2>
+      </div>
+    </div>
+  </section>
+  <section class="chapter chapter--peak-body sc-section" data-sc-act="flow" data-sc-drift="#050404" data-chapter="5b" data-title="The record">
+    <div class="sc-wrap spread spread--peak">
+      <div class="spread__text sc-stack peak-text" data-sc-in data-sc-stagger="120">
+        <p class="sc-body lead-copy">One album. Side A to side B.</p>
+        <p class="sc-body peak-line">We do not skip.</p>
+        <p class="sc-body">The sleeve rests where you can see it. The room settles into the sequence the artist chose. In a city of fragments, a whole record is a small, radical courtesy.</p>
+      </div>
+      <figure class="spread__media" data-sc-reveal="right" data-sc-reveal-at="0.12 0.82">
+        <div class="media-frame" data-sc-parallax="0.05">
+          <img src="assets/record.png" alt="A vinyl record and turntable detail in low warm light." width="1600" height="1200" loading="lazy">
+        </div>
+        <figcaption>Played through. The way it was meant to arrive.</figcaption>
+      </figure>
+    </div>
+  </section>
+
+  <!-- Chapter 6: The stay (colophon, resolve) -->
+  <section class="chapter chapter--intertitle" data-sc-act="flow" data-sc-drift="#0b0907" data-chapter="6" data-title="The stay">
+    <div class="intertitle">
+      <div class="intertitle__plate" data-sc-reveal="up" data-sc-reveal-at="0.05 0.7">
+        <span class="chapter-no">06</span>
+        <h2 class="sc-display sc-display--lg">The stay</h2>
+      </div>
+    </div>
+  </section>
+  <section class="chapter chapter--colophon sc-section" data-sc-act="flow" data-sc-drift="#0b0907" data-chapter="6b" data-title="The stay">
+    <div class="sc-wrap colophon" data-sc-in data-sc-stagger="80">
+      <p class="sc-body">Aurum Listening Bar<br>12 Mercer Lane, lower level<br>Evenings, Tuesday to Saturday</p>
+      <p class="sc-body colophon__cta">To hold a seat for the evening, <a href="mailto:listen@aurum.bar?subject=Reserve%20a%20seat%20at%20Aurum">write to listen@aurum.bar</a> with your night and party of two or four.</p>
+      <p class="colophon__note">A concept site, self-authored under explicit creative delegation. Imagery generated for atmosphere; no reservations are real.</p>
+    </div>
+  </section>
+</main>
+
+<script src="scrollcraft.js"></script>
+<script src="folio.js"></script>
+<script>
+  ScrollCraft.mount(document.body);
+  if (window.AurumFolio) window.AurumFolio.mount();
+</script>
+</body>
+</html>
