@@ -1,0 +1,57 @@
+<!doctype html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8">
+<title>Social preview source</title>
+<style>
+  @font-face { font-family: Archivo; src: url("assets/fonts/archivo-latin.woff2") format("woff2"); font-weight: 100 900; }
+  @font-face { font-family: Geist; src: url("assets/fonts/geist-latin.woff2") format("woff2"); font-weight: 100 900; }
+  * { box-sizing: border-box; }
+  body { margin: 0; background: #fff; }
+  .card { position: relative; overflow: hidden; background: #F8F5F1; color: #1A1417; font-family: Geist, sans-serif; }
+  .wide { width: 1200px; height: 630px; }
+  .square { width: 1200px; height: 1200px; margin-top: 40px; }
+  .photo { position: absolute; right: 0; top: 0; height: 100%; width: 52%; object-fit: cover; object-position: 62% center;
+           -webkit-mask-image: linear-gradient(to right, transparent 0%, black 38%);
+           mask-image: linear-gradient(to right, transparent 0%, black 38%); }
+  .square .photo { top: 0; right: 0; left: 0; width: 100%; height: 52%; object-position: center 42%;
+                   -webkit-mask-image: linear-gradient(to bottom, black 58%, transparent 100%);
+                   mask-image: linear-gradient(to bottom, black 58%, transparent 100%); }
+  .content { position: absolute; inset: 0; padding: 56px 60px; display: flex; flex-direction: column; }
+  .square .content { padding: 64px; justify-content: flex-end; padding-bottom: 120px; }
+  .brandline { display: flex; align-items: center; gap: 14px; font-family: Archivo, sans-serif; font-weight: 800; font-size: 24px; letter-spacing: -0.02em; }
+  .brandline img { width: 48px; height: 48px; border-radius: 10px; }
+  h1 { font-family: Archivo, sans-serif; font-weight: 800; letter-spacing: -0.045em; line-height: 1.02; margin: 44px 0 0; max-width: 640px; font-size: 68px; }
+  .square h1 { font-size: 78px; max-width: 900px; margin-top: 0; }
+  p { font-size: 24px; line-height: 1.4; max-width: 600px; margin: 24px 0 0; color: #5D5256; }
+  .square p { max-width: 880px; font-size: 28px; }
+  .foot { margin-top: auto; display: inline-flex; align-items: center; gap: 12px; align-self: flex-start;
+          background: #C4325B; color: #fff; font-family: Archivo, sans-serif; font-weight: 700; font-size: 22px;
+          padding: 16px 26px; border-radius: 8px; }
+  .square .foot { margin-top: 48px; }
+  .place { font-size: 18px; color: #5D5256; margin-top: 18px; }
+</style>
+</head>
+<body>
+  <div id="card-wide" class="card wide">
+    <img class="photo" src="assets/01-hero-poster.jpg" alt="">
+    <div class="content">
+      <div class="brandline"><img src="assets/logo.jpg" alt="">Beauty Booked Up</div>
+      <h1>Your beauty business,<br>fully booked online.</h1>
+      <p>Websites, bookings and Instagram replies for beauticians in Wigan, Manchester and across the North West.</p>
+      <div class="foot">Book a free call</div>
+    </div>
+  </div>
+
+  <div id="card-square" class="card square">
+    <img class="photo" src="assets/01-hero-poster.jpg" alt="">
+    <div class="content">
+      <div class="brandline"><img src="assets/logo.jpg" alt="">Beauty Booked Up</div>
+      <h1>Your beauty business,<br>fully booked online.</h1>
+      <p>Websites, bookings and Instagram replies for beauticians in Wigan, Manchester and across the North West. Lashes, nails, brows, aesthetics and African hair.</p>
+      <div class="foot">Book a free call</div>
+      <div class="place">hello@webawesome.co.uk</div>
+    </div>
+  </div>
+</body>
+</html>

@@ -39,6 +39,21 @@ it does not include the chat product.
   at probe). No new key was added.
 - Registered in the AIOS index on Banks's explicit 2026-11-24 instruction.
 
+## SEO and link previews
+
+- `index.html` has a description, canonical URL, Open Graph tags, Twitter/X card
+  tags and a `Service` JSON-LD block so a pasted link explains the business.
+- `assets/og-image.png` (1200x630) is the link preview for WhatsApp, LinkedIn,
+  Facebook, Slack and X. `assets/og-image-square.png` (1200x1200) is for
+  Instagram-style squares. Both are generated locally from the existing hero
+  still and the calendar logo by `node make-og.mjs`, with no KIE spend.
+- All absolute URLs currently point at the Coolify demo host
+  `http://6xkb0hllwqvmcxunqofth1za.169.58.166.226.sslip.io/`. Replace them with
+  `https://beautybookedup.co.uk/` in `canonical`, `og:url`, `og:image`,
+  `twitter:image` and the JSON-LD `url` before launch.
+- No social handles are invented. Add `og:site_name` extras, Instagram and
+  WhatsApp links when Sharon confirms them.
+
 ## Open before launch
 
 - Beauty Booked Up mailbox and real Instagram/WhatsApp handles (the PDF only has

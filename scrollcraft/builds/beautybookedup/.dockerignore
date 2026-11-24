@@ -4,6 +4,13 @@ node_modules/
 package-lock.json
 package.json
 generate.mjs
+make-og.mjs
+og-card.html
+tests/
+kie.mjs
+encode.sh
+serve.mjs
+shoot.mjs
 BRIEF.md
 SCORE.md
 .git/
