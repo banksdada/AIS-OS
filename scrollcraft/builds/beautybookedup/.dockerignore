@@ -6,9 +6,6 @@ package.json
 generate.mjs
 BRIEF.md
 SCORE.md
-Dockerfile
-nginx.conf
-.dockerignore
 .git/
 .env
 *.md
