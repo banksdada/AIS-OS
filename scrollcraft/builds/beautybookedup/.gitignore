@@ -1,0 +1,5 @@
+out/
+lab/
+node_modules/
+package-lock.json
+.env
