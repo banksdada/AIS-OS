@@ -1,7 +1,7 @@
 # Beauty Booked Up — website design project
 
 **Status:** design/build started 2026-11-24. Local, not deployed. No repo created yet.
-**Owner:** Sharon Dada (founder, WebAwesome), with Banks.
+**Owner:** Sharon Dada (partner at WebAwesome), with Banks.
 **Domain:** `beautybookedup.co.uk` (DNS/hosting not yet configured).
 **Build code:** `scrollcraft/builds/beautybookedup/` in this repo.
 **Reference:** `~/Desktop/WebAwesome for Beauty Businesses — Website (1).pdf`.

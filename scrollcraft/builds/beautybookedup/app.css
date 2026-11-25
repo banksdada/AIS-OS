@@ -272,6 +272,17 @@ a { color: inherit; }
   gap: clamp(2rem, 6vw, 6rem);
   align-items: start;
 }
+.plans__portrait { margin: 0 0 var(--sc-5); width: 180px; max-width: 45%; }
+.plans__portrait img {
+  display: block;
+  width: 100%;
+  height: auto;
+  aspect-ratio: 1;
+  object-fit: cover;
+  border-radius: var(--sc-r-md);
+  background: var(--sc-canvas);
+  box-shadow: var(--sc-e2), var(--sc-edge);
+}
 .plans__about .sc-body { margin-top: var(--sc-4); }
 .plans__list article {
   padding-block: var(--sc-4);

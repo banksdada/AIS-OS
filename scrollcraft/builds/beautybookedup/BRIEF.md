@@ -31,8 +31,9 @@ demo app pattern from `~/Desktop/scroll-craft/site/` were reused instead.
 
 ### Brand and contact facts from the PDF
 
-- Public-facing brand: **Beauty Booked Up**. Sharon Dada is the founder, with a UX
-  background; WebAwesome is credited as the team behind it.
+- Public-facing brand: **Beauty Booked Up**. Sharon Dada is a partner at
+  WebAwesome, with a UX background; WebAwesome is credited as the team behind it.
+  Corrected by Banks on 2026-11-25: Sharon is not the founder of WebAwesome.
 - Promise: "Your beauty business, fully booked online."
 - Audience: lash techs, nail techs, aestheticians, brow artists, hair salons, beauty
   salons, mobile beauty, plus African hair and textured hair specialists.

@@ -1,0 +1,64 @@
+body.doc-page { padding-top: 64px; padding-bottom: 0; }
+.doc {
+  max-width: 860px;
+  margin: 0 auto;
+  padding: clamp(2.5rem, 7vw, 5rem) var(--sc-gutter) 7rem;
+}
+.doc h1 {
+  margin: 0 0 var(--sc-3);
+  font-family: var(--sc-font-display);
+  font-size: clamp(2.1rem, 5vw, 3.4rem);
+  letter-spacing: var(--sc-track-tight);
+  line-height: 1.06;
+  text-wrap: balance;
+}
+.doc h2 {
+  margin: var(--sc-7) 0 var(--sc-3);
+  padding-top: var(--sc-4);
+  border-top: 1px solid var(--sc-hairline-strong);
+  font-family: var(--sc-font-display);
+  font-size: var(--sc-t-xl);
+  letter-spacing: var(--sc-track-snug);
+}
+.doc h3 { margin: var(--sc-5) 0 var(--sc-2); font-family: var(--sc-font-display); font-size: var(--sc-t-base); }
+.doc p, .doc li { font-size: var(--sc-t-base); line-height: 1.65; color: var(--sc-ink-soft); }
+.doc p { margin: 0 0 var(--sc-3); }
+.doc ul, .doc ol { margin: 0 0 var(--sc-4); padding-left: 1.4rem; }
+.doc li + li { margin-top: var(--sc-2); }
+.doc a { color: var(--sc-accent); text-underline-offset: 3px; }
+.doc .lede { font-size: var(--sc-t-lg); color: var(--sc-ink); }
+.doc .meta { font-size: var(--sc-t-xs); letter-spacing: var(--sc-track-wide); text-transform: uppercase; }
+.doc .callout {
+  margin: var(--sc-5) 0;
+  padding: var(--sc-4) var(--sc-5);
+  border-radius: var(--sc-r-md);
+  background: var(--sc-surface);
+  box-shadow: var(--sc-e1), var(--sc-edge);
+}
+.doc .callout p:last-child { margin-bottom: 0; }
+.doc .links { display: flex; flex-wrap: wrap; gap: var(--sc-3); margin-top: var(--sc-5); }
+.doc .links a {
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+  padding: 0 16px;
+  border-radius: var(--sc-r-sm);
+  background: var(--sc-accent);
+  color: var(--sc-accent-ink);
+  font-family: var(--sc-font-display);
+  font-weight: 700;
+  font-size: var(--sc-t-sm);
+  text-decoration: none;
+}
+.doc footer {
+  margin-top: var(--sc-8);
+  padding-top: var(--sc-4);
+  border-top: 1px solid var(--sc-hairline-strong);
+  font-size: var(--sc-t-xs);
+  color: var(--sc-ink-soft);
+}
+.doc footer p { margin: 0 0 6px; font-size: inherit; }
+
+@media (max-width: 860px) {
+  .doc { padding-top: 2.5rem; }
+}
