@@ -272,18 +272,19 @@ a { color: inherit; }
   gap: clamp(2rem, 6vw, 6rem);
   align-items: start;
 }
-.plans__portrait { margin: 0 0 var(--sc-5); width: 180px; max-width: 45%; }
+.plans__portrait { margin: 24px 0 var(--sc-4); width: clamp(132px, 15vw, 156px); max-width: 42%; }
 .plans__portrait img {
   display: block;
   width: 100%;
   height: auto;
-  aspect-ratio: 1;
-  object-fit: cover;
+  object-fit: contain;
   border-radius: var(--sc-r-md);
   background: var(--sc-canvas);
   box-shadow: var(--sc-e2), var(--sc-edge);
 }
-.plans__about .sc-body { margin-top: var(--sc-4); }
+.plans__portrait figcaption { margin-top: 8px; font-size: var(--sc-t-xs); color: var(--sc-ink-soft); text-align: center; }
+.plans__story .sc-label { margin-bottom: var(--sc-3); }
+.plans__story .sc-body { margin-top: var(--sc-3); }
 .plans__list article {
   padding-block: var(--sc-4);
   border-top: 1px solid var(--sc-hairline-strong);
@@ -392,6 +393,32 @@ a { color: inherit; }
   .close h2 { font-size: var(--sc-t-xl); }
   .foot { flex-direction: column; }
 }
+
+.sharon-email { margin-top: var(--sc-3); font-size: var(--sc-t-sm); color: var(--sc-ink-soft); }
+.sharon-email a { color: var(--sc-accent); }
+
+.resources {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--sc-3) clamp(1.5rem, 5vw, 4rem);
+  margin-top: var(--sc-6);
+}
+.resources a {
+  display: block;
+  padding-top: var(--sc-4);
+  border-top: 1px solid var(--sc-hairline-strong);
+  text-decoration: none;
+  transition: transform 160ms var(--sc-ease-out);
+}
+.resources a:hover { transform: translateY(-2px); }
+.resources h3 {
+  margin: 0 0 var(--sc-2);
+  font-family: var(--sc-font-display);
+  font-size: var(--sc-t-lg);
+  letter-spacing: var(--sc-track-snug);
+  color: var(--sc-accent);
+}
+.resources p { margin: 0; font-size: var(--sc-t-sm); color: var(--sc-ink-soft); }
 
 .site-nav {
   display: flex;
@@ -573,5 +600,7 @@ a { color: inherit; }
   .callback-form { gap: var(--sc-3); }
   .field--full { grid-column: auto; }
   .work-tiles { gap: var(--sc-3); }
+  .resources { grid-template-columns: 1fr; }
+  .foot { font-size: var(--sc-t-xs); line-height: 1.7; }
   .plans__list h3 .tag { margin-left: 0; display: block; margin-top: 6px; }
 }

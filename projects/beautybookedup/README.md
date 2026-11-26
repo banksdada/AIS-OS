@@ -1,7 +1,7 @@
 # Beauty Booked Up — website design project
 
 **Status:** design/build started 2026-11-24. Local, not deployed. No repo created yet.
-**Owner:** Sharon Dada (partner at WebAwesome), with Banks.
+**Owner:** Sharon Dada (partner at WebAwesome Consult UK), with Banks. Reference Gmail: `sharon.darasimi@gmail.com`.
 **Domain:** `beautybookedup.co.uk` (DNS/hosting not yet configured).
 **Build code:** `scrollcraft/builds/beautybookedup/` in this repo.
 **Reference:** `~/Desktop/WebAwesome for Beauty Businesses — Website (1).pdf`.
@@ -47,6 +47,27 @@ it does not include the chat product.
   Facebook, Slack and X. `assets/og-image-square.png` (1200x1200) is for
   Instagram-style squares. Both are generated locally from the existing hero
   still and the calendar logo by `node make-og.mjs`, with no KIE spend.
+- Keyword Sheet: `Beauty Booked Up - keywords (Wigan and Manchester)`, ID
+  `1dd6jA1dgYb1ymqitsY2bEo21EZOt2GE19HUWXyPo3cU`,
+  https://docs.google.com/spreadsheets/d/1dd6jA1dgYb1ymqitsY2bEo21EZOt2GE19HUWXyPo3cU/edit
+  Shared with `bankoledada@gmail.com` and `sharon.darasimi@gmail.com`. Tabs:
+  `Keywords` (730 rows), `Microsites` (500 planned rows), `How to use`.
+  Local seeds: `projects/beautybookedup/keyword-bank.csv` and
+  `projects/beautybookedup/microsite-keyword-bank.csv`.
+- Shared image dump: `Beauty Booked Up - Canva image dump`, ID
+  `1KAzpO3N6bBOh81LERQ2qgcFBeI3kHlgy`,
+  https://drive.google.com/drive/folders/1KAzpO3N6bBOh81LERQ2qgcFBeI3kHlgy
+  Subfolders: `01 Raw uploads`, `02 Approved`, `03 Used in drafts`, `Prompt bank`.
+  Shared with `bankoledada@gmail.com` and `sharon.darasimi@gmail.com`.
+- Canva prompt Doc: `Beauty Booked Up - Canva image prompts (244)`, ID
+  `13AES7aHePVPz4DEh7KgZ1H2NRsPhFUf1BPC7OT6luDk`,
+  https://docs.google.com/document/d/13AES7aHePVPz4DEh7KgZ1H2NRsPhFUf1BPC7OT6luDk/edit?usp=drivesdk
+  Local source: `projects/beautybookedup/canva-image-prompts.txt` (244 prompts).
+- Image manifest Sheet: `Beauty Booked Up - image manifest`, ID
+  `1VnvqhEqamVjqBAKj3LkIoJKtK4e_YO1Yl3MvysLB14Q`,
+  https://docs.google.com/spreadsheets/d/1VnvqhEqamVjqBAKj3LkIoJKtK4e_YO1Yl3MvysLB14Q/edit
+- Contacts: general enquiries `hello@beautybookedup.co.uk`; Sharon's reference
+  Gmail `sharon.darasimi@gmail.com`.
 - All absolute URLs currently point at the Coolify demo host
   `http://6xkb0hllwqvmcxunqofth1za.169.58.166.226.sslip.io/`. Replace them with
   `https://beautybookedup.co.uk/` in `canonical`, `og:url`, `og:image`,
@@ -56,8 +77,8 @@ it does not include the chat product.
 
 ## Open before launch
 
-- Beauty Booked Up mailbox and real Instagram/WhatsApp handles (the PDF only has
-  `hello@webawesome.co.uk`).
+- Real Instagram/WhatsApp handles. Confirmed public mailbox:
+  `hello@beautybookedup.co.uk`; the old PDF address was `hello@webawesome.co.uk`.
 - Logo and Sharon's real client work to replace generated placeholder imagery.
 - Booking link for "Book a free call" (currently a mailto).
 - Domain, DNS, hosting and the later MannyChat build.

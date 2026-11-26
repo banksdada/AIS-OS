@@ -43,7 +43,7 @@ demo app pattern from `~/Desktop/scroll-craft/site/` were reused instead.
 - Plans: Get online, Get booked, Done for you. All tailored, quote on request. No
   prices are published, so this page invents none.
 - CTA label, used everywhere: **Book a free call**.
-- Contact: `hello@webawesome.co.uk` is the address in the reference PDF. Replace
+- Contact: `hello@beautybookedup.co.uk` is the address in the reference PDF. Replace
   with a Beauty Booked Up mailbox when one exists.
 - Instagram/WhatsApp: the PDF mentions both but gives no handles. No link is
   invented; add real handles before launch.

@@ -1,13 +1,14 @@
 #!/usr/bin/env python3
 """
-Get (or extend) a Google Drive refresh token for the user account.
+Get (or extend) Google Drive and Sheets access for the user account.
 
 The service account cannot own files: Drive gives service accounts no storage
 quota, so any file it creates is rejected with storageQuotaExceeded. To write
 into a folder you own, the AIOS needs to act as you — OAuth delegation.
 
 This prints the consent URL, then exchanges the code you paste back for a
-refresh token and stores it in .env as DRIVE_REFRESH_TOKEN.
+refresh token and stores it in .env as DRIVE_REFRESH_TOKEN. The same token is
+saved as GMAIL_REFRESH_TOKEN for the existing Gmail scripts.
 
 Usage:
   python3 scripts/gdrive-authorize.py            # print the consent URL
@@ -26,7 +27,8 @@ _REPO_ROOT = os.path.dirname(_SCRIPT_DIR)
 ENV_FILE = os.path.join(_REPO_ROOT, '.env')
 
 SCOPES = [
-    'https://www.googleapis.com/auth/drive.file',
+    'https://www.googleapis.com/auth/drive',
+    'https://www.googleapis.com/auth/spreadsheets',
     'https://www.googleapis.com/auth/gmail.readonly',
 ]
 REDIRECT_URI = 'http://localhost:8085/'
@@ -123,7 +125,8 @@ def main():
         sys.exit(1)
 
     _save_env('DRIVE_REFRESH_TOKEN', token)
-    print('DRIVE_REFRESH_TOKEN saved to .env')
+    _save_env('GMAIL_REFRESH_TOKEN', token)
+    print('DRIVE_REFRESH_TOKEN + GMAIL_REFRESH_TOKEN saved to .env')
     print('Granted scope:', resp.get('scope'))
     print('Token issued:', datetime.now().isoformat(timespec='seconds'))
 
