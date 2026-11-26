@@ -101,21 +101,10 @@
 
   var form = document.querySelector("[data-callback-form]");
   if (form) {
-    form.addEventListener("submit", function (event) {
-      event.preventDefault();
-      if (!form.reportValidity()) return;
-      var lines = [];
-      Array.prototype.forEach.call(form.elements, function (el) {
-        if (!el.name || el.disabled || el.type === "submit") return;
-        if (el.type === "checkbox") {
-          if (el.checked) lines.push(el.name + ": " + (el.value || "Yes"));
-        } else if (el.value) {
-          lines.push(el.name + ": " + el.value);
-        }
-      });
-      var subject = "Request a call back - Beauty Booked Up";
-      window.location.href = "mailto:hello@webawesome.co.uk?subject=" +
-        encodeURIComponent(subject) + "&body=" + encodeURIComponent(lines.join("\n"));
+    form.addEventListener("submit", function () {
+      var email = form.querySelector("#cb-email");
+      var replyTo = form.querySelector("[name='_replyto']");
+      if (replyTo && email) replyTo.value = email.value.trim();
     });
   }
 

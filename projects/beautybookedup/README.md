@@ -66,8 +66,10 @@ it does not include the chat product.
 - Image manifest Sheet: `Beauty Booked Up - image manifest`, ID
   `1VnvqhEqamVjqBAKj3LkIoJKtK4e_YO1Yl3MvysLB14Q`,
   https://docs.google.com/spreadsheets/d/1VnvqhEqamVjqBAKj3LkIoJKtK4e_YO1Yl3MvysLB14Q/edit
-- Contacts: general enquiries `hello@beautybookedup.co.uk`; Sharon's reference
-  Gmail `sharon.darasimi@gmail.com`.
+- Contacts: general enquiries `hello@beautybookedup.co.uk`; Sharon direct
+  `sharon@beautybookedup.co.uk`; privacy/legal `privacy@beautybookedup.co.uk`;
+  Banks/internal `banks@beautybookedup.co.uk`. Sharon's reference Gmail is
+  `sharon.darasimi@gmail.com`; it is not a public site contact.
 - All absolute URLs currently point at the Coolify demo host
   `http://6xkb0hllwqvmcxunqofth1za.169.58.166.226.sslip.io/`. Replace them with
   `https://beautybookedup.co.uk/` in `canonical`, `og:url`, `og:image`,
@@ -77,8 +79,21 @@ it does not include the chat product.
 
 ## Open before launch
 
-- Real Instagram/WhatsApp handles. Confirmed public mailbox:
-  `hello@beautybookedup.co.uk`; the old PDF address was `hello@webawesome.co.uk`.
+- Real Instagram/WhatsApp handles. Confirmed mailboxes: `hello@beautybookedup.co.uk`
+  (general), `sharon@beautybookedup.co.uk` (direct), `privacy@beautybookedup.co.uk`
+  (privacy/legal) and `banks@beautybookedup.co.uk` (Banks/internal). The old PDF
+  address was `hello@webawesome.co.uk` and is no longer used on the site.
 - Logo and Sharon's real client work to replace generated placeholder imagery.
-- Booking link for "Book a free call" (currently a mailto).
+- Form delivery: the callback form posts to FormSubmit.co for
+  `hello@beautybookedup.co.uk`. The first live submission triggers a confirmation
+  email to that inbox; it must be confirmed before submissions will deliver.
+- Booking calendar: Easy!Appointments, self-hosted PHP/MySQL with an official Docker
+  image, GPL v3.0 and Google Calendar sync planned. Deployment files are in
+  `projects/beautybookedup/deploy/`. The consultation section still has an
+  Easy!Appointments placeholder CTA; replace `data-booking-placeholder` if that route
+  goes live. Main "Book a free call" CTAs now use the SuperSaaS consultation link.
+- Standing CTA rule: every Beauty Booked Up microsite and blog article, now and in
+  future, must link "Book a free call" to
+  `https://www.supersaas.co.uk/schedule/beautybookedup/Consultation` and open it in a
+  new tab with `rel="noopener noreferrer"`.
 - Domain, DNS, hosting and the later MannyChat build.

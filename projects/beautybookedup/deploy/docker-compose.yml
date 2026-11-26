@@ -1,0 +1,40 @@
+services:
+  easyappointments:
+    image: alextselegidis/easyappointments:latest
+    restart: unless-stopped
+    expose:
+      - "80"
+    environment:
+      BASE_URL: ${BASE_URL:?set BASE_URL}
+      LANGUAGE: ${LANGUAGE:-english}
+      DEBUG_MODE: "FALSE"
+      PROXY_IPS: ${PROXY_IPS:-}
+      DB_HOST: mysql
+      DB_NAME: ${DB_NAME:-easyappointments}
+      DB_USERNAME: ${DB_USERNAME:-easyappointments}
+      DB_PASSWORD: ${DB_PASSWORD:?set DB_PASSWORD}
+      MAIL_PROTOCOL: ${MAIL_PROTOCOL:-smtp}
+      MAIL_SMTP_DEBUG: "0"
+      MAIL_SMTP_AUTH: ${MAIL_SMTP_AUTH:-1}
+      MAIL_SMTP_HOST: ${MAIL_SMTP_HOST:?set MAIL_SMTP_HOST}
+      MAIL_SMTP_USER: ${MAIL_SMTP_USER:?set MAIL_SMTP_USER}
+      MAIL_SMTP_PASS: ${MAIL_SMTP_PASS:?set MAIL_SMTP_PASS}
+      MAIL_SMTP_CRYPTO: ${MAIL_SMTP_CRYPTO:-tls}
+      MAIL_SMTP_PORT: ${MAIL_SMTP_PORT:-587}
+      MAIL_FROM_ADDRESS: ${MAIL_FROM_ADDRESS:?set MAIL_FROM_ADDRESS}
+      MAIL_FROM_NAME: ${MAIL_FROM_NAME:-Beauty Booked Up}
+      MAIL_REPLY_TO_ADDRESS: ${MAIL_REPLY_TO_ADDRESS:?set MAIL_REPLY_TO_ADDRESS}
+    depends_on:
+      - mysql
+  mysql:
+    image: mysql:8.0
+    restart: unless-stopped
+    environment:
+      MYSQL_ROOT_PASSWORD: ${DB_ROOT_PASSWORD:?set DB_ROOT_PASSWORD}
+      MYSQL_DATABASE: ${DB_NAME:-easyappointments}
+      MYSQL_USER: ${DB_USERNAME:-easyappointments}
+      MYSQL_PASSWORD: ${DB_PASSWORD:?set DB_PASSWORD}
+    volumes:
+      - mysql:/var/lib/mysql
+volumes:
+  mysql:

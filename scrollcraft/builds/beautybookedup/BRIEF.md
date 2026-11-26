@@ -40,11 +40,15 @@ demo app pattern from `~/Desktop/scroll-craft/site/` were reused instead.
 - Geography: Wigan, Manchester and across the North West.
 - Services: beauty websites, booking systems, Instagram auto-replies, social media
   management, inbox and booking management, AI training and tools.
-- Plans: Get online, Get booked, Done for you. All tailored, quote on request. No
+- Plans: Get Seen, Get Booked, Done for You. All tailored, quote on request. No
   prices are published, so this page invents none.
 - CTA label, used everywhere: **Book a free call**.
-- Contact: `hello@beautybookedup.co.uk` is the address in the reference PDF. Replace
-  with a Beauty Booked Up mailbox when one exists.
+- CTA URL for every Beauty Booked Up microsite and blog article, now and in future:
+  `https://www.supersaas.co.uk/schedule/beautybookedup/Consultation`. In HTML, open
+  it in a new tab with `rel="noopener noreferrer"`.
+- Contacts: `hello@beautybookedup.co.uk` for general enquiries, `sharon@beautybookedup.co.uk`
+  for Sharon, `privacy@beautybookedup.co.uk` for privacy/legal/cookies/terms, and
+  `banks@beautybookedup.co.uk` for Banks/internal use.
 - Instagram/WhatsApp: the PDF mentions both but gives no handles. No link is
   invented; add real handles before launch.
 - Logo: after the brief was written, Banks asked for a throbbing calendar logo.
